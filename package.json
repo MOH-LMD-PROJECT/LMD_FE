@@ -1,5 +1,5 @@
 {
-  "name": "tailadmin-react-free",
+  "name": "LMD_Condom-react-free",
   "private": true,
   "version": "1.0.5",
   "type": "module",
@@ -9,11 +9,12 @@
     "preview": "vite preview"
   },
   "author": {
-    "name": "TailAdmin",
-    "email": "hello@tailadmin.com",
-    "url": "https://tailadmin.com"
+    "name": "LMD_Condom",
+    "email": "hello@LMD_Condom.com",
+    "url": "https://LMD_Condom.com"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
     "apexcharts": "^3.37.0",
     "jsvectormap": "^1.5.1",
     "localforage": "^1.10.0",
@@ -21,6 +22,8 @@
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.8.1",
     "sort-by": "^0.0.2"
   },
