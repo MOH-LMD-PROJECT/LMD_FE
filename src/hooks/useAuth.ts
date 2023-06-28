@@ -1,9 +1,11 @@
-import { useMutation } from "@tanstack/react-query"
+// import { useMutation } from "@tanstack/react-query"
 
-export const useAuthMutation = ({mutationFn}:any) =>  {
-  const mutation = useMutation({
-    mutationFn:mutationFn
-  })
+// export const useAuthMutation = (formData:any) =>  {
+//   const mutation = useMutation({
+//     mutationFn:(formData) => {
+//       return fetch('/login' , formData)
+//     }
+//   })
 
-  return mutation
-}
+//   return mutation
+// }

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import Body from '../Body';
 import { ChangeEvent, useState } from 'react';
-import {  useAuthMutation } from '../../hooks/useAuth';
 import apiClient from '../../api/apiClient';
 
 interface FormData {
@@ -16,29 +15,6 @@ const SignIn = () => {
   });
 
 
-  console.log(formData)
-
-  const handleSignin = async()  =>{
-    try {
-      let  auth = await apiClient.post('/login',formData )
-      console.log(auth , "a herererertretreerwerwterwt")
-    } catch (error) {
-      
-    }
-  }
-  const userData = useAuthMutation(handleSignin).mutateAsync()
-
-
-  const handleSubmit= async (event: { preventDefault: () => void; })=>{
-    try {
-      event.preventDefault();
-      //@ts-ignore
-      console.log(userData)
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,7 +55,7 @@ const SignIn = () => {
 
                 {/* <img src='' alt='photo_logo' /> */}
 
-                <form onSubmit={handleSubmit}>
+                <form>
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       UserName
