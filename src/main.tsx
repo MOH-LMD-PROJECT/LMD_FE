@@ -4,9 +4,10 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import './satoshi.css';
-import { store } from './redux/store'
+import { store,persistor } from './redux/store'
 import { Provider } from 'react-redux'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { PersistGate } from "redux-persist/integration/react";
 
 import {
   QueryClient,
@@ -22,8 +23,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Router>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <App />
-          <ReactQueryDevtools initialIsOpen={false} />
+        <PersistGate loading={null} persistor={persistor}>
+						<App />
+						<ReactQueryDevtools initialIsOpen={false} />
+					</PersistGate>
         </Provider>
       </QueryClientProvider>
     </Router>

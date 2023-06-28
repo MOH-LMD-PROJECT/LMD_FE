@@ -1,8 +1,53 @@
 import { Link } from 'react-router-dom';
 import Body from '../Body';
+import { ChangeEvent, useState } from 'react';
+import {  useAuthMutation } from '../../hooks/useAuth';
+import apiClient from '../../api/apiClient';
 
+interface FormData {
+  username: string;
+  password: string;
+}
 
 const SignIn = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+
+  console.log(formData)
+
+  const handleSignin = async()  =>{
+    try {
+      let  auth = await apiClient.post('/login',formData )
+      console.log(auth , "a herererertretreerwerwterwt")
+    } catch (error) {
+      
+    }
+  }
+  const userData = useAuthMutation(handleSignin).mutateAsync()
+
+
+  const handleSubmit= async (event: { preventDefault: () => void; })=>{
+    try {
+      event.preventDefault();
+      //@ts-ignore
+      console.log(userData)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <>
       <Body>
@@ -34,7 +79,7 @@ const SignIn = () => {
 
                 {/* <img src='' alt='photo_logo' /> */}
 
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       UserName
@@ -42,8 +87,11 @@ const SignIn = () => {
                     <div className="relative">
                       <input
                         type="name"
+                        name="username"
+                        value={formData.username}
                         placeholder="Enter username"
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                        onChange={handleInputChange}
                       />
 
                       <span className="absolute right-4 top-4">
@@ -72,7 +120,10 @@ const SignIn = () => {
                     </label>
                     <div className="relative">
                       <input
+                        value={formData.password}
+                        onChange={handleInputChange}
                         type="password"
+                        name="password"
                         placeholder="Enter password"
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                       />
