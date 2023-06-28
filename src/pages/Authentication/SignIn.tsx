@@ -19,7 +19,7 @@ const SignIn = () => {
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    mutate({ username, password })
+    mutate({username ,password})
   }
 
   // console.log(username, "======", password)

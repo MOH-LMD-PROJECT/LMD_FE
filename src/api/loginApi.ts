@@ -1,9 +1,9 @@
 import { apiClient } from './apiClient';
 
 export const login = async ({ username, password }:any) => {
-  const response = await apiClient.post('/login', {
+  const response = await fetch('http://192.168.0.157/clims/public/api/login', {
     method: 'POST',
-    body: { username, password },
+    body: JSON.stringify({ username, password }),
     headers: {
       'Content-Type': 'application/json',
     },
