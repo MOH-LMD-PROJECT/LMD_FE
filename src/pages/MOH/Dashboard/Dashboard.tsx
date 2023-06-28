@@ -8,35 +8,35 @@ const Dashboard = () => {
   const cardData = [
     {
       id: 1,
-      currency: '$',
+      currency: 'UGX',
       amount: 3213,
       text: "Total hotspots",
       percentage: 0.43
     },
     {
       id: 2,
-      currency: '$',
+      currency: 'UGX',
       amount: 3213,
       text: "Total hotspots",
       percentage: 0.43
     },
     {
       id: 3,
-      currency: '$',
+      currency: 'UGX',
       amount: 3213,
       text: "Total hotspots",
       percentage: 0.43
     },
     {
       id: 4,
-      currency: '$',
+      currency: 'UGX',
       amount: 3213,
       text: "Total hotspots",
       percentage: 0.43
     },
     {
       id: 5,
-      currency: '$',
+      currency: 'UGX',
       amount: 3213,
       text: "Total hotspots",
       percentage: 0.43

@@ -1,28 +1,28 @@
 import { Link } from 'react-router-dom';
 import Body from '../Body';
-import { ChangeEvent, useState } from 'react';
-import apiClient from '../../api/apiClient';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { useMutation } from 'react-query';
+import { login } from '../../api/loginApi';
 
-interface FormData {
-  username: string;
-  password: string;
-}
 
 const SignIn = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const [username, setUserName] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
+  const { mutate, isLoading, isError, isSuccess } = useMutation(login)
 
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => {
+    setState(e.target.value);
   };
+
+
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+
+    mutate({username ,password})
+  }
+
+  // console.log(username, "======", password)
 
   return (
     <>
@@ -55,7 +55,7 @@ const SignIn = () => {
 
                 {/* <img src='' alt='photo_logo' /> */}
 
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       UserName
@@ -63,11 +63,9 @@ const SignIn = () => {
                     <div className="relative">
                       <input
                         type="name"
-                        name="username"
-                        value={formData.username}
                         placeholder="Enter username"
+                        onChange={handleChange(setUserName)}
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                        onChange={handleInputChange}
                       />
 
                       <span className="absolute right-4 top-4">
@@ -96,11 +94,9 @@ const SignIn = () => {
                     </label>
                     <div className="relative">
                       <input
-                        value={formData.password}
-                        onChange={handleInputChange}
                         type="password"
-                        name="password"
                         placeholder="Enter password"
+                        onChange={handleChange(setPassword)}
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                       />
 
