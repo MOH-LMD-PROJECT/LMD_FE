@@ -1,8 +1,29 @@
 import { Link } from 'react-router-dom';
 import Body from '../Body';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { useMutation } from 'react-query';
+import { login } from '../../api/loginApi';
 
 
 const SignIn = () => {
+  const [username, setUserName] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+
+  const { mutate, isLoading, isError, isSuccess } = useMutation(login)
+
+  const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => {
+    setState(e.target.value);
+  };
+
+
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+
+    mutate({username ,password})
+  }
+
+  // console.log(username, "======", password)
+
   return (
     <>
       <Body>
@@ -34,7 +55,7 @@ const SignIn = () => {
 
                 {/* <img src='' alt='photo_logo' /> */}
 
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       UserName
@@ -43,6 +64,7 @@ const SignIn = () => {
                       <input
                         type="name"
                         placeholder="Enter username"
+                        onChange={handleChange(setUserName)}
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                       />
 
@@ -74,6 +96,7 @@ const SignIn = () => {
                       <input
                         type="password"
                         placeholder="Enter password"
+                        onChange={handleChange(setPassword)}
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                       />
 
