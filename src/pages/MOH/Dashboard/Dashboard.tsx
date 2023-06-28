@@ -1,51 +1,45 @@
-import CardFour from '../../../components/CardFour.tsx';
-import CardOne from '../../../components/CardOne.tsx';
-import CardThree from '../../../components/CardThree.tsx';
-import CardTwo from '../../../components/CardTwo.tsx';
 import ChartOne from '../../../components/ChartOne.tsx';
 import ChartThree from '../../../components/ChartThree.tsx';
 import ChartTwo from '../../../components/ChartTwo.tsx';
-import ChatCard from '../../../components/ChatCard.tsx';
 import CustomCard from '../../../components/CustomCard.tsx';
 import MapOne from '../../../components/MapOne.tsx';
-import TableOne from '../../../components/TableOne.tsx';
 
 const Dashboard = () => {
   const cardData = [
     {
       id: 1,
       currency: '$',
-      amount: "3213",
+      amount: 3213,
       text: "Total hotspots",
-      percentage: '0.43'
+      percentage: 0.43
     },
     {
       id: 2,
       currency: '$',
-      amount: "3213",
+      amount: 3213,
       text: "Total hotspots",
-      percentage: '0.43'
+      percentage: 0.43
     },
     {
       id: 3,
       currency: '$',
-      amount: "3213",
+      amount: 3213,
       text: "Total hotspots",
-      percentage: '0.43'
+      percentage: 0.43
     },
     {
       id: 4,
       currency: '$',
-      amount: "3213",
+      amount: 3213,
       text: "Total hotspots",
-      percentage: '0.43'
+      percentage: 0.43
     },
     {
       id: 5,
       currency: '$',
-      amount: "3213",
+      amount: 3213,
       text: "Total hotspots",
-      percentage: '0.43'
+      percentage: 0.43
     }
   ]
   return (
