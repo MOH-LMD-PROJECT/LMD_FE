@@ -1,10 +1,11 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import ECommerce from './pages/Dashboard/ECommerce';
+import MohDashboard from './pages/MOH/Dashboard/Dashboard';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
+import JSMDashboard from "./pages/JMS/Dashboard/Dashboard"
 
 const Calendar = lazy(() => import('./pages/Calendar'));
 const Chart = lazy(() => import('./pages/Chart'));
@@ -16,7 +17,7 @@ const Tables = lazy(() => import('./pages/Tables'));
 const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
-
+const NMSDashboard = lazy(() => import('./pages/NMS/Dashboard/Dashboard'));
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -29,10 +30,13 @@ function App() {
   ) : (
     <>
       <Routes>
-        <Route path="/auth/signin" element={<SignIn />} />
+        <Route index element={<SignIn />} />
         <Route path="/auth/signup" element={<SignUp />} />
         <Route element={<DefaultLayout />}>
-          <Route index element={<ECommerce />} />
+          <Route  path="/moh/dashboard" element={<MohDashboard />} />
+          <Route  path="/jsm/dashboard" element={<JSMDashboard />} />
+          <Route  path="/nms/dashboard" element={<NMSDashboard />} />
+
           <Route
             path="/calendar"
             element={
