@@ -1,31 +1,33 @@
 
-interface AuthState {
-    loading: boolean;
-    user: object | null;
-    error: Error | null;
-  }
-  
-  
-  
-  import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-  const initialState: AuthState = {
-    loading: false,
-    //@ts-ignore
-    user:   JSON.parse(window.localStorage.getItem('userData')) || {},
-    error: null,
-  };
-  
-  const authSlice = createSlice({
-    name: 'auth',
-    initialState,
-    reducers: {
-      logout: (state:AuthState["user"]) => {
-      },
+
+
+interface AuthState {
+  user: object | null;
+}
+
+
+
+const initialState: AuthState = {
+  user: {}
+};
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    logout: (state: AuthState["user"]) => {
     },
-    extraReducers: (builder) => {
-    },
-  });
-  
-  export const { logout } = authSlice.actions;
-  export default authSlice.reducer;
+    loginUser:(state,action)=>{
+      state.user = action.payload;
+    }
+  },
+  extraReducers: (builder) => {
+  },
+});
+
+export const { logout,loginUser  } = authSlice.actions;
+export default authSlice.reducer;

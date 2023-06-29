@@ -3,14 +3,16 @@ import Body from '../Body';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useMutation } from 'react-query';
 import { login } from '../../api/loginApi';
-
-
+import { useDispatch,useSelector } from 'react-redux';
+import { loginUser } from '../../redux/slices/auth';
+import { useNavigate } from 'react-router-dom';
 const SignIn = () => {
   const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-
-  const { mutate, isLoading, isError, isSuccess } = useMutation(login)
-
+  const dispatch = useDispatch()
+  const  {user} = useSelector((state:any)=>state.auth)
+  const { mutate, isLoading, isError, isSuccess,data } = useMutation(login)
+  const navigate = useNavigate()
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
   };
@@ -19,10 +21,16 @@ const SignIn = () => {
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    mutate({username ,password})
+   mutate({username ,password})
+
+   dispatch(loginUser({user:data?.data.user,token:data?.data.token}))
+
+   if(user?.user?.role ==="admin"){
+     navigate("/moh/dashboard")
+   }
   }
 
-  // console.log(username, "======", password)
+  console.log(user)
 
   return (
     <>

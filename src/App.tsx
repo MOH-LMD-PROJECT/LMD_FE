@@ -6,7 +6,6 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
 import JSMDashboard from "./pages/JMS/Dashboard/Dashboard"
-
 const Calendar = lazy(() => import('./pages/Calendar'));
 const Chart = lazy(() => import('./pages/Chart'));
 const FormElements = lazy(() => import('./pages/Form/FormElements'));
@@ -17,7 +16,6 @@ const Tables = lazy(() => import('./pages/Tables'));
 const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
-const NMSDashboard = lazy(() => import('./pages/NMS/Dashboard/Dashboard'));
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -35,7 +33,8 @@ function App() {
         <Route element={<DefaultLayout />}>
           <Route  path="/moh/dashboard" element={<MohDashboard />} />
           <Route  path="/jsm/dashboard" element={<JSMDashboard />} />
-          <Route  path="/nms/dashboard" element={<NMSDashboard />} />
+          <Route  path="/nms/dashboard" element={<MohDashboard />} /> 
+          {/* <Route  path="/nms/admin/dashboard" element={<NMSAdmin/>} /> */}
 
           <Route
             path="/calendar"
