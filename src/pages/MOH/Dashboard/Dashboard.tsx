@@ -1,8 +1,9 @@
-import ChartOne from '../../../components/ChartOne.tsx';
-import ChartThree from '../../../components/ChartThree.tsx';
-import ChartTwo from '../../../components/ChartTwo.tsx';
-import CustomCard from '../../../components/CustomCard.tsx';
-import MapOne from '../../../components/MapOne.tsx';
+import React from 'react';
+import ChartOne from '../../../components/ChartOne';
+import ChartThree from '../../../components/ChartThree';
+import ChartTwo from '../../../components/ChartTwo';
+import CustomCard from '../../../components/CustomCard';
+import MapOne from '../../../components/MapOne';
 
 const Dashboard = () => {
   const cardData = [
@@ -46,7 +47,7 @@ const Dashboard = () => {
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
 
-        {cardData.map(({ currency, amount, text, percentage, id }) => <CustomCard key={id} currency={currency} amount={amount} text={text} percentage={percentage} />)}
+        {cardData.map(({ currency, amount, text, percentage, id }) => <CustomCard key={id} amount={amount} text={text} percentage={percentage} currency={''} />)}
 
 
       </div>

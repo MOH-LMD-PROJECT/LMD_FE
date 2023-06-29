@@ -6,6 +6,7 @@ import { login } from '../../api/loginApi';
 import { useDispatch,useSelector } from 'react-redux';
 import { loginUser } from '../../redux/slices/auth';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 const SignIn = () => {
   const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -30,7 +31,7 @@ const SignIn = () => {
    }
   }
 
-  console.log(user)
+  console.log(user);
 
   return (
     <>

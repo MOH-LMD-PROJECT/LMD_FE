@@ -6,6 +6,8 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
 import JSMDashboard from "./pages/JMS/Dashboard/Dashboard"
+import React from 'react';
+import AdminDashboard from './pages/JMS/AdminDashboard';
 const Calendar = lazy(() => import('./pages/Calendar'));
 const Chart = lazy(() => import('./pages/Chart'));
 const FormElements = lazy(() => import('./pages/Form/FormElements'));
@@ -34,7 +36,7 @@ function App() {
           <Route  path="/moh/dashboard" element={<MohDashboard />} />
           <Route  path="/jsm/dashboard" element={<JSMDashboard />} />
           <Route  path="/nms/dashboard" element={<MohDashboard />} /> 
-          {/* <Route  path="/nms/admin/dashboard" element={<NMSAdmin/>} /> */}
+          <Route  path="/moh/admin/dashboard" element={<AdminDashboard/>} />
 
           <Route
             path="/calendar"
