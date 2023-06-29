@@ -1,3 +1,5 @@
+import React from "react";
+
 interface CustomCardProps {
   currency: string;
   amount: number;
@@ -6,7 +8,7 @@ interface CustomCardProps {
 }
 
 
-const CustomCard: React.FC<CustomCardProps> = ({ currency, amount, text, percentage }) => {
+const CustomCard: React.FC<CustomCardProps> = ({ amount, text, percentage }) => {
   return (
     <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex h-11.5 w-11.5 items-center   ">
@@ -27,7 +29,7 @@ const CustomCard: React.FC<CustomCardProps> = ({ currency, amount, text, percent
             fill=""
           />
         </svg> */}
-        <h3>Text</h3>
+        <h3>{text}</h3>
 
 
       </div>
@@ -35,7 +37,7 @@ const CustomCard: React.FC<CustomCardProps> = ({ currency, amount, text, percent
       <div className="mt-4 flex items-end justify-between">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
-            {currency} {amount}
+            {amount}
           </h4>
           <span className="text-sm font-medium">{text}</span>
         </div>
