@@ -122,7 +122,7 @@ const DataTable = ({ data }) => {
           <Button type="primary">
             Edit
           </Button>
-          <Button>
+          <Button danger>
             Delete
           </Button>
         </Space>
