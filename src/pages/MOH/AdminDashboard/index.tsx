@@ -130,7 +130,7 @@ const AdminDashboard = () => {
             <div>
                 <div className='flex justify-between items-center bg-red-700 p-4 z-99999 '>
                     <div><h3 className='text-lg font-bold'>Welcome MOH Admin</h3></div>
-                    <div style={{ background: '#1c2434' }} className='flex justify-center items-center space-x-4'>
+                    <div style={{ background: '' }} className='flex justify-center items-center space-x-4'>
                         <div>
                             <Button onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
                                 Create User
