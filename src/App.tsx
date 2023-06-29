@@ -6,7 +6,7 @@ import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
 import JSMDashboard from "./pages/JMS/Dashboard/Dashboard"
 import React from 'react';
-import AdminDashboard from './pages/JMS/AdminDashboard';
+import AdminDashboard from './pages/MOH/AdminDashboard';
 const Calendar = lazy(() => import('./pages/Calendar'));
 const Chart = lazy(() => import('./pages/Chart'));
 const FormElements = lazy(() => import('./pages/Form/FormElements'));
