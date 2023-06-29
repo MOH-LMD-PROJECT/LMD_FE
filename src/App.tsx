@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-
+import { ProtectedRoute } from './ProtectedRoute';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
@@ -31,10 +31,15 @@ function App() {
         <Route index element={<SignIn />} />
         <Route path="/auth/signup" element={<SignUp />} />
         <Route element={<DefaultLayout />}>
-          <Route  path="/moh/dashboard" element={<MohDashboard />} />
+        <Route  path="/moh/dashboard" element={<MohDashboard />} /> 
           <Route  path="/jsm/dashboard" element={<JSMDashboard />} />
           <Route  path="/nms/dashboard" element={<MohDashboard />} /> 
-          {/* <Route  path="/nms/admin/dashboard" element={<NMSAdmin/>} /> */}
+          {/* <Route  path="/nms/admin/dashboard" element={<NMSAdmin/>} /> */} 
+          {/* <Route
+  index
+  path="/moh/dashboard"
+  element={<ProtectedRoute component={MohDashboard} />}
+/> */}
 
           <Route
             path="/calendar"
