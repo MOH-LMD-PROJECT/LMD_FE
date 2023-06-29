@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/slices/auth';
 import UserOne from '../images/user/user-01.png';
+import axios from 'axios';
+import React from 'react';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const { user } = useSelector((state: any) => state.auth)
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
@@ -35,6 +39,26 @@ const DropdownUser = () => {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
+  const handleLogout = async () => {
+    try {
+      console.log(user.token)
+      const response = await axios.post(
+        'http://192.168.0.157/clims/public/api/logout',
+        { token: user.token },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      dispatch(logout(user))
+
+      navigate('/')
+    } catch (error) {
+
+    }
+  }
+
   return (
     <div className="relative">
       <Link
@@ -45,21 +69,20 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Minstry of Health
+            {user?.user?.username}
           </span>
-          <span className="block text-xs">Admin</span>
+          <span className="block text-xs">{user?.user?.role}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
-        <img className="h-12 w-12 rounded-full" src={`https://ui-avatars.com/api/name=admin&background=random`} alt="User" />
+          <img className="h-12 w-12 rounded-full" src={`https://ui-avatars.com/api/name=admin&background=random`} alt="User" />
 
           {/* <img src={user.profileImage?user.profileImage:`https://ui-avatars.com/api/name=${user?.name}&background=random`} alt="User" /> */}
         </span>
 
         <svg
-          className={`hidden fill-current sm:block ${
-            dropdownOpen ? 'rotate-180' : ''
-          }`}
+          className={`hidden fill-current sm:block ${dropdownOpen ? 'rotate-180' : ''
+            }`}
           width="12"
           height="8"
           viewBox="0 0 12 8"
@@ -80,9 +103,8 @@ const DropdownUser = () => {
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
-          dropdownOpen === true ? 'block' : 'hidden'
-        }`}
+        className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${dropdownOpen === true ? 'block' : 'hidden'
+          }`}
       >
         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
           <li>
@@ -107,11 +129,13 @@ const DropdownUser = () => {
                   fill=""
                 />
               </svg>
-            Settings
+              Settings
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
           <svg
             className="fill-current"
             width="22"

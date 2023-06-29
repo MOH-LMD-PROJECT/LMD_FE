@@ -12,17 +12,21 @@ interface AuthState {
 
 
 const initialState: AuthState = {
-  user: {}
+  //@ts-ignore
+  user: JSON.parse(window.localStorage.getItem('userData')) || {},
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state: AuthState["user"]) => {
+    logout: (state) => {
+      state.user = null
+      localStorage.removeItem('userData')
     },
     loginUser:(state,action)=>{
       state.user = action.payload;
+      localStorage.setItem('userData', JSON.stringify(action.payload))
     }
   },
   extraReducers: (builder) => {

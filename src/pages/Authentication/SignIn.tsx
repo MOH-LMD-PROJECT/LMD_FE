@@ -7,31 +7,36 @@ import { useDispatch,useSelector } from 'react-redux';
 import { loginUser } from '../../redux/slices/auth';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import axios from 'axios';
+import { displayErrorMessage, displaySuccessMessage } from '../../components/toast/Toast';
 const SignIn = () => {
   const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const dispatch = useDispatch()
   const  {user} = useSelector((state:any)=>state.auth)
-  const { mutate, isLoading, isError, isSuccess,data } = useMutation(login)
+  // const { mutate, isLoading, isError, isSuccess,data } = useMutation(login)
   const navigate = useNavigate()
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
   };
 
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    try {
+      e.preventDefault();
+      const response = await axios.post('http://192.168.0.157/clims/public/api/login', {username,password});
+      if(response.data.code = "200" && response.data.user.role=="admin"){
+         dispatch(loginUser({user:response?.data?.user,token:response?.data?.token}))
+          displaySuccessMessage("Login successfully")
+         navigate("/moh/dashboard")
+    
+      }
+    } catch (error) {
+        displayErrorMessage('invalid login details')
+    }
 
-   mutate({username ,password})
-
-   dispatch(loginUser({user:data?.data.user,token:data?.data.token}))
-
-   if(user?.user?.role ==="admin"){
-     navigate("/moh/dashboard")
-   }
   }
 
-  console.log(user);
 
   return (
     <>

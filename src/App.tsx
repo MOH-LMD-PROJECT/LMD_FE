@@ -1,7 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-
-import MohDashboard from './pages/MOH/Dashboard/Dashboard';
+import { ProtectedRoute } from './ProtectedRoute';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
@@ -18,6 +17,7 @@ const Tables = lazy(() => import('./pages/Tables'));
 const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
+const MohDashboard = lazy(() => import('./pages/MOH/Dashboard/Dashboard'))
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -33,10 +33,16 @@ function App() {
         <Route index element={<SignIn />} />
         <Route path="/auth/signup" element={<SignUp />} />
         <Route element={<DefaultLayout />}>
-          <Route  path="/moh/dashboard" element={<MohDashboard />} />
-          <Route  path="/jsm/dashboard" element={<JSMDashboard />} />
-          <Route  path="/nms/dashboard" element={<MohDashboard />} /> 
-          <Route  path="/moh/admin/dashboard" element={<AdminDashboard/>} />
+          <Route path="/moh/dashboard" element={<MohDashboard />} />
+          <Route path="/jsm/dashboard" element={<JSMDashboard />} />
+          <Route path="/nms/dashboard" element={<MohDashboard />} />
+          <Route path="/moh/admin/dashboard" element={<AdminDashboard />} />
+          {/* <Route  path="/nms/admin/dashboard" element={<NMSAdmin/>} /> */}
+          {/* <Route
+  index
+  path="/moh/dashboard"
+  element={<ProtectedRoute component={MohDashboard} />}
+/> */}
 
           <Route
             path="/calendar"
