@@ -28,7 +28,7 @@ const SignIn = () => {
       if(response.data.code = "200" && response.data.user.role=="admin"){
          dispatch(loginUser({user:response?.data?.user,token:response?.data?.token}))
           displaySuccessMessage("Login successfully")
-         navigate("/moh/dashboard")
+         navigate("/moh/admin/dashboard")
     
       }
     } catch (error) {
