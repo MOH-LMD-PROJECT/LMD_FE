@@ -129,7 +129,7 @@ const AdminDashboard = () => {
         <>
             <div>
                 <div className='flex justify-between items-center bg-red-700 p-4 z-99999 '>
-                    <div><h3 className='text-lg font-bold'>Welcome MOH Admin</h3></div>
+                    <div><h3 className='text-lg font-bold'>User Managment</h3></div>
                     <div style={{ background: '' }} className='flex justify-center items-center space-x-4'>
                         <div>
                             <Button onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
@@ -145,9 +145,6 @@ const AdminDashboard = () => {
                         </div>
 
                     </div>
-                </div>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                    {cardData.map(({ amount, text, percentage, id }) => <CustomCard key={id} amount={amount} text={text} percentage={percentage} currency={''} />)}
                 </div>
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
