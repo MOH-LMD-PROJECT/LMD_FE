@@ -14,6 +14,8 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient()
 
+persistor.purge()
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Router>

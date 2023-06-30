@@ -36,7 +36,7 @@ function App() {
           <Route path="/moh/dashboard" element={<MohDashboard />} />
           <Route path="/jsm/dashboard" element={<JSMDashboard />} />
           <Route path="/nms/dashboard" element={<MohDashboard />} />
-          <Route path="/moh/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/moh/admin/userManagment" element={<AdminDashboard />} />
           {/* <Route  path="/nms/admin/dashboard" element={<NMSAdmin/>} /> */}
           {/* <Route
   index
