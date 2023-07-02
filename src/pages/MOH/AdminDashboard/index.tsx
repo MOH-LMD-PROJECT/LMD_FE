@@ -10,7 +10,7 @@ import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Radio, Space, Divider, Modal, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { createUser } from '../../../api/createUserApi';
 import apiClient from '../../../api/apiClient';
 import Table from '../../../components/Table/index';
@@ -33,7 +33,21 @@ const AdminDashboard = () => {
         displayErrorMessage("An error occured try again later")
       }
     }
-  
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const { isLoading, isError, data, error } = useQuery(
+        "users",
+        fetchUsers
+    );
+    console.log('=========')
+    console.log('=========')
+    console.log(data)
+    console.log('=========')
+    console.log('=========')
+
 
     const cardData = [
         {
@@ -113,7 +127,7 @@ const AdminDashboard = () => {
             }
 
 
-
+            // window.location.reload()
         } catch (error) {
             console.log("=========================")
             console.log("=========================")
@@ -148,8 +162,8 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
-      <Table data={users}/>
-        </div>
+                    <Table data={data} />
+                </div>
 
                 <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
                     {/* <ChartOne />
