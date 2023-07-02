@@ -1,7 +1,7 @@
 import axios from "axios";
 
  const apiClient = axios.create({
-	baseURL: "http://192.168.0.157/clims/public/api",
+	baseURL: "https://covid19.gou.go.ug/clims_backend/public/api",
 });
 
 

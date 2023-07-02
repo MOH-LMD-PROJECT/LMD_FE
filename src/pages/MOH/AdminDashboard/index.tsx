@@ -27,7 +27,7 @@ const AdminDashboard = () => {
     }, [])
     const fetchUsers = async () => {
       try {
-        const { data } = await axios.get('http://192.168.0.157/clims/public/api/users')
+        const { data } = await axios.get('https://covid19.gou.go.ug/clims_backend/public/api/users')
         setUsers(data)
       } catch (error) {
         displayErrorMessage("An error occured try again later")
@@ -88,7 +88,7 @@ const AdminDashboard = () => {
 
     const createUser = async () => {
         try {
-            const res = await axios.post('http://192.168.0.157/clims/public/api/users', {
+            const res = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/users', {
                 username,
                 firstname,
                 lastname,

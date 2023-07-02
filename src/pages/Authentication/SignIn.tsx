@@ -24,7 +24,7 @@ const SignIn = () => {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     try {
       e.preventDefault();
-      const response = await axios.post('http://192.168.0.157/clims/public/api/login', {username,password});
+      const response = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/login', {username,password});
       if(response.data.code = "200" && response.data.user.role=="admin"){
          dispatch(loginUser({user:response?.data?.user,token:response?.data?.token}))
           displaySuccessMessage("Login successfully")
