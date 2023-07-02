@@ -22,28 +22,16 @@ const AdminDashboard = () => {
     const [modalOpen, setModalOpen] = useState(false);
 
     const [users, setUsers] = useState([])
-
-    // const fetchUsers = async () => {
-    //     try {
-    //         const { data } = await axios.get('http://192.168.0.157/clims/public/api/users')
-    //         setUsers(data)
-    //     } catch (error) {
-    //         displayErrorMessage("An error occured try again later")
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     fetchUsers()
-    // }, [])
-
-
-    async function fetchUsers() {
-        const response = await fetch(
-            "http://192.168.0.157/clims/public/api/users"
-        );
-        const data = await response.json();
-
-        return data;
+    useEffect(() => {
+      fetchUsers()
+    }, [])
+    const fetchUsers = async () => {
+      try {
+        const { data } = await axios.get('https://covid19.gou.go.ug/clims_backend/public/api/users')
+        setUsers(data)
+      } catch (error) {
+        displayErrorMessage("An error occured try again later")
+      }
     }
 
     useEffect(() => {
@@ -114,7 +102,7 @@ const AdminDashboard = () => {
 
     const createUser = async () => {
         try {
-            const res = await axios.post('http://192.168.0.157/clims/public/api/users', {
+            const res = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/users', {
                 username,
                 firstname,
                 lastname,

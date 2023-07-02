@@ -5,6 +5,7 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
 import JSMDashboard from "./pages/JMS/Dashboard/Dashboard"
+import CondomDashboard from './pages/MOH/CondomManagment';
 import React from 'react';
 import AdminDashboard from './pages/MOH/AdminDashboard';
 const Calendar = lazy(() => import('./pages/Calendar'));
@@ -18,6 +19,8 @@ const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 const MohDashboard = lazy(() => import('./pages/MOH/Dashboard/Dashboard'))
+
+
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -32,11 +35,15 @@ function App() {
       <Routes>
         <Route index element={<SignIn />} />
         <Route path="/auth/signup" element={<SignUp />} />
+
         <Route element={<DefaultLayout />}>
+        <Route path="/condom/managment" element={<CondomDashboard />} />
+
           <Route path="/moh/dashboard" element={<MohDashboard />} />
           <Route path="/jsm/dashboard" element={<JSMDashboard />} />
           <Route path="/nms/dashboard" element={<MohDashboard />} />
           <Route path="/moh/admin/userManagment" element={<AdminDashboard />} />
+
           {/* <Route  path="/nms/admin/dashboard" element={<NMSAdmin/>} /> */}
           {/* <Route
   index
