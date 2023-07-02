@@ -5,6 +5,7 @@ import { logout } from '../redux/slices/auth';
 import UserOne from '../images/user/user-01.png';
 import axios from 'axios';
 import React from 'react';
+import { displaySuccessMessage } from './toast/Toast';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -52,6 +53,9 @@ const DropdownUser = () => {
         }
       );
       dispatch(logout(user))
+
+
+      // displaySuccessMessage("logout successfully")
 
       navigate('/')
     } catch (error) {

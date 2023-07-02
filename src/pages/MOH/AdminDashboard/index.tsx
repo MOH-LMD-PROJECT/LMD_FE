@@ -10,7 +10,7 @@ import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Radio, Space, Divider, Modal, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { createUser } from '../../../api/createUserApi';
 import apiClient from '../../../api/apiClient';
 import Table from '../../../components/Table/index';
@@ -22,18 +22,44 @@ const AdminDashboard = () => {
     const [modalOpen, setModalOpen] = useState(false);
 
     const [users, setUsers] = useState([])
-    useEffect(() => {
-      fetchUsers()
-    }, [])
-    const fetchUsers = async () => {
-      try {
-        const { data } = await axios.get('http://192.168.0.157/clims/public/api/users')
-        setUsers(data)
-      } catch (error) {
-        displayErrorMessage("An error occured try again later")
-      }
+
+    // const fetchUsers = async () => {
+    //     try {
+    //         const { data } = await axios.get('http://192.168.0.157/clims/public/api/users')
+    //         setUsers(data)
+    //     } catch (error) {
+    //         displayErrorMessage("An error occured try again later")
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     fetchUsers()
+    // }, [])
+
+
+    async function fetchUsers() {
+        const response = await fetch(
+            "http://192.168.0.157/clims/public/api/users"
+        );
+        const data = await response.json();
+
+        return data;
     }
-  
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const { isLoading, isError, data, error } = useQuery(
+        "users",
+        fetchUsers
+    );
+    console.log('=========')
+    console.log('=========')
+    console.log(data)
+    console.log('=========')
+    console.log('=========')
+
 
     const cardData = [
         {
@@ -113,7 +139,7 @@ const AdminDashboard = () => {
             }
 
 
-
+            // window.location.reload()
         } catch (error) {
             console.log("=========================")
             console.log("=========================")
@@ -148,8 +174,8 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
-      <Table data={users}/>
-        </div>
+                    <Table data={data} />
+                </div>
 
                 <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
                     {/* <ChartOne />
