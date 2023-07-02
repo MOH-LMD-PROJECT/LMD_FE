@@ -3,7 +3,7 @@ import Body from '../Body';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useMutation } from 'react-query';
 import { login } from '../../api/loginApi';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/slices/auth';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -12,8 +12,9 @@ import { displayErrorMessage, displaySuccessMessage } from '../../components/toa
 const SignIn = () => {
   const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
-  const  {user} = useSelector((state:any)=>state.auth)
+  const { user } = useSelector((state: any) => state.auth)
   // const { mutate, isLoading, isError, isSuccess,data } = useMutation(login)
   const navigate = useNavigate()
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,18 +23,22 @@ const SignIn = () => {
 
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    setLoading(true)
     try {
       e.preventDefault();
-      const response = await axios.post('http://192.168.0.157/clims/public/api/login', {username,password});
-      if(response.data.code = "200" && response.data.user.role=="admin"){
-         dispatch(loginUser({user:response?.data?.user,token:response?.data?.token}))
-          displaySuccessMessage("Login successfully")
-         navigate("/moh/admin/dashboard")
-    
+      const response = await axios.post('http://192.168.0.157/clims/public/api/login', { username, password });
+      if (response.data.code = "200" && response.data.user.role == "admin") {
+        dispatch(loginUser({ user: response?.data?.user, token: response?.data?.token }))
+        displaySuccessMessage("Login successfully")
+        navigate("/moh/dashboard")
+
       }
     } catch (error) {
-        displayErrorMessage('invalid login details')
+      displayErrorMessage('invalid login details')
+    } finally {
+      setLoading(false)
     }
+
 
   }
 
@@ -141,7 +146,7 @@ const SignIn = () => {
                   <div className="mb-5 ">
                     <input
                       type="submit"
-                      value="Sign In"
+                      value={loading ? "loading...." : "Sign In"}
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                     />
                   </div>
