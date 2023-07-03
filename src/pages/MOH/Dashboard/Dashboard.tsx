@@ -13,22 +13,22 @@ const Dashboard = () => {
   const [users, setUsers] = useState([])
   const [activeUsers, setActiveUsers] = useState(0)
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
-  const fetchUsers = async () => {
-    try {
-      const { data } = await axios.get('http://192.168.0.157/clims/public/api/users')
-      const activeUsers = users.filter((user:any) => user.status === 'active');
-      console.log(activeUsers)
-      const activeUsersCount:number = activeUsers.length
-      setActiveUsers(activeUsersCount)
-      setUsers(data)
-    } catch (error) {
-      displayErrorMessage("An error occured try again later")
-    }
-  }
-console.log(users)
+//   useEffect(() => {
+//     fetchUsers()
+//   }, [])
+//   const fetchUsers = async () => {
+//     try {
+//       const { data } = await axios.get('http://192.168.0.157/clims/public/api/users')
+//       const activeUsers = users.filter((user:any) => user.status === 'active');
+//       console.log(activeUsers)
+//       const activeUsersCount:number = activeUsers.length
+//       setActiveUsers(activeUsersCount)
+//       setUsers(data)
+//     } catch (error) {
+//       displayErrorMessage("An error occured try again later")
+//     }
+//   }
+// console.log(users)
 
 
   const cardData = [
