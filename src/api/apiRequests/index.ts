@@ -1,4 +1,5 @@
 import axios from 'axios';
+import apiClient from '../apiClient';
 
 const baseURL = 'https://covid19.gou.go.ug/clims_backend/public/api';
 
@@ -44,7 +45,7 @@ const createUser = ({
   console.log(data.token);
   return axios
     .post(
-      `${baseURL}/user`,
+      `${baseURL}/users`,
       {
         username,
         firstname,
@@ -65,4 +66,8 @@ const createUser = ({
     .then((res) => res.data);
 };
 
-export { loginUser, createUser };
+const getUsers = () => {
+  return axios.get('/users').then((res) => res.data);
+};
+
+export { loginUser, createUser, getUsers };

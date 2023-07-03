@@ -7,28 +7,23 @@ import MapOne from '../../../components/MapOne';
 
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
-import { displayErrorMessage } from '../../../components/toast/Toast';
+import { useQuery } from '@tanstack/react-query';
+import { getUsers } from '../../../api/apiRequests';
 const Dashboard = () => {
   const [users, setUsers] = useState([])
   const [activeUsers, setActiveUsers] = useState(0)
 
-//   useEffect(() => {
-//     fetchUsers()
-//   }, [])
-//   const fetchUsers = async () => {
-//     try {
-//       const { data } = await axios.get('http://192.168.0.157/clims/public/api/users')
-//       const activeUsers = users.filter((user:any) => user.status === 'active');
-//       console.log(activeUsers)
-//       const activeUsersCount:number = activeUsers.length
-//       setActiveUsers(activeUsersCount)
-//       setUsers(data)
-//     } catch (error) {
-//       displayErrorMessage("An error occured try again later")
-//     }
-//   }
-// console.log(users)
+
+
+  const usersQuery = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUsers(),
+  })
+
+  useEffect(() => {
+    console.log(usersQuery.data, "DATA IS HERE ")
+  }, [])
+
 
 
   const cardData = [
@@ -46,7 +41,7 @@ const Dashboard = () => {
     },
     {
       id: 3,
-      amount: users.length-activeUsers,
+      amount: users.length - activeUsers,
       text: "In active",
       // percentage: 0.43
     }
@@ -58,7 +53,7 @@ const Dashboard = () => {
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
 
-        {cardData.map(({amount, text, percentage, id }) => <CustomCard key={id} amount={amount} text={text} percentage={percentage} currency={''} />)}
+        {cardData.map(({ amount, text, percentage, id }) => <CustomCard key={id} amount={amount} text={text} percentage={percentage} currency={''} />)}
 
 
       </div>
