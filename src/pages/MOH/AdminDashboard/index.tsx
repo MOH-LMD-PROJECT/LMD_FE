@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ChartOne from '../../../components/ChartOne';
-import ChartThree from '../../../components/ChartThree';
-import ChartTwo from '../../../components/ChartTwo';
-import CustomCard from '../../../components/CustomCard';
+
 
 
 
@@ -11,17 +9,17 @@ import { Button, Radio, Space, Divider, Modal, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import Table from '../../../components/Table/index';
-import axios from 'axios';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createUser, loginUser } from '../../../api/apiRequests';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
 
 
-
-
-
+    const navigate = useNavigate()
     const cardData = [
         {
             id: 1,
@@ -56,15 +54,15 @@ const AdminDashboard = () => {
     //create user mutation 
     // const createUserMutation = useMutation(createUser);
 
-    const [username, setUserName] = useState()
-    const [firstname, setFirstName] = useState()
-    const [lastname, setLastName] = useState()
-    const [password, setPassword] = useState()
-    const [email, setEmail] = useState()
-    const [role, setRole] = useState()
-    const [organization_unit_id, setOrgUnit] = useState()
-    const [location, setLocation] = useState()
-    const [phone_number, setPhone] = useState()
+    const [username, setUserName] = useState('')
+    const [firstname, setFirstName] = useState('')
+    const [lastname, setLastName] = useState('')
+    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('')
+    const [role, setRole] = useState('')
+    const [organization_unit_id, setOrgUnit] = useState('')
+    const [location, setLocation] = useState('')
+    const [phone_number, setPhone] = useState('')
     // const [username, setUserName] = useState<string>()
 
     const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
@@ -72,44 +70,34 @@ const AdminDashboard = () => {
         console.log(event.target.value)
     }
 
-
-    // const createUser = async () => {
-    //     try {
-    //         const res = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/users', {
-    //             username,
-    //             firstname,
-    //             lastname,
-    //             password,
-    //             email,
-    //             role,
-    //             organization_unit_id,
-    //             location,
-    //             phone_number
-
-    //         })
+    const queryClient = useQueryClient()
 
 
-    //         setModalOpen(false)
+    const createUserMutation = useMutation({
+        mutationFn: createUser,
+        onSuccess: (data) => {
+            queryClient.setQueryData(["user"], data)
+            queryClient.invalidateQueries(["user"], { exact: true })
+            console.log(data)
 
-    //         if (res.status === 200) {
-    //             displaySuccessMessage(res.data.message)
-    //         }
+        }
+    })
 
-    //         if (res.status !== 200) {
-    //             displayErrorMessage(res.data.message)
-    //         }
+    const handleCreateUser = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
 
-
-    //         // window.location.reload()
-    //     } catch (error) {
-    //         console.log("=========================")
-    //         console.log("=========================")
-    //         console.log(error)
-    //         console.log("=========================")
-    //         console.log("=========================")
-    //     }
-    // }
-
+        createUserMutation.mutate({
+            username,
+            firstname,
+            lastname,
+            password,
+            email,
+            role,
+            organization_unit_id,
+            location,
+            phone_number,
+        })
+    }
 
 
     return (
@@ -150,7 +138,8 @@ const AdminDashboard = () => {
                 title="Create User Modal"
                 centered
                 open={modalOpen}
-                // onOk={() => createUser()}
+                //@ts-ignore
+                onOk={handleCreateUser}
                 onCancel={() => setModalOpen(false)}
                 width={1000}
                 zIndex={10000000}

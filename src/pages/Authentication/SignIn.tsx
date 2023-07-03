@@ -4,12 +4,12 @@ import Body from '../Body';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { displaySuccessMessage, displayErrorMessage } from '../../components/toast/Toast';
-import apiClient from '../../api/apiClient';
 import { loginUser } from '../../api/apiRequests';
 const SignIn = () => {
   const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const navigate = useNavigate()
+
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
   };
@@ -46,7 +46,8 @@ const SignIn = () => {
     e.preventDefault()
     createPostMutation.mutate({
       username,
-      password
+      password,
+     
     })
   }
 
