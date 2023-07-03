@@ -5,7 +5,6 @@ import {combineReducers } from "@reduxjs/toolkit";
 
 
   const rootReducer = combineReducers({
-    auth: authSlice,
     condom:condomSlice
   });
   
