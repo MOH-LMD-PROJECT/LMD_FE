@@ -10,9 +10,6 @@ import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Radio, Space, Divider, Modal, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
-import { useMutation, useQuery } from 'react-query';
-import { createUser } from '../../../api/createUserApi';
-import apiClient from '../../../api/apiClient';
 import Table from '../../../components/Table/index';
 import axios from 'axios';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
@@ -21,32 +18,8 @@ const AdminDashboard = () => {
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
 
-    const [users, setUsers] = useState([])
-    useEffect(() => {
-      fetchUsers()
-    }, [])
-    const fetchUsers = async () => {
-      try {
-        const { data } = await axios.get('https://covid19.gou.go.ug/clims_backend/public/api/users')
-        setUsers(data)
-      } catch (error) {
-        displayErrorMessage("An error occured try again later")
-      }
-    }
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
 
-    const { isLoading, isError, data, error } = useQuery(
-        "users",
-        fetchUsers
-    );
-    console.log('=========')
-    console.log('=========')
-    console.log(data)
-    console.log('=========')
-    console.log('=========')
 
 
     const cardData = [
@@ -100,42 +73,42 @@ const AdminDashboard = () => {
     }
 
 
-    const createUser = async () => {
-        try {
-            const res = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/users', {
-                username,
-                firstname,
-                lastname,
-                password,
-                email,
-                role,
-                organization_unit_id,
-                location,
-                phone_number
+    // const createUser = async () => {
+    //     try {
+    //         const res = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/users', {
+    //             username,
+    //             firstname,
+    //             lastname,
+    //             password,
+    //             email,
+    //             role,
+    //             organization_unit_id,
+    //             location,
+    //             phone_number
 
-            })
-
-
-            setModalOpen(false)
-
-            if (res.status === 200) {
-                displaySuccessMessage(res.data.message)
-            }
-
-            if (res.status !== 200) {
-                displayErrorMessage(res.data.message)
-            }
+    //         })
 
 
-            // window.location.reload()
-        } catch (error) {
-            console.log("=========================")
-            console.log("=========================")
-            console.log(error)
-            console.log("=========================")
-            console.log("=========================")
-        }
-    }
+    //         setModalOpen(false)
+
+    //         if (res.status === 200) {
+    //             displaySuccessMessage(res.data.message)
+    //         }
+
+    //         if (res.status !== 200) {
+    //             displayErrorMessage(res.data.message)
+    //         }
+
+
+    //         // window.location.reload()
+    //     } catch (error) {
+    //         console.log("=========================")
+    //         console.log("=========================")
+    //         console.log(error)
+    //         console.log("=========================")
+    //         console.log("=========================")
+    //     }
+    // }
 
 
 
@@ -162,7 +135,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
-                    <Table data={data} />
+                    {/* <Table data={data} /> */}
                 </div>
 
                 <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
@@ -177,7 +150,7 @@ const AdminDashboard = () => {
                 title="Create User Modal"
                 centered
                 open={modalOpen}
-                onOk={() => createUser()}
+                // onOk={() => createUser()}
                 onCancel={() => setModalOpen(false)}
                 width={1000}
                 zIndex={10000000}
