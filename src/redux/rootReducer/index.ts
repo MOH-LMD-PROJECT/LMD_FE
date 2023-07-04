@@ -3,9 +3,9 @@ import condomSlice from "../slices/condom";
 import {combineReducers } from "@reduxjs/toolkit";
 
 
-
   const rootReducer = combineReducers({
-    condom:condomSlice
+    condom:condomSlice,
+    auth:authSlice
   });
   
   export default rootReducer

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ChartOne from '../../../components/ChartOne';
-import ChartThree from '../../../components/ChartThree';
-import ChartTwo from '../../../components/ChartTwo';
-import CustomCard from '../../../components/CustomCard';
+
 
 
 
@@ -10,45 +8,18 @@ import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Radio, Space, Divider, Modal, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
-import { useMutation, useQuery } from 'react-query';
-import { createUser } from '../../../api/createUserApi';
-import apiClient from '../../../api/apiClient';
 import Table from '../../../components/Table/index';
-import axios from 'axios';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createUser, getUsers, loginUser } from '../../../api/apiRequests';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
 
-    const [users, setUsers] = useState([])
-    useEffect(() => {
-      fetchUsers()
-    }, [])
-    const fetchUsers = async () => {
-      try {
-        const { data } = await axios.get('https://covid19.gou.go.ug/clims_backend/public/api/users')
-        setUsers(data)
-      } catch (error) {
-        displayErrorMessage("An error occured try again later")
-      }
-    }
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const { isLoading, isError, data, error } = useQuery(
-        "users",
-        fetchUsers
-    );
-    console.log('=========')
-    console.log('=========')
-    console.log(data)
-    console.log('=========')
-    console.log('=========')
-
-
+    const navigate = useNavigate()
     const cardData = [
         {
             id: 1,
@@ -83,60 +54,68 @@ const AdminDashboard = () => {
     //create user mutation 
     // const createUserMutation = useMutation(createUser);
 
-    const [username, setUserName] = useState()
-    const [firstname, setFirstName] = useState()
-    const [lastname, setLastName] = useState()
-    const [password, setPassword] = useState()
-    const [email, setEmail] = useState()
-    const [role, setRole] = useState()
-    const [organization_unit_id, setOrgUnit] = useState()
-    const [location, setLocation] = useState()
-    const [phone_number, setPhone] = useState()
+    const [username, setUserName] = useState('')
+    const [firstname, setFirstName] = useState('')
+    const [lastname, setLastName] = useState('')
+    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('')
+    const [role, setRole] = useState('')
+    const [organization_unit_id, setOrgUnit] = useState('')
+    const [location, setLocation] = useState('')
+    const [phone_number, setPhone] = useState('')
     // const [username, setUserName] = useState<string>()
+    const [users,setUsers] = useState()
 
     const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
         setState(event.target.value)
         console.log(event.target.value)
     }
 
+    const queryClient = useQueryClient()
 
-    const createUser = async () => {
-        try {
-            const res = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/users', {
-                username,
-                firstname,
-                lastname,
-                password,
-                email,
-                role,
-                organization_unit_id,
-                location,
-                phone_number
-
-            })
-
-
-            setModalOpen(false)
-
-            if (res.status === 200) {
-                displaySuccessMessage(res.data.message)
-            }
-
-            if (res.status !== 200) {
-                displayErrorMessage(res.data.message)
-            }
-
-
-            // window.location.reload()
-        } catch (error) {
-            console.log("=========================")
-            console.log("=========================")
-            console.log(error)
-            console.log("=========================")
-            console.log("=========================")
+    const usersQuery = useQuery({
+        queryKey: ["user"],
+        queryFn: () => getUsers(),
+      })
+    
+      useEffect(() => {
+        if (usersQuery.isSuccess) {
+          setUsers(usersQuery.data)
         }
-    }
+      }, [usersQuery.isSuccess, usersQuery.data]);
+      
 
+
+    const createUserMutation = useMutation({
+        mutationFn: createUser,
+        onSuccess: (data) => {
+            queryClient.setQueryData(["user"], data)
+            queryClient.invalidateQueries(["user"], { exact: true })
+            console.log(data)
+
+            if(data.code=="201"){
+                displaySuccessMessage('User created ')
+                setModalOpen(false)
+            }
+
+        }
+    })
+
+    const handleCreateUser = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        createUserMutation.mutate({
+            username,
+            firstname,
+            lastname,
+            password,
+            email,
+            role,
+            organization_unit_id,
+            location,
+            phone_number,
+        })
+    }
 
 
     return (
@@ -162,7 +141,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
-                    <Table data={data} />
+                <Table data={users} /> 
                 </div>
 
                 <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
@@ -177,7 +156,8 @@ const AdminDashboard = () => {
                 title="Create User Modal"
                 centered
                 open={modalOpen}
-                onOk={() => createUser()}
+                //@ts-ignore
+                onOk={handleCreateUser}
                 onCancel={() => setModalOpen(false)}
                 width={1000}
                 zIndex={10000000}

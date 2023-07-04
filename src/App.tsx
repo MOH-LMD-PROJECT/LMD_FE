@@ -1,12 +1,9 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { ProtectedRoute } from './ProtectedRoute';
 import SignIn from './pages/Authentication/SignIn';
-import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
 import JSMDashboard from "./pages/JMS/Dashboard/Dashboard"
 import CondomDashboard from './pages/MOH/CondomManagment';
-import React from 'react';
 import AdminDashboard from './pages/MOH/AdminDashboard';
 const Calendar = lazy(() => import('./pages/Calendar'));
 const Chart = lazy(() => import('./pages/Chart'));
@@ -34,13 +31,12 @@ function App() {
     <>
       <Routes>
         <Route index element={<SignIn />} />
-        <Route path="/auth/signup" element={<SignUp />} />
 
         <Route element={<DefaultLayout />}>
-        <Route path="/condom/managment" element={<CondomDashboard />} />
+          <Route path="/condom/managment" element={<CondomDashboard />} />
 
-          <Route path="/moh/dashboard" element={<MohDashboard />} />
-          <Route path="/jsm/dashboard" element={<JSMDashboard />} />
+          <Route path="/moh" element={<MohDashboard />} />
+          {/* <Route path="/jsm/dashboard" element={<JSMDashboard />} /> */}
           <Route path="/nms/dashboard" element={<MohDashboard />} />
           <Route path="/moh/admin/userManagment" element={<AdminDashboard />} />
 

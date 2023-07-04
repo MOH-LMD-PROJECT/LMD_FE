@@ -1,46 +1,78 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Body from '../Body';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { useMutation } from 'react-query';
-import { login } from '../../api/loginApi';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../redux/slices/auth';
-import { useNavigate } from 'react-router-dom';
-import React from 'react';
-import axios from 'axios';
-import { displayErrorMessage, displaySuccessMessage } from '../../components/toast/Toast';
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { displaySuccessMessage, displayErrorMessage } from '../../components/toast/Toast';
+import { loginUser } from '../../api/apiRequests';
 const SignIn = () => {
   const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [loading, setLoading] = useState(false)
-  const dispatch = useDispatch()
-  const { user } = useSelector((state: any) => state.auth)
-  // const { mutate, isLoading, isError, isSuccess,data } = useMutation(login)
   const navigate = useNavigate()
+
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
   };
 
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
-    setLoading(true)
-    try {
-      e.preventDefault();
-      const response = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/login', {username,password});
-      if(response.data.code = "200" && response.data.user.role=="admin"){
-         dispatch(loginUser({user:response?.data?.user,token:response?.data?.token}))
-          displaySuccessMessage("Login successfully")
-         navigate("/moh/dashboard")
-    
+
+
+
+
+  const queryClient = useQueryClient()
+  const createPostMutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["login"], data)
+      queryClient.invalidateQueries(["login"], { exact: true })
+      console.log(data)
+      if (data.code == "401") {
+        displayErrorMessage(`${data.message}`)
       }
-    } catch (error) {
-      displayErrorMessage('invalid login details')
-    } finally {
-      setLoading(false)
+      if (data.code == "200") {
+        navigate("/moh")
+        const userData = {
+          token: data.token,
+          user: data.user,
+        };
+        localStorage.setItem('userData', JSON.stringify(userData));
+        displaySuccessMessage("Login successful");
+      }
     }
+  })
 
 
+  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    createPostMutation.mutate({
+      username,
+      password,
+     
+    })
   }
+
+
+
+
+  // const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  //   setLoading(true)
+  //   try {
+  //     e.preventDefault();
+  //     const response = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/login', {username,password});
+  //     if(response.data.code = "200" && response.data.user.role=="admin"){
+  //        dispatch(loginUser({user:response?.data?.user,token:response?.data?.token}))
+  //         displaySuccessMessage("Login successfully")
+  //        navigate("/moh/dashboard")
+
+  //     }
+  //   } catch (error) {
+  //     displayErrorMessage('invalid login details')
+  //   } finally {
+  //     setLoading(false)
+  //   }
+
+
+  // }
 
 
   return (
@@ -74,7 +106,7 @@ const SignIn = () => {
 
                 {/* <img src='' alt='photo_logo' /> */}
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleLoginSubmit}>
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       UserName
@@ -146,7 +178,7 @@ const SignIn = () => {
                   <div className="mb-5 ">
                     <input
                       type="submit"
-                      value={loading ? "loading...." : "Sign In"}
+                      value={createPostMutation.isLoading ? "loading" : "Sign In"}
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                     />
                   </div>
