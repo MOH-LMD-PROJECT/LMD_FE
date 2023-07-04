@@ -10,8 +10,8 @@ import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import Table from '../../../components/Table/index';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createUser, loginUser } from '../../../api/apiRequests';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createUser, getUsers, loginUser } from '../../../api/apiRequests';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -64,6 +64,7 @@ const AdminDashboard = () => {
     const [location, setLocation] = useState('')
     const [phone_number, setPhone] = useState('')
     // const [username, setUserName] = useState<string>()
+    const [users,setUsers] = useState()
 
     const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
         setState(event.target.value)
@@ -72,6 +73,18 @@ const AdminDashboard = () => {
 
     const queryClient = useQueryClient()
 
+    const usersQuery = useQuery({
+        queryKey: ["user"],
+        queryFn: () => getUsers(),
+      })
+    
+      useEffect(() => {
+        if (usersQuery.isSuccess) {
+          setUsers(usersQuery.data)
+        }
+      }, [usersQuery.isSuccess, usersQuery.data]);
+      
+
 
     const createUserMutation = useMutation({
         mutationFn: createUser,
@@ -79,6 +92,11 @@ const AdminDashboard = () => {
             queryClient.setQueryData(["user"], data)
             queryClient.invalidateQueries(["user"], { exact: true })
             console.log(data)
+
+            if(data.code=="201"){
+                displaySuccessMessage('User created ')
+                setModalOpen(false)
+            }
 
         }
     })
@@ -123,7 +141,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
-                    {/* <Table data={data} /> */}
+                <Table data={users} /> 
                 </div>
 
                 <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">

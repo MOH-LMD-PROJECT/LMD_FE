@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 //@ts-ignore
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { deleteCondom, getCondoms } from '../../redux/slices/condom';
+import {  getCondoms } from '../../redux/slices/condom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import {  useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteCondom } from '../../api/apiRequests';
+import { displaySuccessMessage } from '../toast/Toast';
 //@ts-ignore
 const CondomItemDataTable = ({ data }) => {
   // console.log(data)
@@ -13,6 +16,8 @@ const CondomItemDataTable = ({ data }) => {
   const [filteredData, setFilteredData] = useState(data);
    console.log(filteredData)
    const dispatch = useDispatch()
+   const queryClient = useQueryClient()
+
   const getColumnSearchProps = (dataIndex: string, columnTitle: string) => ({
     //@ts-ignore
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -68,12 +73,35 @@ const CondomItemDataTable = ({ data }) => {
     setSearchText('');
   };
 
-  const handleDeleteCondom = async (id:number)=>{
-    //@ts-ignore
-    dispatch(deleteCondom(id))
-    //@ts-ignore
-    dispatch(getCondoms())
-  }
+  // const handleDeleteCondom = async (id:number)=>{
+  //   //@ts-ignore
+  //   dispatch(deleteCondom(id))
+  //   //@ts-ignore
+  //   dispatch(getCondoms())
+  // }
+
+
+
+
+  const deleteCondomMutation = useMutation({
+    mutationFn: deleteCondom,
+    onSuccess: (data) => {
+        queryClient.setQueryData(["condom"], data)
+        queryClient.invalidateQueries(["condom"], { exact: true })
+        console.log(data)
+
+        if(data.code=="201"){
+            displaySuccessMessage('condom deleted')
+        }
+
+    }
+})
+
+
+const handleDeleteCondom = (id:any) => {
+  deleteCondomMutation.mutate(id)
+}
+
 
   const columns = [
     {

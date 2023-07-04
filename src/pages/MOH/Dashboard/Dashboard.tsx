@@ -12,7 +12,7 @@ import { getUsers } from '../../../api/apiRequests';
 const Dashboard = () => {
   const [users, setUsers] = useState([])
   const [activeUsers, setActiveUsers] = useState(0)
-
+  const [total,setTotal] = useState()
 
 
   const usersQuery = useQuery({
@@ -21,8 +21,13 @@ const Dashboard = () => {
   })
 
   useEffect(() => {
-    console.log(usersQuery.data, "DATA IS HERE ")
-  }, [])
+    if (usersQuery.isSuccess) {
+      setUsers(usersQuery.data)
+      const active = usersQuery.data.filter((user:any) => user.status === 'active');
+      setActiveUsers(active)
+    }
+  }, [usersQuery.isSuccess, usersQuery.data]);
+  
 
 
 
@@ -35,13 +40,13 @@ const Dashboard = () => {
     },
     {
       id: 2,
-      amount: activeUsers,
+      amount: activeUsers.length,
       text: "Active Users",
       // percentage: 0.43
     },
     {
       id: 3,
-      amount: users.length - activeUsers,
+      amount: users.length - activeUsers.length,
       text: "In active",
       // percentage: 0.43
     }

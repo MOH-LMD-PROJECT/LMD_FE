@@ -29,6 +29,20 @@ const loginUser = ({ username, password }: loginData) => {
     .then((res) => res.data);
 };
 
+
+const addCondoms = (data:any) => {
+  return axios
+    .post(`${baseURL}/condoms`,data)
+    .then((res) => res.data);
+};
+
+const deleteCondom = (id:any) => {
+  console.log(id)
+  return axios
+    .delete(`${baseURL}/condoms/${id}`)
+    .then((res) => res.data);
+};
+
 const createUser = ({
   username,
   password,
@@ -67,7 +81,18 @@ const createUser = ({
 };
 
 const getUsers = () => {
-  return axios.get('/users').then((res) => res.data);
+  return axios.get(`${baseURL}/users`).then((res) => res.data);
 };
 
-export { loginUser, createUser, getUsers };
+
+
+const getCondoms = () => {
+  return axios.get(`${baseURL}/condoms`).then((res) => res.data);
+};
+
+
+const getUnits = () => {
+  return axios.get(`${baseURL}/unitOfMeasures`).then((res) => res.data);
+};
+
+export { loginUser, createUser, getUsers, getCondoms, getUnits,addCondoms,deleteCondom };
