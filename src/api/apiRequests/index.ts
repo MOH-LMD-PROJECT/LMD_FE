@@ -137,6 +137,10 @@ const getOrganizations = () => {
   return axios.get(`${baseURL}/organizationUnits`).then((res) => res.data);
 };
 
+const getHotspots = () => {
+  return axios.get(`${baseURL}/hotSpots`).then((res) => res.data);
+}
+
 export {
   loginUser,
   createUser,
@@ -148,4 +152,5 @@ export {
   getRoles,
   getOrganizations,
   createHotspot,
+  getHotspots
 };
