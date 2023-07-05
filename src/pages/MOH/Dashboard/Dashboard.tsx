@@ -1,9 +1,4 @@
-import React from 'react';
-import ChartOne from '../../../components/ChartOne';
-import ChartThree from '../../../components/ChartThree';
-import ChartTwo from '../../../components/ChartTwo';
 import CustomCard from '../../../components/CustomCard';
-import MapOne from '../../../components/MapOne';
 
 import { useEffect, useState } from 'react';
 

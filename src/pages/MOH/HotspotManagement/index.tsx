@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react';
 
 
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import { useDispatch } from 'react-redux';
-import CustomSelect from '../../../common/select';
-import CondomItemDataTable from '../../../components/CondomItem';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 
-import { createHotspot, getCondoms, getHotspots, getUnits } from '../../../api/apiRequests';
+import { createHotspot, getHotspots } from '../../../api/apiRequests';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
 import HotspotDataTable from '../../../components/HotspotTable';
 
@@ -31,7 +29,7 @@ const HotspotDashboard = () => {
 
 
     const hotspotQuery = useQuery({
-        queryKey: ["hotspots"],
+        queryKey: ["hotspot"],
         queryFn: () => getHotspots(),
     })
 
@@ -119,7 +117,12 @@ const HotspotDashboard = () => {
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
 
-                    <HotspotDataTable data={data} />
+                    {hotspotQuery.isLoading ? <Spin tip="Loading Table data" size="large">
+                        <div className="content" />
+                    </Spin> : <HotspotDataTable data={data} />}
+
+
+
 
 
                 </div>
