@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import ChartOne from '../../../components/ChartOne';
-import ChartThree from '../../../components/ChartThree';
-import ChartTwo from '../../../components/ChartTwo';
-import CustomCard from '../../../components/CustomCard';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
-
-import { addCondomInventory, addCondoms, getCondomInventory, getCondoms, getUnits } from '../../../api/apiRequests';
+import { addCondomInventory, addCondoms, getCondomInventory, getCondoms, getUnits, updateCondomInventory } from '../../../api/apiRequests';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Modal, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import axios from 'axios';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
 import CustomSelect from '../../../common/select';
-import CondomItemDataTable from '../../../components/CondomItem';
 import InventoryTable from '../../../components/InventoryTable';
-
+import { useDispatch,useSelector } from 'react-redux';
+import { cancelEdit } from '../../../redux/slices/condom';
 
 const CondomInventory = () => {
   
@@ -27,16 +21,17 @@ const CondomInventory = () => {
     const [unit, setUnits] = useState()
     const [date, setDate] = useState()
     const [orgId, setOrgId] = useState()
-    const [condom, setCondom] = useState()
+    const [type, setType] = useState()
 
+    const [condom, setCondom] = useState()
+    const {edit,id} = useSelector((state:any)=>state.condom)
     const [data,setData] = useState()
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
     const [unitData,setUnitData] = useState([])
     const [condomData,setCondomData] = useState([])
-
+   const dispatch = useDispatch()
     const [total,setTotal] = useState()
-
 
     const inventoryQuery = useQuery({
       queryKey: ["inventory"],
@@ -82,6 +77,7 @@ const CondomInventory = () => {
 
 
   const queryClient = useQueryClient()
+
   const createPostMutation = useMutation({
     mutationFn: addCondomInventory,
     onSuccess: (data:any) => {
@@ -99,7 +95,24 @@ const CondomInventory = () => {
   })
 
 
-  console.log(quantity,batch,unitCost,condom,unit,orgId,date)
+  const createEditMutation = useMutation({
+    //@ts-ignore
+    mutationFn: updateCondomInventory,
+    onSuccess: (data:any) => {
+      queryClient.setQueryData(["inventory"], data)
+      queryClient.invalidateQueries(["inventory"], { exact: true })
+      console.log(data)
+      if (data.code == "401") {
+        displayErrorMessage(`${data.message}`)
+      }
+      if (data.code == "201") {
+         dispatch(cancelEdit())
+        displaySuccessMessage("Condom  stock updated");
+      }
+    }
+  })
+
+
   //@ts-ignore
   const info = JSON.parse(window.localStorage.getItem("userData"));
 
@@ -117,7 +130,21 @@ const CondomInventory = () => {
          
         })
       }
-console.log(data)
+
+
+      const editInventory  = (id:string) => {
+        console.log(id)
+        //@ts-ignore
+        const data = {
+          quantity: quantity,
+          organization_unit_id: orgId,
+          unit_of_measure_id: unit,
+          submitted_type: type,
+        };
+      
+        createEditMutation.mutate({data,id})
+      }
+
 
 
       const downloadExcel = () => {
@@ -200,6 +227,27 @@ console.log(data)
                 </form>
             </Modal> 
 
+
+            <Modal
+                title="Create Condom Inventory"
+                centered
+                open={edit}
+                //@ts-ignore
+                onOk={(e)=>editInventory(id)}
+                //@ts-ignore
+                onCancel={() => dispatch(cancelEdit())}
+                width={1000}
+                zIndex={10000000}
+            >
+                <form className='grid grid-cols-2 gap-2'>
+                    <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
+                    <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
+                    <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
+                    <CustomInput onChange={handleInputChange(setType)} value='type' placeholder='Enter submission type' label='Submission type' type='text' name="type" />
+
+                </form>
+            </Modal> 
+          
         </>
     );
 };
