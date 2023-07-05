@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
 //@ts-ignore
-import { Table, Input, Button, Space } from 'antd';
+import { Table, Input, Button, Space, Modal } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
-import {  useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCondom, deleteCondomInventory } from '../../api/apiRequests';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {  deleteCondomInventory } from '../../api/apiRequests';
 import { displaySuccessMessage } from '../toast/Toast';
-
+import CustomInput from '../../common/input';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import { makeEdit } from '../../redux/slices/condom';
 
 
 //@ts-ignore
 const InventoryTable = ({ data }) => {
-  // console.log(data)
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [filteredData, setFilteredData] = useState(data);
-   console.log(filteredData)
-   const dispatch = useDispatch()
-   const queryClient = useQueryClient()
+  const [modalOpen, setModalOpen] = useState(false);
+  const dispatch = useDispatch()
+  const [quantity, setQuantity] = useState()
+  const [type, setType] = useState()
+  const [unit, setUnits] = useState()
+  const [orgId, setOrgId] = useState()
+  const queryClient = useQueryClient()
 
   const getColumnSearchProps = (dataIndex: string, columnTitle: string) => ({
     //@ts-ignore
@@ -87,18 +92,18 @@ const InventoryTable = ({ data }) => {
   const deleteCondomMutation = useMutation({
     mutationFn: deleteCondomInventory,
     onSuccess: (data) => {
-        queryClient.setQueryData(["inventory"], data)
-        queryClient.invalidateQueries(["inventory"], { exact: true })
-            displaySuccessMessage('inventory deleted')
-        
+      queryClient.setQueryData(["inventory"], data)
+      queryClient.invalidateQueries(["inventory"], { exact: true })
+      displaySuccessMessage('inventory deleted')
+
 
     }
-})
+  })
 
 
-const handleDeleteInventory = (id:any) => {
-  deleteCondomMutation.mutate(id)
-}
+  const handleDeleteInventory = (id: any) => {
+    deleteCondomMutation.mutate(id)
+  }
 
 
   const columns = [
@@ -128,34 +133,34 @@ const handleDeleteInventory = (id:any) => {
       ...getColumnSearchProps('unit_of_measure_id', 'Unit of measure'),
     },
     {
-        title: 'Unit Cost',
-        dataIndex: 'condom_unit_cost',
-        key: 'condom_unit_cost',
-        ...getColumnSearchProps('condom_unit_cost', 'Unit Cost'),
-      },
-      {
-        title: 'Delivery Date',
-        dataIndex: 'date_of_delivery',
-        key: 'date_of_delivery',
-        ...getColumnSearchProps('date_of_delivery', 'Delivery Date'),
-      },
-      {
-        title: 'User',
-        dataIndex: 'user_id',
-        key: 'user_id',
-        ...getColumnSearchProps('user_id', 'User'),
-      },
+      title: 'Unit Cost',
+      dataIndex: 'condom_unit_cost',
+      key: 'condom_unit_cost',
+      ...getColumnSearchProps('condom_unit_cost', 'Unit Cost'),
+    },
+    {
+      title: 'Delivery Date',
+      dataIndex: 'date_of_delivery',
+      key: 'date_of_delivery',
+      ...getColumnSearchProps('date_of_delivery', 'Delivery Date'),
+    },
+    {
+      title: 'User',
+      dataIndex: 'user_id',
+      key: 'user_id',
+      ...getColumnSearchProps('user_id', 'User'),
+    },
     {
       title: 'Actions',
       key: 'id',
-      render: (text:string, record:any) => (
+      render: (text: string, record: any) => (
         <Space size="middle">
-          <Button type="primary" >
-            Edit
-          </Button>
-         <Button danger  onClick={()=>handleDeleteInventory(record.id)}>
-            Delete
-          </Button> 
+          <span onClick={() => dispatch(makeEdit(record.id))} style={{ cursor: 'pointer' }}>
+        <EditOutlined />
+      </span>
+          <span onClick={() => handleDeleteInventory(record.id)} style={{ cursor: 'pointer' }}>
+        <DeleteOutlined />
+      </span>
         </Space>
       ),
     },
@@ -188,16 +193,44 @@ const handleDeleteInventory = (id:any) => {
     }
   };
 
-  return (
-    <Table
-      //@ts-ignore
-       columns={columns}
-      dataSource={Array.isArray(data) ? data : []} // Check if rawData is an array
-      pagination={{ defaultPageSize: 10 }}
-      //@ts-ignore
+  const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
+    setState(event.target.value)
+    console.log(event.target.value)
+  }
 
-      onChange={handleTableChange}
-    />
+
+  return (
+    <>
+      <Table
+        //@ts-ignore
+        columns={columns}
+        dataSource={Array.isArray(data) ? data : []} // Check if rawData is an array
+        pagination={{ defaultPageSize: 10 }}
+        //@ts-ignore
+
+        onChange={handleTableChange}
+      />
+      <Modal
+        title="Create Condom Inventory"
+        centered
+        open={modalOpen}
+        //@ts-ignore
+        // onOk={createInventory}
+        onCancel={() => setModalOpen(false)}
+        width={1000}
+        zIndex={10}
+      >
+        <form className='grid grid-cols-2 gap-2'>
+          <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
+          {/* <CustomInput onChange={handleInputChange(setBatch)} value='batch' placeholder='Enter batch number' label='Batch Number' type='text' name="batch" />
+                    <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
+                    <CustomSelect options={condomData} onChange={handleInputChange(setCondom)} value='condom' label='Condom' name="condom" /> 
+                    <CustomInput onChange={handleInputChange(setUnitCost)} value='unitCost' placeholder='Enter unit cost' label='Unit Cost' type='number' name="unit_cost" />
+                    <CustomInput onChange={handleInputChange(setDate)} value='date' placeholder='Enter Delivery date' label='Delivery date' type='date' name="date" />
+                    <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" /> */}
+        </form>
+      </Modal>
+    </>
   );
 };
 

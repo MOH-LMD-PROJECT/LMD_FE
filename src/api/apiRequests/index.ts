@@ -155,7 +155,7 @@ const deleteCondomInventory = (id:string) => {
 };
 
 
-const updateCondomInventory = (id:string,data:any) => {
+const updateCondomInventory = ({data,id}:any) => {
   return axios.put(`${baseURL}/condomInventories/${id}`,data).then((res) => res.data);
 };
 
@@ -191,5 +191,6 @@ export {
   updateCondomItem,
   addCondomInventory,
   deleteCondomInventory,
-  getHotspots
+  getHotspots,
+  updateCondomInventory
 };
