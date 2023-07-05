@@ -6,26 +6,21 @@ import CustomCard from '../../../components/CustomCard';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 
-import { addCondoms, getCondoms, getUnits } from '../../../api/apiRequests';
+import { addCondoms, getCondomInventory, getCondoms, getUnits } from '../../../api/apiRequests';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Radio, Space, Divider, Modal, Select } from 'antd';
+import { Button, Modal, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-// import { createUser } from '../../../api/createUserApi';
-import apiClient from '../../../api/apiClient';
-import Table from '../../../components/Table/index';
 import axios from 'axios';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUnitsOfMeasure, addCondom } from '../../../redux/slices/condom';
 import CustomSelect from '../../../common/select';
-import { useInternalNotification } from 'antd/es/notification/useNotification';
 import CondomItemDataTable from '../../../components/CondomItem';
+import InventoryTable from '../../../components/InventoryTable';
 
 
-const CondomDashboard = () => {
-    const dispatch = useDispatch()
+const CondomInventory = () => {
+  
     const [category, setCategory] = useState()
     const [brand, setBrand] = useState()
     const [type, setType] = useState()
@@ -37,29 +32,29 @@ const CondomDashboard = () => {
     const [total,setTotal] = useState()
 
 
-    const condomsQuery = useQuery({
-      queryKey: ["condom"],
-      queryFn: () => getCondoms(),
+    const inventoryQuery = useQuery({
+      queryKey: ["inventory"],
+      queryFn: () => getCondomInventory(),
     })
 
 
-    const unitsQuery = useQuery({
-        queryKey: ["unit"],
-        queryFn: () => getUnits(),
-      })
+    // const unitsQuery = useQuery({
+    //     queryKey: ["unit"],
+    //     queryFn: () => getUnits(),
+    //   })
 
-      useEffect(()=>{
-        if (unitsQuery.isSuccess) {
-            console.log(condomsQuery.data, "DATA IS HERE");
-            setUnitData(unitsQuery.data)
-          }
-        }, [unitsQuery.isSuccess, unitsQuery.data]);
+    //   useEffect(()=>{
+    //     if (unitsQuery.isSuccess) {
+    //         console.log(condomsQuery.data, "DATA IS HERE");
+    //         setUnitData(unitsQuery.data)
+    //       }
+    //     }, [unitsQuery.isSuccess, unitsQuery.data]);
   
     useEffect(() => {
-      if (condomsQuery.isSuccess) {
-        setData(condomsQuery.data)
+      if (inventoryQuery.isSuccess) {
+        setData(inventoryQuery.data)
       }
-    }, [condomsQuery.isSuccess, condomsQuery.data]);
+    }, [inventoryQuery.isSuccess, inventoryQuery.data]);
     
   
 
@@ -108,13 +103,24 @@ const CondomDashboard = () => {
 
 
       const downloadExcel = () => {
+
         const workbook = XLSX.utils.book_new();
+      
+        // Create a new worksheet
         //@ts-ignore
         const worksheet = XLSX.utils.json_to_sheet(data);
+      
+        // Add the worksheet to the workbook
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+      
+        // Convert the workbook to an Excel file
         const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-              const blob = new Blob([excelFile], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-              saveAs(blob, 'data.xlsx');
+      
+        // Convert the Excel file to a Blob
+        const blob = new Blob([excelFile], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      
+        // Save the Blob as a file
+        saveAs(blob, 'data.xlsx');
       };
       
 
@@ -122,11 +128,11 @@ const CondomDashboard = () => {
         <>
             <div>
                 <div className='flex justify-between items-center bg-red-700 p-4 z-99999 '>
-                    <div><h3 className='text-lg font-bold'>Condom Managment</h3></div>
+                    <div><h3 className='text-lg font-bold'>Condom Inventory</h3></div>
                     <div style={{ background: '' }} className='flex justify-center items-center space-x-4'>
                         <div>
                             <Button onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
-                                Add Condom
+                                Add Stock
                             </Button>
 
                         </div>
@@ -142,7 +148,7 @@ const CondomDashboard = () => {
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
 
-                    <CondomItemDataTable data={data}/>  
+                    <InventoryTable data={data}/>  
                 
                 
                 </div>
@@ -159,6 +165,7 @@ const CondomDashboard = () => {
                 title="Create User Modal"
                 centered
                 open={modalOpen}
+                //@ts-ignore
                 onOk={createCondom}
                 onCancel={() => setModalOpen(false)}
                 width={1000}
@@ -166,11 +173,12 @@ const CondomDashboard = () => {
             >
                 <form className='grid grid-cols-2 gap-2'>
                     <CustomInput onChange={handleInputChange(setCategory)} value='category' placeholder='Enter Category' label='Category' type='text' name="firstname" />
-                    {/* <CustomInput onChange={handleInputChange(setType)} value='type' placeholder='Enter type' label='Type' type='text' name="lastname" /> */}
                     <CustomInput onChange={handleInputChange(setBrand)} value='brand' placeholder='Enter brand' label='Brand' type='text' name="email" />
                     <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
                   
-                    <CustomSelect options={genderData} onChange={handleInputChange(setType)} value='type' label='Type'  name="type"/>
+                    <CustomSelect
+                    //@ts-ignore
+                    options={genderData} onChange={handleInputChange(setType)} value='type' label='Type'  name="type"/>
 
                 </form>
             </Modal> 
@@ -179,4 +187,4 @@ const CondomDashboard = () => {
     );
 };
 
-export default CondomDashboard;
+export default CondomInventory;

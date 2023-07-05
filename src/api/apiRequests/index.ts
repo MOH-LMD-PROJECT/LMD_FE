@@ -91,8 +91,14 @@ const getCondoms = () => {
 };
 
 
+const getCondomInventory = () => {
+  return axios.get(`${baseURL}/condomInventories`).then((res) => res.data);
+};
+
+
+
 const getUnits = () => {
   return axios.get(`${baseURL}/unitOfMeasures`).then((res) => res.data);
 };
 
-export { loginUser, createUser, getUsers, getCondoms, getUnits,addCondoms,deleteCondom };
+export { loginUser, createUser, getUsers, getCondoms, getUnits,addCondoms,deleteCondom,getCondomInventory  };
