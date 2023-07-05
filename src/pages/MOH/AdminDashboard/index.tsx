@@ -5,14 +5,15 @@ import ChartOne from '../../../components/ChartOne';
 
 
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Radio, Space, Divider, Modal, Select } from 'antd';
+import { Button, Radio, Space, Divider, Modal, Select, Spin } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import Table from '../../../components/Table/index';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createUser, getUsers, loginUser } from '../../../api/apiRequests';
+import { createUser, getOrganizations, getRoles, getUsers, loginUser } from '../../../api/apiRequests';
 import { useNavigate } from 'react-router-dom';
+import CustomSelect from '../../../common/select';
 
 const AdminDashboard = () => {
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
@@ -51,8 +52,10 @@ const AdminDashboard = () => {
         },
 
     ]
-    //create user mutation 
-    // const createUserMutation = useMutation(createUser);
+
+
+
+
 
     const [username, setUserName] = useState('')
     const [firstname, setFirstName] = useState('')
@@ -63,8 +66,11 @@ const AdminDashboard = () => {
     const [organization_unit_id, setOrgUnit] = useState('')
     const [location, setLocation] = useState('')
     const [phone_number, setPhone] = useState('')
+    const [roleData, setRoleData] = useState([])
+    const [orgData, setOrgData] = useState([])
     // const [username, setUserName] = useState<string>()
-    const [users,setUsers] = useState()
+    const [users, setUsers] = useState()
+
 
     const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
         setState(event.target.value)
@@ -76,14 +82,46 @@ const AdminDashboard = () => {
     const usersQuery = useQuery({
         queryKey: ["user"],
         queryFn: () => getUsers(),
-      })
-    
-      useEffect(() => {
-        if (usersQuery.isSuccess) {
-          setUsers(usersQuery.data)
+    })
+
+
+    const rolesQuery = useQuery({
+        queryKey: ["roles"],
+        queryFn: () => getRoles()
+    })
+
+    const orgQuery = useQuery({
+        queryKey: ["org"],
+        queryFn: () => getOrganizations()
+    })
+
+    useEffect(() => {
+        if (orgQuery.isSuccess) {
+            setOrgData(orgQuery.data)
+            // setRole(orgQuery.data)
+            console.log(orgData, "roles data is here sir ")
         }
-      }, [usersQuery.isSuccess, usersQuery.data]);
-      
+    }, [orgQuery.isSuccess, orgQuery.data])
+
+
+    //fetch roles
+    useEffect(() => {
+        if (rolesQuery.isSuccess) {
+            setRoleData(rolesQuery.data)
+            // setRole(rolesQuery.data)
+            console.log(role, "roles data is here sir ")
+        }
+    }, [usersQuery.isSuccess, rolesQuery.data])
+
+
+
+
+    useEffect(() => {
+        if (usersQuery.isSuccess) {
+            setUsers(usersQuery.data)
+        }
+    }, [usersQuery.isSuccess, usersQuery.data]);
+
 
 
     const createUserMutation = useMutation({
@@ -93,7 +131,7 @@ const AdminDashboard = () => {
             queryClient.invalidateQueries(["user"], { exact: true })
             console.log(data)
 
-            if(data.code=="201"){
+            if (data.code == "201") {
                 displaySuccessMessage('User created ')
                 setModalOpen(false)
             }
@@ -116,6 +154,8 @@ const AdminDashboard = () => {
             phone_number,
         })
     }
+
+    // console.log(roleData[0].id, "HEY BK AM HERE ")
 
 
     return (
@@ -141,7 +181,10 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
-                <Table data={users} /> 
+                    {usersQuery.isLoading ? <Spin tip="Loading Table data" size="large">
+                        <div className="content" />
+                    </Spin> : <Table data={users} />}
+
                 </div>
 
                 <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
@@ -174,24 +217,18 @@ const AdminDashboard = () => {
                     <CustomInput onChange={handleInputChange(setRole)} value='role' placeholder='Enter role ' label='role' type='text' name="role" />
                     <CustomInput onChange={handleInputChange(setOrgUnit)} value='organization_unit_id ' placeholder='Enter org id  ' label='org' type='text' name="organization_unit_id" />
 
+                    <select className='w-[29rem] h-[3.2rem] px-6 pr-2 rounded-sm mt-8.5 box-border ' onChange={handleInputChange(setRole)}>
+                        <option value="">Select role</option>
+                        {roleData.map((item: any) => (
+                            <option className='px-4' key={item.id} value={item.id}>
+                                {item.name}
+                            </option>
+                        ))}
+                    </select>
+                    {/* <CustomSelect options={roleData} onChange={handleInputChange(setRole)} value='role' label='Role' name="role" /> */}
+
+
                     {/* <Select
-                        onChange={() => handleInputChange(setRole)} value='role'
-                        // defaultValue="admin"
-                        style={{ width: 460, padding: 8 }}
-                        // onChange={handleChange}
-                        options={[
-                            {
-                                label: 'select role',
-                                options: [
-                                    { label: 'vht', value: 'vht' },
-                                    { label: 'doctor', value: 'doctor' },
-                                ],
-                            },
-
-                        ]}
-                    />
-
-                    <Select
                         style={{ width: 460, padding: 8 }}
                         // onChange={handleChange}
                         options={[
@@ -208,7 +245,7 @@ const AdminDashboard = () => {
 
 
                 </form>
-            </Modal>
+            </Modal >
 
         </>
     );
