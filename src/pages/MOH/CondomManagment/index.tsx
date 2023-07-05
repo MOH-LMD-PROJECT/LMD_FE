@@ -1,72 +1,76 @@
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD
 import ChartOne from '../../../components/ChartOne';
 import ChartThree from '../../../components/ChartThree';
 import ChartTwo from '../../../components/ChartTwo';
 import CustomCard from '../../../components/CustomCard';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
+=======
+
+
+>>>>>>> 2e1640f6c3bc32ca7d96225efae752e925b7b8c4
 
 import { addCondoms, getCondoms, getUnits } from '../../../api/apiRequests';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Radio, Space, Divider, Modal, Select } from 'antd';
+import { Button, Modal } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 // import { createUser } from '../../../api/createUserApi';
-import apiClient from '../../../api/apiClient';
-import Table from '../../../components/Table/index';
-import axios from 'axios';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUnitsOfMeasure, addCondom } from '../../../redux/slices/condom';
+import { useDispatch } from 'react-redux';
 import CustomSelect from '../../../common/select';
-import { useInternalNotification } from 'antd/es/notification/useNotification';
 import CondomItemDataTable from '../../../components/CondomItem';
 
 
 const CondomDashboard = () => {
-    const dispatch = useDispatch()
-    const [category, setCategory] = useState()
-    const [brand, setBrand] = useState()
-    const [type, setType] = useState()
-    const [unit, setUnits] = useState()
-    const [data,setData] = useState()
-    const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
-    const [modalOpen, setModalOpen] = useState(false);
-    const [unitData,setUnitData] = useState([])
-    const [total,setTotal] = useState()
+  const dispatch = useDispatch()
+  const [category, setCategory] = useState()
+  const [brand, setBrand] = useState()
+  const [type, setType] = useState()
+  const [unit, setUnits] = useState()
+  const [data, setData] = useState()
+  const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
+  const [modalOpen, setModalOpen] = useState(false);
+  const [unitData, setUnitData] = useState([])
+  const [total, setTotal] = useState()
 
 
-    const condomsQuery = useQuery({
-      queryKey: ["condom"],
-      queryFn: () => getCondoms(),
-    })
+  const condomsQuery = useQuery({
+    queryKey: ["condom"],
+    queryFn: () => getCondoms(),
+  })
+
+  // const rolesQuery = useQuery({
+  //   queryKey: ["roles"],
+  //   queryFn: () => getRoles()
+  // })
 
 
-    const unitsQuery = useQuery({
-        queryKey: ["unit"],
-        queryFn: () => getUnits(),
-      })
+  const unitsQuery = useQuery({
+    queryKey: ["unit"],
+    queryFn: () => getUnits(),
+  })
 
-      useEffect(()=>{
-        if (unitsQuery.isSuccess) {
-            console.log(condomsQuery.data, "DATA IS HERE");
-            setUnitData(unitsQuery.data)
-          }
-        }, [unitsQuery.isSuccess, unitsQuery.data]);
-  
-    useEffect(() => {
-      if (condomsQuery.isSuccess) {
-        setData(condomsQuery.data)
-      }
-    }, [condomsQuery.isSuccess, condomsQuery.data]);
-    
-  
-
-    const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
-        setState(event.target.value)
-        console.log(event.target.value)
+  useEffect(() => {
+    if (unitsQuery.isSuccess) {
+      setUnitData(unitsQuery.data)
     }
+  }, [unitsQuery.isSuccess, unitsQuery.data]);
+
+  useEffect(() => {
+    if (condomsQuery.isSuccess) {
+      setData(condomsQuery.data)
+    }
+  }, [condomsQuery.isSuccess, condomsQuery.data]);
+
+
+
+  const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
+    setState(event.target.value)
+    console.log(event.target.value)
+  }
 
 
 
@@ -74,7 +78,7 @@ const CondomDashboard = () => {
   const queryClient = useQueryClient()
   const createPostMutation = useMutation({
     mutationFn: addCondoms,
-    onSuccess: (data:any) => {
+    onSuccess: (data: any) => {
       queryClient.setQueryData(["condom"], data)
       queryClient.invalidateQueries(["condom"], { exact: true })
       console.log(data)
@@ -82,29 +86,30 @@ const CondomDashboard = () => {
         displayErrorMessage(`${data.message}`)
       }
       if (data.code == "201") {
-         setModalOpen(false)
+        setModalOpen(false)
         displaySuccessMessage("Condom created");
       }
     }
   })
 
 
-    const createCondom  = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        createPostMutation.mutate({
-         category: category,
-            brand: brand,
-            unit_of_measure_id: unit,
-            type: type
-         
-        })
-      }
+  const createCondom = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    createPostMutation.mutate({
+      category: category,
+      brand: brand,
+      unit_of_measure_id: unit,
+      type: type
 
-    const genderData = [
-        { name: 'male' },
-        {name: 'female' },
-      ];
-      console.log(unitData)
+    })
+  }
+
+  const genderData = [
+    { name: 'male' },
+    { name: 'female' },
+  ];
+  console.log(unitData)
+
 
 
       const downloadExcel = () => {
