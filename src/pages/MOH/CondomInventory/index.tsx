@@ -6,7 +6,7 @@ import CustomCard from '../../../components/CustomCard';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 
-import { addCondoms, getCondomInventory, getCondoms, getUnits } from '../../../api/apiRequests';
+import { addCondomInventory, addCondoms, getCondomInventory, getCondoms, getUnits } from '../../../api/apiRequests';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Modal, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
@@ -21,14 +21,20 @@ import InventoryTable from '../../../components/InventoryTable';
 
 const CondomInventory = () => {
   
-    const [category, setCategory] = useState()
-    const [brand, setBrand] = useState()
-    const [type, setType] = useState()
+    const [quantity, setQuantity] = useState()
+    const [batch, setBatch] = useState()
+    const [unitCost, setUnitCost] = useState()
     const [unit, setUnits] = useState()
+    const [date, setDate] = useState()
+    const [orgId, setOrgId] = useState()
+    const [condom, setCondom] = useState()
+
     const [data,setData] = useState()
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
     const [unitData,setUnitData] = useState([])
+    const [condomData,setCondomData] = useState([])
+
     const [total,setTotal] = useState()
 
 
@@ -38,17 +44,27 @@ const CondomInventory = () => {
     })
 
 
-    // const unitsQuery = useQuery({
-    //     queryKey: ["unit"],
-    //     queryFn: () => getUnits(),
-    //   })
+    const unitsQuery = useQuery({
+        queryKey: ["unit"],
+        queryFn: () => getUnits(),
+      })
 
-    //   useEffect(()=>{
-    //     if (unitsQuery.isSuccess) {
-    //         console.log(condomsQuery.data, "DATA IS HERE");
-    //         setUnitData(unitsQuery.data)
-    //       }
-    //     }, [unitsQuery.isSuccess, unitsQuery.data]);
+      const condomsQuery = useQuery({
+        queryKey: ["condom"],
+        queryFn: () => getCondoms(),
+      })  
+
+      useEffect(()=>{
+        if (unitsQuery.isSuccess) {
+            setUnitData(unitsQuery.data)
+          }
+        }, [unitsQuery.isSuccess, unitsQuery.data]);
+
+        useEffect(()=>{
+          if (condomsQuery.isSuccess) {
+              setCondomData(condomsQuery.data)
+            }
+          }, [condomsQuery.isSuccess, condomsQuery.data]);
   
     useEffect(() => {
       if (inventoryQuery.isSuccess) {
@@ -65,41 +81,43 @@ const CondomInventory = () => {
 
 
 
-
   const queryClient = useQueryClient()
   const createPostMutation = useMutation({
-    mutationFn: addCondoms,
+    mutationFn: addCondomInventory,
     onSuccess: (data:any) => {
-      queryClient.setQueryData(["condom"], data)
-      queryClient.invalidateQueries(["condom"], { exact: true })
+      queryClient.setQueryData(["inventory"], data)
+      queryClient.invalidateQueries(["inventory"], { exact: true })
       console.log(data)
       if (data.code == "401") {
         displayErrorMessage(`${data.message}`)
       }
       if (data.code == "201") {
          setModalOpen(false)
-        displaySuccessMessage("Condom created");
+        displaySuccessMessage("Condom  stock created");
       }
     }
   })
 
 
-    const createCondom  = (e: React.FormEvent<HTMLFormElement>) => {
+  console.log(quantity,batch,unitCost,condom,unit,orgId,date)
+  //@ts-ignore
+  const info = JSON.parse(window.localStorage.getItem("userData"));
+
+    const createInventory  = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         createPostMutation.mutate({
-         category: category,
-            brand: brand,
+           condom_id: condom,
+            quantity: quantity,
             unit_of_measure_id: unit,
-            type: type
+            unit_cost: unitCost,
+            date_of_delivery:date,
+            organization_unit_id:orgId,
+            batch_number:batch,
+            user_id:info.user.id
          
         })
       }
-
-    const genderData = [
-        { name: 'male' },
-        {name: 'female' },
-      ];
-      console.log(unitData)
+console.log(data)
 
 
       const downloadExcel = () => {
@@ -162,24 +180,23 @@ const CondomInventory = () => {
             </div>
 
              <Modal
-                title="Create User Modal"
+                title="Create Condom Inventory"
                 centered
                 open={modalOpen}
                 //@ts-ignore
-                onOk={createCondom}
+                onOk={createInventory}
                 onCancel={() => setModalOpen(false)}
                 width={1000}
                 zIndex={10000000}
             >
                 <form className='grid grid-cols-2 gap-2'>
-                    <CustomInput onChange={handleInputChange(setCategory)} value='category' placeholder='Enter Category' label='Category' type='text' name="firstname" />
-                    <CustomInput onChange={handleInputChange(setBrand)} value='brand' placeholder='Enter brand' label='Brand' type='text' name="email" />
+                    <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
+                    <CustomInput onChange={handleInputChange(setBatch)} value='batch' placeholder='Enter batch number' label='Batch Number' type='text' name="batch" />
                     <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
-                  
-                    <CustomSelect
-                    //@ts-ignore
-                    options={genderData} onChange={handleInputChange(setType)} value='type' label='Type'  name="type"/>
-
+                    <CustomSelect options={condomData} onChange={handleInputChange(setCondom)} value='condom' label='Condom' name="condom" /> 
+                    <CustomInput onChange={handleInputChange(setUnitCost)} value='unitCost' placeholder='Enter unit cost' label='Unit Cost' type='number' name="unit_cost" />
+                    <CustomInput onChange={handleInputChange(setDate)} value='date' placeholder='Enter Delivery date' label='Delivery date' type='date' name="date" />
+                    <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
                 </form>
             </Modal> 
 

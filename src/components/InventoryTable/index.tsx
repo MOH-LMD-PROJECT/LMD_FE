@@ -4,7 +4,7 @@ import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import {  useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCondom } from '../../api/apiRequests';
+import { deleteCondom, deleteCondomInventory } from '../../api/apiRequests';
 import { displaySuccessMessage } from '../toast/Toast';
 
 
@@ -85,21 +85,18 @@ const InventoryTable = ({ data }) => {
 
 
   const deleteCondomMutation = useMutation({
-    mutationFn: deleteCondom,
+    mutationFn: deleteCondomInventory,
     onSuccess: (data) => {
-        queryClient.setQueryData(["condom"], data)
-        queryClient.invalidateQueries(["condom"], { exact: true })
-        console.log(data)
-
-        if(data.code=="201"){
-            displaySuccessMessage('condom deleted')
-        }
+        queryClient.setQueryData(["inventory"], data)
+        queryClient.invalidateQueries(["inventory"], { exact: true })
+            displaySuccessMessage('inventory deleted')
+        
 
     }
 })
 
 
-const handleDeleteCondom = (id:any) => {
+const handleDeleteInventory = (id:any) => {
   deleteCondomMutation.mutate(id)
 }
 
@@ -107,16 +104,16 @@ const handleDeleteCondom = (id:any) => {
   const columns = [
     {
       title: 'Id',
-      dataIndex: 'condom_id',
-      key: 'condom_id',
-      sorter: (a: { condom_id: number; }, b: { condom_id: number; }) => a.condom_id - b.condom_id,
+      dataIndex: 'id',
+      key: 'id',
+      sorter: (a: { id: number; }, b: { id: number; }) => a.id - b.id,
       sortDirections: ['descend', 'ascend'],
     },
     {
       title: 'Quantity',
-      dataIndex: 'quantity',
-      key: 'quantity',
-      ...getColumnSearchProps('quantity', 'Quantity'),
+      dataIndex: 'quantity_in_stock',
+      key: 'quantity_in_stock',
+      ...getColumnSearchProps('quantity_in_stock', 'Quantity'),
     },
     {
       title: 'Batch Number',
@@ -132,9 +129,9 @@ const handleDeleteCondom = (id:any) => {
     },
     {
         title: 'Unit Cost',
-        dataIndex: 'unit_cost',
-        key: 'unit_cost',
-        ...getColumnSearchProps('unit_cost', 'Unit Cost'),
+        dataIndex: 'condom_unit_cost',
+        key: 'condom_unit_cost',
+        ...getColumnSearchProps('condom_unit_cost', 'Unit Cost'),
       },
       {
         title: 'Delivery Date',
@@ -143,10 +140,10 @@ const handleDeleteCondom = (id:any) => {
         ...getColumnSearchProps('date_of_delivery', 'Delivery Date'),
       },
       {
-        title: 'Organisation',
-        dataIndex: 'organization_unit_id',
-        key: 'organization_unit_id',
-        ...getColumnSearchProps('organization_unit_id', 'Organisation'),
+        title: 'User',
+        dataIndex: 'user_id',
+        key: 'user_id',
+        ...getColumnSearchProps('user_id', 'User'),
       },
     {
       title: 'Actions',
@@ -156,9 +153,9 @@ const handleDeleteCondom = (id:any) => {
           <Button type="primary" >
             Edit
           </Button>
-          {/* <Button danger  onClick={()=>handleDeleteCondom(record.id)}>
+         <Button danger  onClick={()=>handleDeleteInventory(record.id)}>
             Delete
-          </Button> */}
+          </Button> 
         </Space>
       ),
     },

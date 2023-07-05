@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../redux/slices/auth';
 import UserOne from '../images/user/user-01.png';
 import axios from 'axios';
 import React from 'react';
 import { displaySuccessMessage } from './toast/Toast';
+import { logout } from '../redux/slices/auth';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -44,7 +44,7 @@ const DropdownUser = () => {
     try {
       console.log(user.token)
       const response = await axios.post(
-        'http://192.168.0.157/clims/public/api/logout',
+        'https://codezoneug.com/clims_backend/clims/public/api/logout',
         { token: user.token },
         {
           headers: {
@@ -54,8 +54,7 @@ const DropdownUser = () => {
       );
       dispatch(logout(user))
 
-
-      // displaySuccessMessage("logout successfully")
+displaySuccessMessage("logout successfully")
 
       navigate('/')
     } catch (error) {

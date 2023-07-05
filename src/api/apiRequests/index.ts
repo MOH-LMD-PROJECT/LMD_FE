@@ -42,6 +42,11 @@ const addCondoms = (data: any) => {
   return axios.post(`${baseURL}/condoms`, data).then((res) => res.data);
 };
 
+const updateCondomItem = (data:any,id:string)=>{
+  return axios.patch(`${baseURL}/condoms/${id}`, data).then((res) => res.data);
+
+}
+
 const deleteCondom = (id: any) => {
   console.log(id);
   return axios.delete(`${baseURL}/condoms/${id}`).then((res) => res.data);
@@ -135,6 +140,21 @@ const getCondomInventory = () => {
 };
 
 
+const addCondomInventory = (data:any) => {
+  return axios.post(`${baseURL}/condomInventories`,data).then((res) => res.data);
+};
+
+const getInventory = (id:string) => {
+  return axios.get(`${baseURL}/condomInventories/${id}`).then((res) => res.data);
+};
+
+
+
+const deleteCondomInventory = (id:string) => {
+  return axios.delete(`${baseURL}/condomInventories/${id}`).then((res) => res.data);
+};
+
+
 
 const getUnits = () => {
   return axios.get(`${baseURL}/unitOfMeasures`).then((res) => res.data);
@@ -143,6 +163,9 @@ const getUnits = () => {
 const getOrganizations = () => {
   return axios.get(`${baseURL}/organizationUnits`).then((res) => res.data);
 };
+
+
+
 
 export {
   loginUser,
@@ -155,4 +178,8 @@ export {
   getRoles,
   getOrganizations,
   createHotspot,
+  getCondomInventory,
+  updateCondomItem,
+  addCondomInventory,
+  deleteCondomInventory
 };

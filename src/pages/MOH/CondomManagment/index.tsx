@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
 import ChartOne from '../../../components/ChartOne';
 import ChartThree from '../../../components/ChartThree';
 import ChartTwo from '../../../components/ChartTwo';
 import CustomCard from '../../../components/CustomCard';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
-=======
-
-
->>>>>>> 2e1640f6c3bc32ca7d96225efae752e925b7b8c4
-
 import { addCondoms, getCondoms, getUnits } from '../../../api/apiRequests';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
