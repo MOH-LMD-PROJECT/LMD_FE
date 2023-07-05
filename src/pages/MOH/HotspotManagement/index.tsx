@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
@@ -8,10 +8,11 @@ import CustomInput from '../../../common/input';
 import { useDispatch } from 'react-redux';
 import CustomSelect from '../../../common/select';
 import CondomItemDataTable from '../../../components/CondomItem';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 
-import { createHotspot, getCondoms, getUnits } from '../../../api/apiRequests';
+import { createHotspot, getCondoms, getHotspots, getUnits } from '../../../api/apiRequests';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
+import HotspotDataTable from '../../../components/HotspotTable';
 
 
 
@@ -29,33 +30,22 @@ const HotspotDashboard = () => {
     const [hotspotStatus, setHotspotStatus] = useState('')
 
 
-    //   const condomsQuery = useQuery({
-    //     queryKey: ["condom"],
-    //     queryFn: () => getCondoms(),
-    //   })
-
-    // const rolesQuery = useQuery({
-    //   queryKey: ["roles"],
-    //   queryFn: () => getRoles()
-    // })
+    const hotspotQuery = useQuery({
+        queryKey: ["hotspots"],
+        queryFn: () => getHotspots(),
+    })
 
 
-    //   const unitsQuery = useQuery({
-    //     queryKey: ["unit"],
-    //     queryFn: () => getUnits(),
-    //   })
 
-    //   useEffect(() => {
-    //     if (unitsQuery.isSuccess) {
-    //       setUnitData(unitsQuery.data)
-    //     }
-    //   }, [unitsQuery.isSuccess, unitsQuery.data]);
 
-    //   useEffect(() => {
-    //     if (condomsQuery.isSuccess) {
-    //       setData(condomsQuery.data)
-    //     }
-    //   }, [condomsQuery.isSuccess, condomsQuery.data]);
+
+
+
+    useEffect(() => {
+        if (hotspotQuery.isSuccess) {
+            setData(hotspotQuery.data)
+        }
+    }, [hotspotQuery.isSuccess, hotspotQuery.data]);
 
 
 
@@ -129,7 +119,7 @@ const HotspotDashboard = () => {
 
                 <div className="col-span-12 xl:col-span-8 mt-10" >
 
-                    <CondomItemDataTable data={data} />
+                    <HotspotDataTable data={data} />
 
 
                 </div>
