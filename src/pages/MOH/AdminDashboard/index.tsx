@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import ChartOne from '../../../components/ChartOne';
 
 
 
 
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Radio, Space, Divider, Modal, Select, Spin } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import Table from '../../../components/Table/index';
-import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
+import { displaySuccessMessage } from '../../../components/toast/Toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createUser, getOrganizations, getRoles, getUsers, loginUser } from '../../../api/apiRequests';
+import { createUser, getOrganizations, getRoles, getUsers } from '../../../api/apiRequests';
 import { useNavigate } from 'react-router-dom';
-import CustomSelect from '../../../common/select';
 
 const AdminDashboard = () => {
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'

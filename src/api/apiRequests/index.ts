@@ -155,6 +155,12 @@ const deleteCondomInventory = (id:string) => {
 };
 
 
+const updateCondomInventory = (id:string,data:any) => {
+  return axios.put(`${baseURL}/condomInventories/${id}`,data).then((res) => res.data);
+};
+
+
+
 
 const getUnits = () => {
   return axios.get(`${baseURL}/unitOfMeasures`).then((res) => res.data);
@@ -166,6 +172,9 @@ const getOrganizations = () => {
 
 
 
+const getHotspots = () => {
+  return axios.get(`${baseURL}/hotSpots`).then((res) => res.data);
+}
 
 export {
   loginUser,
@@ -181,5 +190,6 @@ export {
   getCondomInventory,
   updateCondomItem,
   addCondomInventory,
-  deleteCondomInventory
+  deleteCondomInventory,
+  getHotspots
 };
