@@ -5,6 +5,7 @@ import Loader from './common/Loader';
 import JSMDashboard from "./pages/JMS/Dashboard/Dashboard"
 import CondomDashboard from './pages/MOH/CondomManagment';
 import AdminDashboard from './pages/MOH/AdminDashboard';
+import CondomInventory from './pages/MOH/CondomInventory';
 import HotspotDashboard from './pages/MOH/HotspotManagement';
 const Calendar = lazy(() => import('./pages/Calendar'));
 const Chart = lazy(() => import('./pages/Chart'));
@@ -35,6 +36,7 @@ function App() {
 
         <Route element={<DefaultLayout />}>
           <Route path="/condom/managment" element={<CondomDashboard />} />
+          <Route path="/condom/stock" element={<CondomInventory />} />
           <Route path="/moh/create-hotspot" element={<HotspotDashboard />} />
 
 

@@ -29,19 +29,19 @@ const Dashboard = () => {
   const cardData = [
     {
       id: 1,
-      amount: users.length,
+      amount: users.length || 0,
       text: "Total Users",
       // percentage: 0.43
     },
     {
       id: 2,
-      amount: activeUsers.length,
+      amount: activeUsers?.length || 0,
       text: "Active Users",
       // percentage: 0.43
     },
     {
       id: 3,
-      amount: users.length - activeUsers.length,
+      amount: users.length - activeUsers?.length || 0,
       text: "In active",
       // percentage: 0.43
     }

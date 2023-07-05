@@ -31,7 +31,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           >
             {options?.map((option:any) => (
               <option key={option.id} value={option.id}>
-                {option.name}
+                {option.name || option.brand}
               </option>
             ))}
           </select>
