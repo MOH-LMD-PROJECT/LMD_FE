@@ -197,7 +197,7 @@ const AdminDashboard = () => {
             </div>
 
             <Modal
-                title="Create User Modal"
+                title={edit?"Edit User":"Create User"}
                 centered
                 open={modalOpen || edit}
                 //@ts-ignore
