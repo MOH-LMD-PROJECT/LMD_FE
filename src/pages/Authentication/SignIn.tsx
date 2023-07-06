@@ -5,6 +5,8 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { displaySuccessMessage, displayErrorMessage } from '../../components/toast/Toast';
 import { loginUser } from '../../api/apiRequests';
+
+
 const SignIn = () => {
   const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -53,28 +55,6 @@ const SignIn = () => {
 
 
 
-
-  // const handleSubmit = async (e: { preventDefault: () => void; }) => {
-  //   setLoading(true)
-  //   try {
-  //     e.preventDefault();
-  //     const response = await axios.post('https://covid19.gou.go.ug/clims_backend/public/api/login', {username,password});
-  //     if(response.data.code = "200" && response.data.user.role=="admin"){
-  //        dispatch(loginUser({user:response?.data?.user,token:response?.data?.token}))
-  //         displaySuccessMessage("Login successfully")
-  //        navigate("/moh/dashboard")
-
-  //     }
-  //   } catch (error) {
-  //     displayErrorMessage('invalid login details')
-  //   } finally {
-  //     setLoading(false)
-  //   }
-
-
-  // }
-
-
   return (
     <>
       <Body>
@@ -86,12 +66,6 @@ const SignIn = () => {
                   <h3 className='text-3xl font-bold text-black'>Last Mile Condom Distribution</h3>
 
                 </Link>
-
-                {/* <p className="2xl:px-20">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                  suspendisse.
-                </p> */}
-
                 <span className="mt-15 inline-block">
                   <img src='https://res.cloudinary.com/itgenius/image/upload/v1687790055/capp-123_eakjdr.png' alt='photo' />
                 </span>
