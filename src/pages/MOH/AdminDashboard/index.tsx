@@ -12,10 +12,13 @@ import { displaySuccessMessage } from '../../../components/toast/Toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createUser, getOrganizations, getRoles, getUsers } from '../../../api/apiRequests';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch,useSelector } from 'react-redux';
+import { cancelEdit } from '../../../redux/slices/condom';
 const AdminDashboard = () => {
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
+    const {edit,id} = useSelector((state:any)=>state.condom)
+    const dispatch = useDispatch()
 
 
     const navigate = useNavigate()
@@ -196,11 +199,16 @@ const AdminDashboard = () => {
             <Modal
                 title="Create User Modal"
                 centered
-                open={modalOpen}
+                open={modalOpen || edit}
                 //@ts-ignore
                 onOk={handleCreateUser}
-                onCancel={() => setModalOpen(false)}
-                width={1000}
+                onCancel={() => {
+                    setModalOpen(false);
+                    if (edit) {
+                      // Dispatch the editAction here
+                      dispatch(cancelEdit())        
+                                }
+                  }}                width={1000}
                 zIndex={10000000}
             >
                 <form className='grid grid-cols-2 gap-2'>

@@ -108,7 +108,7 @@ const HotspotDashboard = () => {
 
                         <div>
                             <Button type="primary" icon={<DownloadOutlined rev={undefined} />} size={size}>
-                                Export PDF
+                                Export Excel
                             </Button>
                         </div>
 

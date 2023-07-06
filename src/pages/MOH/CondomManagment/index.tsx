@@ -132,7 +132,7 @@ const CondomDashboard = () => {
 
                         <div>
                         <Button type="primary" icon={<DownloadOutlined />} size={size} onClick={downloadExcel}>
-                                Export PDF
+                                Export Excel
                             </Button>
                         </div>
 
