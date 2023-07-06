@@ -25,6 +25,8 @@ const HotspotDashboard = () => {
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
     const [organization_unit_id, setOrgUnit] = useState(); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+
     const [hotspotStatus, setHotspotStatus] = useState('')
 
 
@@ -142,6 +144,38 @@ const HotspotDashboard = () => {
                 //@ts-ignore
                 onOk={createHotspotFn}
                 onCancel={() => setModalOpen(false)}
+                width={1000}
+                zIndex={10000000}
+            >
+                <form className='grid grid-cols-2 gap-2'>
+                    <CustomInput onChange={handleInputChange(setHotspotName)} value='hotspot_name' placeholder='Enter Hotspot Name' label='Hotspot Name' type='text' name="hotspot_name" />
+                    <CustomInput onChange={handleInputChange(setContactPersonName)} value='contact_person_name' placeholder='Enter contact person name' label='Contact Person Name' type='text' name="contact_person_name" />
+                    <CustomInput onChange={handleInputChange(setContactPersonPhone)} value='contact_person_telephone' placeholder='Enter Contact Person Phone' label='Contact Person Phone' type='text' name="contact_person_telephone" />
+                    <CustomInput onChange={handleInputChange(setLatitude)} value='latitude' placeholder='Enter latitude' label='Latitude' type='text' name="latitude" />
+                    <CustomInput onChange={handleInputChange(setLongtitude)} value='longtitude' placeholder='Enter longtitude' label='longtitude' type='text' name="longtitude" />
+                    <CustomInput onChange={handleInputChange(setOrgUnit)} value='organization_unit_id' placeholder='Enter orgID' label='OrganizationID' type='number' name="rganization_unit_id" />
+                    <CustomInput onChange={handleInputChange(setHotspotStatus)} value='hotspot_status' placeholder='Enter Hotspot' label='Hotspot Status' type='text' name="hotspot_status" />
+
+
+
+
+
+
+                    {/* <CustomSelect options={unitData} onChange={handleInputChange(setOrgUnit)} value='unit' label='Units of Measure' name="units" /> */}
+
+                    {/* <CustomSelect options={genderData} onChange={handleInputChange(setType)} value='type' label='Type' name="type" /> */}
+
+                </form>
+            </Modal>
+
+
+            <Modal
+                title="Edit Hotspot"
+                centered
+                open={open}
+                //@ts-ignore
+                onOk={createHotspotFn}
+                onCancel={() => setOpen(false)}
                 width={1000}
                 zIndex={10000000}
             >

@@ -12,7 +12,7 @@ const HotspotDataTable = ({ data }) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [filteredData, setFilteredData] = useState(data);
-    console.log(filteredData)
+    const [open,setOpen] = useState(false)
     const dispatch = useDispatch()
     const queryClient = useQueryClient()
 
@@ -133,7 +133,7 @@ const HotspotDataTable = ({ data }) => {
             key: 'id',
             render: (text: string, record: any) => (
                 <Space size="middle">
-                    <Button type="primary" >
+                    <Button onClick={()=>setOpen(!open)} type="primary" >
                         Edit
                     </Button>
                     <Button danger onClick={() => handleDeleteCondom(record.id)}>
