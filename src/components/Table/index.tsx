@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { makeEdit } from '../../redux/slices/condom';
+
 //@ts-ignore
 const DataTable = ({ data }) => {
   // console.log(data)
@@ -10,6 +13,8 @@ const DataTable = ({ data }) => {
   const [searchedColumn, setSearchedColumn] = useState('');
   const [filteredData, setFilteredData] = useState(data);
    console.log(filteredData)
+   const dispatch = useDispatch()
+
   const getColumnSearchProps = (dataIndex: string, columnTitle: string) => ({
     //@ts-ignore
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -125,7 +130,7 @@ const DataTable = ({ data }) => {
       key: 'id',
       render: (text:string, record:any) => (
         <Space size="middle">
-          <Button type="primary" >
+          <Button  onClick={() => dispatch(makeEdit(record.id))} type="primary" >
             Edit
           </Button>
           <Button danger onClick={()=>handleDelete(record.id)} >

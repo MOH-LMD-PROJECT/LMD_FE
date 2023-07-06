@@ -8,12 +8,12 @@ import AdminDashboard from './pages/MOH/AdminDashboard';
 import CondomInventory from './pages/MOH/CondomInventory';
 import HotspotDashboard from './pages/MOH/HotspotManagement';
 const Calendar = lazy(() => import('./pages/Calendar'));
-const Chart = lazy(() => import('./pages/Chart'));
-const FormElements = lazy(() => import('./pages/Form/FormElements'));
+// const Chart = lazy(() => import('./pages/Chart'));
+// const FormElements = lazy(() => import('./pages/Form/FormElements'));
 const FormLayout = lazy(() => import('./pages/Form/FormLayout'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Settings = lazy(() => import('./pages/Settings'));
-const Tables = lazy(() => import('./pages/Tables'));
+// const Tables = lazy(() => import('./pages/Tables'));
 const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
@@ -69,42 +69,10 @@ function App() {
             }
           />
           <Route
-            path="/forms/form-elements"
-            element={
-              <Suspense fallback={<Loader />}>
-                <FormElements />
-              </Suspense>
-            }
-          />
-          <Route
             path="/forms/form-layout"
             element={
               <Suspense fallback={<Loader />}>
                 <FormLayout />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/tables"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Tables />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Settings />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/chart"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Chart />
               </Suspense>
             }
           />
