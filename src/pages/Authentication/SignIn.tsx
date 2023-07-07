@@ -49,7 +49,7 @@ const SignIn = () => {
     createPostMutation.mutate({
       username,
       password,
-     
+
     })
   }
 
@@ -152,7 +152,7 @@ const SignIn = () => {
                   <div className="mb-5 ">
                     <input
                       type="submit"
-                      value={createPostMutation.isLoading ? "loading" : "Sign In"}
+                      value={createPostMutation.isLoading ? "loading...." : "Sign In"}
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                     />
                   </div>

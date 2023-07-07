@@ -155,6 +155,15 @@ const deleteCondomInventory = (id:string) => {
 };
 
 
+const deleteUser = (id:string) => {
+  return axios.delete(`${baseURL}/users/${id}`).then((res) => res.data);
+};
+
+const deleteHotspot = (id:string) => {
+  return axios.delete(`${baseURL}/hotSpots/${id}`).then((res) => res.data);
+};
+
+
 const updateCondomInventory = ({data,id}:any) => {
   return axios.put(`${baseURL}/condomInventories/${id}`,data).then((res) => res.data);
 };
@@ -192,5 +201,7 @@ export {
   addCondomInventory,
   deleteCondomInventory,
   getHotspots,
-  updateCondomInventory
+  updateCondomInventory,
+  deleteUser,
+  deleteHotspot
 };

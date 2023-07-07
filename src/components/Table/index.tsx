@@ -5,6 +5,9 @@ import { SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { makeEdit } from '../../redux/slices/condom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteUser } from '../../api/apiRequests';
+import { displaySuccessMessage } from '../toast/Toast';
 
 //@ts-ignore
 const DataTable = ({ data }) => {
@@ -70,9 +73,23 @@ const DataTable = ({ data }) => {
     setSearchText('');
   };
 
-  const handleDelete = async (id:number)=>{
-    const data = await axios.delete(`http://192.168.0.157/clims/public/api/users/${id}`)
-    console.log(data)
+  const queryClient = useQueryClient()
+
+
+  const deleteCondomMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["user"], data)
+      queryClient.invalidateQueries(["user"], { exact: true })
+      displaySuccessMessage('User deleted')
+
+
+    }
+  })
+
+
+  const handleDelete = async (id:any)=>{
+    deleteCondomMutation.mutate(id)
   }
 
   const columns = [

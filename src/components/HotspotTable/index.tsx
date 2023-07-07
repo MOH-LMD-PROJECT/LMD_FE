@@ -4,7 +4,7 @@ import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCondom } from '../../api/apiRequests';
+import { deleteCondom, deleteHotspot } from '../../api/apiRequests';
 import { displaySuccessMessage } from '../toast/Toast';
 //@ts-ignore
 const HotspotDataTable = ({ data }) => {
@@ -76,15 +76,13 @@ const HotspotDataTable = ({ data }) => {
 
 
 
-    const deleteCondomMutation = useMutation({
-        mutationFn: deleteCondom,
+    const deleteHostspotMutation = useMutation({
+        mutationFn: deleteHotspot,
         onSuccess: (data) => {
-            queryClient.setQueryData(["condom"], data)
-            queryClient.invalidateQueries(["condom"], { exact: true })
-            console.log(data)
-
+            queryClient.setQueryData(["hotspot"], data)
+            queryClient.invalidateQueries(["hotspot"], { exact: true })
             if (data.code == "201") {
-                displaySuccessMessage('condom deleted')
+                displaySuccessMessage('Hostspot deleted')
             }
 
         }
@@ -92,7 +90,7 @@ const HotspotDataTable = ({ data }) => {
 
 
     const handleDeleteCondom = (id: any) => {
-        deleteCondomMutation.mutate(id)
+        deleteHostspotMutation.mutate(id)
     }
 
 
