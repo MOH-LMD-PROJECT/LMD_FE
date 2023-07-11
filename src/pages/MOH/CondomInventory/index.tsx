@@ -169,6 +169,11 @@ const CondomInventory = () => {
   };
 
 
+  const typeData = [
+    { name: 'addition' },
+    { name: 'distribution' },
+  ];
+
   return (
     <>
       <div>
@@ -239,7 +244,7 @@ const CondomInventory = () => {
 
 
       <Modal
-        title="Create Condom Inventory"
+        title="Manage Inventory Stock"
         centered
         open={edit}
         //@ts-ignore
@@ -253,7 +258,7 @@ const CondomInventory = () => {
           <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
           <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
           <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
-          <CustomInput onChange={handleInputChange(setType)} value='type' placeholder='Enter submission type' label='Submission type' type='text' name="type" />
+          <CustomSelect options={typeData} onChange={handleInputChange(setType)} value='type' label='Submission type' name="type"  type='text'/>
 
         </form>
       </Modal>

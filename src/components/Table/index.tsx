@@ -145,7 +145,9 @@ const DataTable = ({ data }) => {
       key: 'id',
       render: (text:string, record:any) => (
         <Space size="middle">
-          <Button  onClick={() => dispatch(makeEdit(record.id))} type="primary" >
+          <Button 
+        style={{ backgroundColor: '#1C2434', color: 'white', border: 'none' }}
+          onClick={() => dispatch(makeEdit(record.id))} type="primary" >
             Edit
           </Button>
           <Button danger onClick={()=>handleDelete(record.id)} >
