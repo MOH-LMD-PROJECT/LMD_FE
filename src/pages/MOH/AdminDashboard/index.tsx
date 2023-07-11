@@ -166,14 +166,20 @@ const AdminDashboard = () => {
                     <div><h3 className='text-lg font-bold'>User Managment</h3></div>
                     <div style={{ background: '' }} className='flex justify-center items-center space-x-4'>
                         <div>
-                            <Button onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
+                            <Button 
+                              style={{ backgroundColor: '#1C2434', color: 'white', border: 'none' }}
+
+                            onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
                                 Create User
                             </Button>
 
                         </div>
 
                         <div>
-                            <Button type="primary" icon={<DownloadOutlined rev={undefined} />} size={size}>
+                            <Button 
+                              style={{ backgroundColor: '#1C2434', color: 'white', border: 'none' }}
+
+                            type="primary" icon={<DownloadOutlined rev={undefined} />} size={size}>
                                 Export PDF
                             </Button>
                         </div>

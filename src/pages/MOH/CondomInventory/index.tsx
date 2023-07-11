@@ -10,69 +10,69 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
 import CustomSelect from '../../../common/select';
 import InventoryTable from '../../../components/InventoryTable';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cancelEdit } from '../../../redux/slices/condom';
 import { downloadExcel } from '../../../utils/download';
 const CondomInventory = () => {
-  
-    const [quantity, setQuantity] = useState()
-    const [batch, setBatch] = useState()
-    const [unitCost, setUnitCost] = useState()
-    const [unit, setUnits] = useState()
-    const [date, setDate] = useState()
-    const [orgId, setOrgId] = useState()
-    const [type, setType] = useState()
 
-    const [condom, setCondom] = useState()
-    const {edit,id} = useSelector((state:any)=>state.condom)
-    const [data,setData] = useState()
-    const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
-    const [modalOpen, setModalOpen] = useState(false);
-    const [unitData,setUnitData] = useState([])
-    const [condomData,setCondomData] = useState([])
-   const dispatch = useDispatch()
-    const [total,setTotal] = useState()
+  const [quantity, setQuantity] = useState()
+  const [batch, setBatch] = useState()
+  const [unitCost, setUnitCost] = useState()
+  const [unit, setUnits] = useState()
+  const [date, setDate] = useState()
+  const [orgId, setOrgId] = useState()
+  const [type, setType] = useState()
 
-    const inventoryQuery = useQuery({
-      queryKey: ["inventory"],
-      queryFn: () => getCondomInventory(),
-    })
+  const [condom, setCondom] = useState()
+  const { edit, id } = useSelector((state: any) => state.condom)
+  const [data, setData] = useState()
+  const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
+  const [modalOpen, setModalOpen] = useState(false);
+  const [unitData, setUnitData] = useState([])
+  const [condomData, setCondomData] = useState([])
+  const dispatch = useDispatch()
+  const [total, setTotal] = useState()
+
+  const inventoryQuery = useQuery({
+    queryKey: ["inventory"],
+    queryFn: () => getCondomInventory(),
+  })
 
 
-    const unitsQuery = useQuery({
-        queryKey: ["unit"],
-        queryFn: () => getUnits(),
-      })
+  const unitsQuery = useQuery({
+    queryKey: ["unit"],
+    queryFn: () => getUnits(),
+  })
 
-      const condomsQuery = useQuery({
-        queryKey: ["condom"],
-        queryFn: () => getCondoms(),
-      })  
+  const condomsQuery = useQuery({
+    queryKey: ["condom"],
+    queryFn: () => getCondoms(),
+  })
 
-      useEffect(()=>{
-        if (unitsQuery.isSuccess) {
-            setUnitData(unitsQuery.data)
-          }
-        }, [unitsQuery.isSuccess, unitsQuery.data]);
-
-        useEffect(()=>{
-          if (condomsQuery.isSuccess) {
-              setCondomData(condomsQuery.data)
-            }
-          }, [condomsQuery.isSuccess, condomsQuery.data]);
-  
-    useEffect(() => {
-      if (inventoryQuery.isSuccess) {
-        setData(inventoryQuery.data)
-      }
-    }, [inventoryQuery.isSuccess, inventoryQuery.data]);
-    
-  
-
-    const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
-        setState(event.target.value)
-        console.log(event.target.value)
+  useEffect(() => {
+    if (unitsQuery.isSuccess) {
+      setUnitData(unitsQuery.data)
     }
+  }, [unitsQuery.isSuccess, unitsQuery.data]);
+
+  useEffect(() => {
+    if (condomsQuery.isSuccess) {
+      setCondomData(condomsQuery.data)
+    }
+  }, [condomsQuery.isSuccess, condomsQuery.data]);
+
+  useEffect(() => {
+    if (inventoryQuery.isSuccess) {
+      setData(inventoryQuery.data)
+    }
+  }, [inventoryQuery.isSuccess, inventoryQuery.data]);
+
+
+
+  const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
+    setState(event.target.value)
+    console.log(event.target.value)
+  }
 
 
 
@@ -80,7 +80,7 @@ const CondomInventory = () => {
 
   const createPostMutation = useMutation({
     mutationFn: addCondomInventory,
-    onSuccess: (data:any) => {
+    onSuccess: (data: any) => {
       queryClient.setQueryData(["inventory"], data)
       queryClient.invalidateQueries(["inventory"], { exact: true })
       console.log(data)
@@ -88,7 +88,7 @@ const CondomInventory = () => {
         displayErrorMessage(`${data.message}`)
       }
       if (data.code == "201") {
-         setModalOpen(false)
+        setModalOpen(false)
         displaySuccessMessage("Condom  stock created");
       }
     }
@@ -98,7 +98,7 @@ const CondomInventory = () => {
   const createEditMutation = useMutation({
     //@ts-ignore
     mutationFn: updateCondomInventory,
-    onSuccess: (data:any) => {
+    onSuccess: (data: any) => {
       queryClient.setQueryData(["inventory"], data)
       queryClient.invalidateQueries(["inventory"], { exact: true })
       console.log(data)
@@ -106,7 +106,7 @@ const CondomInventory = () => {
         displayErrorMessage(`${data.message}`)
       }
       if (data.code == "201") {
-         dispatch(cancelEdit())
+        dispatch(cancelEdit())
         displaySuccessMessage("Condom  stock updated");
       }
     }
@@ -116,140 +116,150 @@ const CondomInventory = () => {
   //@ts-ignore
   const info = JSON.parse(window.localStorage.getItem("userData"));
 
-    const createInventory  = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        createPostMutation.mutate({
-           condom_id: condom,
-            quantity: quantity,
-            unit_of_measure_id: unit,
-            unit_cost: unitCost,
-            date_of_delivery:date,
-            organization_unit_id:orgId,
-            batch_number:batch,
-            user_id:info.user.id
-         
-        })
-      }
+  const createInventory = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    createPostMutation.mutate({
+      condom_id: condom,
+      quantity: quantity,
+      unit_of_measure_id: unit,
+      unit_cost: unitCost,
+      date_of_delivery: date,
+      organization_unit_id: orgId,
+      batch_number: batch,
+      user_id: info.user.id
+
+    })
+  }
 
 
-      const editInventory  = (id:string) => {
-        console.log(id)
-        //@ts-ignore
-        const data = {
-          quantity: quantity,
-          organization_unit_id: orgId,
-          unit_of_measure_id: unit,
-          submitted_type: type,
-        };
-      
-        createEditMutation.mutate({data,id})
-      }
+  const editInventory = (id: string) => {
+    console.log(id)
+    //@ts-ignore
+    const data = {
+      quantity: quantity,
+      organization_unit_id: orgId,
+      unit_of_measure_id: unit,
+      submitted_type: type,
+    };
+
+    createEditMutation.mutate({ data, id })
+  }
 
 
 
-      const downloadExcel = () => {
+  const downloadExcel = () => {
 
-        const workbook = XLSX.utils.book_new();
-      
-        // Create a new worksheet
-        //@ts-ignore
-        const worksheet = XLSX.utils.json_to_sheet(data);
-      
-        // Add the worksheet to the workbook
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-      
-        // Convert the workbook to an Excel file
-        const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      
-        // Convert the Excel file to a Blob
-        const blob = new Blob([excelFile], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      
-        // Save the Blob as a file
-        saveAs(blob, 'data.xlsx');
-      };
-      
+    const workbook = XLSX.utils.book_new();
 
-    return (
-        <>
+    // Create a new worksheet
+    //@ts-ignore
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    // Convert the workbook to an Excel file
+    const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Convert the Excel file to a Blob
+    const blob = new Blob([excelFile], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+    // Save the Blob as a file
+    saveAs(blob, 'data.xlsx');
+  };
+
+
+  return (
+    <>
+      <div>
+        <div className='flex justify-between items-center bg-red-700 p-4 z-99999 '>
+          <div><h3 className='text-lg font-bold'>Condom Inventory</h3></div>
+          <div style={{ background: '' }} className='flex justify-center items-center space-x-4'>
             <div>
-                <div className='flex justify-between items-center bg-red-700 p-4 z-99999 '>
-                    <div><h3 className='text-lg font-bold'>Condom Inventory</h3></div>
-                    <div style={{ background: '' }} className='flex justify-center items-center space-x-4'>
-                        <div>
-                            <Button onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
-                                Add Stock
-                            </Button>
+              <Button
+                onClick={() => setModalOpen(true)}
+                type="primary"
+                icon={<PlusOutlined rev={undefined} />}
+                size={size}
+                style={{ backgroundColor: '#1C2434', color: 'white' }}
+              >
+                Add Stock
+              </Button>
 
-                        </div>
 
-                        <div>
-                        <Button type="primary" icon={<DownloadOutlined />} size={size} onClick={()=>downloadExcel(data)}>
-                                Export Excel
-                            </Button>
-                        </div>
+            </div>
 
-                    </div>
-                </div>
+            <div>
+              <Button type="primary"
+                style={{ backgroundColor: '#1C2434', color: 'white' }}
 
-                <div className="col-span-12 xl:col-span-8 mt-10" >
+                icon={<DownloadOutlined />} size={size} onClick={() => downloadExcel(data)}>
+                Export Excel
+              </Button>
+            </div>
 
-                    <InventoryTable data={data}/>  
-                
-                
-                </div>
+          </div>
+        </div>
 
-                <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-                    {/* <ChartOne />
+        <div className="col-span-12 xl:col-span-8 mt-10" >
+
+          <InventoryTable data={data} />
+
+
+        </div>
+
+        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+          {/* <ChartOne />
                     <ChartTwo />
                     <ChartThree />
                     <MapOne /> */}
-                </div>
-            </div>
+        </div>
+      </div>
 
-             <Modal
-                title="Create Condom Inventory"
-                centered
-                open={modalOpen}
-                //@ts-ignore
-                onOk={createInventory}
-                onCancel={() => setModalOpen(false)}
-                width={1000}
-                zIndex={10000000}
-            >
-                <form className='grid grid-cols-2 gap-2'>
-                    <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
-                    <CustomInput onChange={handleInputChange(setBatch)} value='batch' placeholder='Enter batch number' label='Batch Number' type='text' name="batch" />
-                    <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
-                    <CustomSelect options={condomData} onChange={handleInputChange(setCondom)} value='condom' label='Condom' name="condom" /> 
-                    <CustomInput onChange={handleInputChange(setUnitCost)} value='unitCost' placeholder='Enter unit cost' label='Unit Cost' type='number' name="unit_cost" />
-                    <CustomInput onChange={handleInputChange(setDate)} value='date' placeholder='Enter Delivery date' label='Delivery date' type='date' name="date" />
-                    <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
-                </form>
-            </Modal> 
+      <Modal
+        title="Create Condom Inventory"
+        centered
+        open={modalOpen}
+        //@ts-ignore
+        onOk={createInventory}
+        onCancel={() => setModalOpen(false)}
+        width={1000}
+        zIndex={10000000}
+      >
+        <form className='grid grid-cols-2 gap-2'>
+          <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
+          <CustomInput onChange={handleInputChange(setBatch)} value='batch' placeholder='Enter batch number' label='Batch Number' type='text' name="batch" />
+          <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
+          <CustomSelect options={condomData} onChange={handleInputChange(setCondom)} value='condom' label='Condom' name="condom" />
+          <CustomInput onChange={handleInputChange(setUnitCost)} value='unitCost' placeholder='Enter unit cost' label='Unit Cost' type='number' name="unit_cost" />
+          <CustomInput onChange={handleInputChange(setDate)} value='date' placeholder='Enter Delivery date' label='Delivery date' type='date' name="date" />
+          <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
+        </form>
+      </Modal>
 
 
-            <Modal
-                title="Create Condom Inventory"
-                centered
-                open={edit}
-                //@ts-ignore
-                onOk={(e)=>editInventory(id)}
-                //@ts-ignore
-                onCancel={() => dispatch(cancelEdit())}
-                width={1000}
-                zIndex={10000000}
-            >
-                <form className='grid grid-cols-2 gap-2'>
-                    <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
-                    <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
-                    <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
-                    <CustomInput onChange={handleInputChange(setType)} value='type' placeholder='Enter submission type' label='Submission type' type='text' name="type" />
+      <Modal
+        title="Create Condom Inventory"
+        centered
+        open={edit}
+        //@ts-ignore
+        onOk={(e) => editInventory(id)}
+        //@ts-ignore
+        onCancel={() => dispatch(cancelEdit())}
+        width={1000}
+        zIndex={10000000}
+      >
+        <form className='grid grid-cols-2 gap-2'>
+          <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
+          <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
+          <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
+          <CustomInput onChange={handleInputChange(setType)} value='type' placeholder='Enter submission type' label='Submission type' type='text' name="type" />
 
-                </form>
-            </Modal> 
-          
-        </>
-    );
+        </form>
+      </Modal>
+
+    </>
+  );
 };
 
 export default CondomInventory;

@@ -57,8 +57,9 @@ const SignIn = () => {
 
   return (
     <>
-      <Body>
-        <div className="rounded-sm border  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="flex justify-center items-center h-screen">
+
+    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark w-full sm:w-3/4 lg:w-1/2">
           <div className="flex flex-wrap items-center">
             <div className="hidden w-full xl:block xl:w-1/2">
               <div className="py-17.5 px-26 text-center">
@@ -172,7 +173,8 @@ const SignIn = () => {
             </div>
           </div>
         </div>
-      </Body>
+        </div>
+
     </>
   );
 };

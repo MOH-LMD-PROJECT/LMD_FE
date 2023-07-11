@@ -64,8 +64,8 @@ const createUser = ({
   phone_number,
 }: userData) => {
   //@ts-ignore
-  const data = JSON.parse(localStorage.getItem('userData'));
-  console.log(data.token);
+  // const data = JSON.parse(localStorage.getItem('userData'));
+  // console.log(data.token);
   return axios
     .post(
       `${baseURL}/users`,
@@ -79,12 +79,12 @@ const createUser = ({
         organization_unit_id,
         location,
         phone_number,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${data.token}`, // Add the token to the Authorization header
-        },
       }
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${data.token}`, // Add the token to the Authorization header
+      //   },
+      // }
     )
     .then((res) => res.data);
 };
