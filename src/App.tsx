@@ -7,6 +7,10 @@ import CondomDashboard from './pages/MOH/CondomManagment';
 import AdminDashboard from './pages/MOH/AdminDashboard';
 import CondomInventory from './pages/MOH/CondomInventory';
 import HotspotDashboard from './pages/MOH/HotspotManagement';
+
+import FocalPerson from './pages/DCFP/FocalPerson'
+import HotSpotView from './pages/DCFP/HotSpotView';
+import CondomMgt from './pages/DCFP/CondomMgt';
 const Calendar = lazy(() => import('./pages/Calendar'));
 // const Chart = lazy(() => import('./pages/Chart'));
 // const FormElements = lazy(() => import('./pages/Form/FormElements'));
@@ -38,19 +42,13 @@ function App() {
           <Route path="/condom/managment" element={<CondomDashboard />} />
           <Route path="/condom/stock" element={<CondomInventory />} />
           <Route path="/moh/create-hotspot" element={<HotspotDashboard />} />
-
-
+          <Route path='/hotspotview' element={<HotSpotView />} />
+          <Route path='/focaldashboard' element={<FocalPerson />} />
           <Route path="/moh" element={<MohDashboard />} />
-          {/* <Route path="/jsm/dashboard" element={<JSMDashboard />} /> */}
           <Route path="/nms/dashboard" element={<MohDashboard />} />
           <Route path="/moh/admin/userManagment" element={<AdminDashboard />} />
+          <Route path="/condom/dfcp" element={<CondomMgt />} />
 
-          {/* <Route  path="/nms/admin/dashboard" element={<NMSAdmin/>} /> */}
-          {/* <Route
-  index
-  path="/moh/dashboard"
-  element={<ProtectedRoute component={MohDashboard} />}
-/> */}
 
           <Route
             path="/calendar"

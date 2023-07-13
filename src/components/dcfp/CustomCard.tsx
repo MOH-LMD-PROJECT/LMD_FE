@@ -1,18 +1,19 @@
 import React from "react";
 
 interface CustomCardProps {
-  title: string;
+  currency: string;
   amount: number;
+  text: string;
   percentage: number;
 }
 
 
-const CustomCard: React.FC<CustomCardProps> = ({ amount, percentage ,title}) => {
+const CustomCard: React.FC<CustomCardProps> = ({ amount, text, percentage }) => {
   return (
     <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex items-center   ">
 
-        <h3>{title}</h3>
+        <h3>{text}</h3>
 
 
       </div>

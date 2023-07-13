@@ -3,7 +3,7 @@ import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import { addCondomInventory, addCondoms, getCondomInventory, getCondoms, getUnits, updateCondomInventory } from '../../../api/apiRequests';
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Modal, Select } from 'antd';
+import { Button, Modal, Select, Spin } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -206,8 +206,12 @@ const CondomInventory = () => {
         </div>
 
         <div className="col-span-12 xl:col-span-8 mt-10" >
+          {condomsQuery.isLoading ? (
+            <Spin tip="Loading Table data" size="large">
+              <div className="content" />
+            </Spin>
+          ) : <InventoryTable data={data} />}
 
-          <InventoryTable data={data} />
 
 
         </div>
@@ -257,7 +261,7 @@ const CondomInventory = () => {
           <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
           <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
           <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
-          <CustomSelect options={typeData} onChange={handleInputChange(setType)} value='type' label='Submission type' name="type"  type='text'/>
+          <CustomSelect options={typeData} onChange={handleInputChange(setType)} value='type' label='Submission type' name="type" type='text' />
 
         </form>
       </Modal>
