@@ -24,7 +24,6 @@ const AdminDashboard = () => {
     const [size, setSize] = useState<SizeType>("large"); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
     const { edit, id } = useSelector((state: any) => state.condom);
-    console.log(id, "iddddddddd")
     const dispatch = useDispatch();
     const [editUser, setEditUser] = useState(null);
 
@@ -50,6 +49,7 @@ const AdminDashboard = () => {
             //@ts-ignore
             const editUser = users?.filter((user) => user.id == id)
             setEditUser(editUser?.length > 0 ? editUser[0] : null)
+            console.log(editUser, 'yyyyyyyyyyy')
         }
     }, [edit, id])
 
@@ -102,7 +102,6 @@ const AdminDashboard = () => {
         }
     }, [usersQuery.isSuccess, usersQuery.data]);
 
-    console.log(users, "users are here ")
 
     const createUserMutation = useMutation({
         mutationFn: createUser,
@@ -148,22 +147,11 @@ const AdminDashboard = () => {
 
 
 
-    console.log(id, "jhjjhjhj")
 
-    //t
+
     const handleEditUser = async () => {
 
-        console.log({
-            username,
-            firstname,
-            lastname,
-            password,
-            email,
-            role,
-            organization_unit_id,
-            location,
-            phone_number,
-        })
+
         try {
             const res = await axios.put(`https://codezoneug.com/clims_backend/clims/public/api/users/${id}`, {
                 username,
@@ -183,7 +171,7 @@ const AdminDashboard = () => {
                 setModalOpen(false);
             }
         } catch (error: any) {
-            console.log(error)
+            throw error
         }
     }
 

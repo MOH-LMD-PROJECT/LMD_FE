@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ChartOne from '../../../components/ChartOne';
-import ChartThree from '../../../components/ChartThree';
-import ChartTwo from '../../../components/ChartTwo';
-import CustomCard from '../../../components/CustomCard';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import { addCondoms, getCondoms, getUnits } from '../../../api/apiRequests';
@@ -13,9 +9,11 @@ import CustomInput from '../../../common/input';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 // import { createUser } from '../../../api/createUserApi';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomSelect from '../../../common/select';
 import CondomItemDataTable from '../../../components/CondomItem';
+import { cancelEdit } from '../../../redux/slices/condom';
+import axios from 'axios';
 
 
 const CondomDashboard = () => {
@@ -25,10 +23,13 @@ const CondomDashboard = () => {
   const [type, setType] = useState()
   const [unit, setUnits] = useState()
   const [data, setData] = useState()
+  const [condom, setCondom] = useState(null)
   const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
   const [modalOpen, setModalOpen] = useState(false);
   const [unitData, setUnitData] = useState([])
   const [total, setTotal] = useState()
+
+  const { edit, id } = useSelector((state: any) => state.condom);
 
 
   const condomsQuery = useQuery({
@@ -36,10 +37,6 @@ const CondomDashboard = () => {
     queryFn: () => getCondoms(),
   })
 
-  // const rolesQuery = useQuery({
-  //   queryKey: ["roles"],
-  //   queryFn: () => getRoles()
-  // })
 
 
   const unitsQuery = useQuery({
@@ -59,12 +56,23 @@ const CondomDashboard = () => {
     }
   }, [condomsQuery.isSuccess, condomsQuery.data]);
 
+  useEffect(() => {
+    if (edit) {
+      //@ts-ignore
+      const condom = data?.filter((data) => data.id == id)
+      setCondom(condom.length > 0 ? condom[0] : null)
+
+      console.log(condom, "54545554545")
+
+    }
+  }, [edit, id])
+
 
 
   const handleInputChange = (setState: (arg0: any) => void) => (event: { target: { value: any; }; }) => {
     setState(event.target.value)
-    console.log(event.target.value)
   }
+
 
 
 
@@ -102,7 +110,6 @@ const CondomDashboard = () => {
     { name: 'male' },
     { name: 'female' },
   ];
-  console.log(unitData)
 
 
 
@@ -115,6 +122,28 @@ const CondomDashboard = () => {
     const blob = new Blob([excelFile], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     saveAs(blob, 'data.xlsx');
   };
+
+
+  const handleEditCondomItem = async () => {
+
+
+    try {
+      const res = await axios.put(`https://codezoneug.com/clims_backend/clims/public/api/condoms/${id}`, {
+        category: category,
+        brand: brand,
+        unit_of_measure_id: unit,
+        type: type
+      })
+
+
+      if (res.data.code == "201") {
+        displaySuccessMessage(res.data.message);
+        setModalOpen(false);
+      }
+    } catch (error: any) {
+      throw error
+    }
+  }
 
 
   return (
@@ -161,15 +190,30 @@ const CondomDashboard = () => {
       </div>
 
       <Modal
-        title="Create User Modal"
+        title={edit ? "Edit Condom Item" : "Create Condom Item Modal"}
         centered
-        open={modalOpen}
-        onOk={createCondom}
-        onCancel={() => setModalOpen(false)}
+        open={modalOpen || edit}
+        onOk={edit ? handleEditCondomItem : createCondom}
+        onCancel={() => {
+          setModalOpen(false);
+          if (edit) {
+            // Dispatch the editAction here
+            dispatch(cancelEdit());
+          }
+        }}
         width={1000}
         zIndex={10000000}
       >
-        <form className='grid grid-cols-2 gap-2'>
+
+        {edit ? (<form onSubmit={handleEditCondomItem} className='grid grid-cols-2 gap-2'>
+          <CustomInput defaultValue={condom?.category} onChange={handleInputChange(setCategory)} value='category' placeholder='Enter Category' label='Category' type='text' name="firstname" />
+          {/* <CustomInput onChange={handleInputChange(setType)} value='type' placeholder='Enter type' label='Type' type='text' name="lastname" /> */}
+          <CustomInput defaultValue={condom?.brand} onChange={handleInputChange(setBrand)} value='brand' placeholder='Enter brand' label='Brand' type='text' name="email" />
+          <CustomSelect defaultValue={condom?.unit} options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
+
+          <CustomSelect defaultValue={condom?.type} options={genderData} onChange={handleInputChange(setType)} value='type' label='Type' name="type" />
+
+        </form>) : (<form className='grid grid-cols-2 gap-2'>
           <CustomInput onChange={handleInputChange(setCategory)} value='category' placeholder='Enter Category' label='Category' type='text' name="firstname" />
           {/* <CustomInput onChange={handleInputChange(setType)} value='type' placeholder='Enter type' label='Type' type='text' name="lastname" /> */}
           <CustomInput onChange={handleInputChange(setBrand)} value='brand' placeholder='Enter brand' label='Brand' type='text' name="email" />
@@ -177,7 +221,8 @@ const CondomDashboard = () => {
 
           <CustomSelect options={genderData} onChange={handleInputChange(setType)} value='type' label='Type' name="type" />
 
-        </form>
+        </form>)}
+
       </Modal>
 
     </>
