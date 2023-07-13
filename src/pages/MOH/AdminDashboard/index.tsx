@@ -49,7 +49,6 @@ const AdminDashboard = () => {
             //@ts-ignore
             const editUser = users?.filter((user) => user.id == id)
             setEditUser(editUser?.length > 0 ? editUser[0] : null)
-            console.log(editUser, 'yyyyyyyyyyy')
         }
     }, [edit, id])
 
@@ -83,7 +82,6 @@ const AdminDashboard = () => {
         if (orgQuery.isSuccess) {
             setOrgData(orgQuery.data);
             // setRole(orgQuery.data)
-            console.log(orgData, "roles data is here sir ");
         }
     }, [orgQuery.isSuccess, orgQuery.data]);
 
@@ -92,7 +90,6 @@ const AdminDashboard = () => {
         if (rolesQuery.isSuccess) {
             setRoleData(rolesQuery.data);
             // setRole(rolesQuery.data)
-            console.log(role, "roles data is here sir ");
         }
     }, [usersQuery.isSuccess, rolesQuery.data]);
 
