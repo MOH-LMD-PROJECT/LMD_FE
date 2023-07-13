@@ -9,10 +9,11 @@ type CustomInputProps = {
     type: string;
     name: string | undefined;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
-    value: string
+    value: string,
+    defaultValue:string
 
 };
-const CustomInput: React.FC<CustomInputProps> = ({ value, label, placeholder, type, name, onChange }) => {
+const CustomInput: React.FC<CustomInputProps> = ({ value, label, placeholder, type, name, onChange,defaultValue }) => {
     return (
         <div>
             <div className="mb-6">
@@ -25,6 +26,7 @@ const CustomInput: React.FC<CustomInputProps> = ({ value, label, placeholder, ty
                         type={type}
                         placeholder={placeholder}
                         onChange={onChange}
+                        defaultValue={defaultValue}
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
                 </div>

@@ -11,12 +11,12 @@ import { displaySuccessMessage } from '../toast/Toast';
 
 //@ts-ignore
 const DataTable = ({ data }) => {
-  // console.log(data)
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [filteredData, setFilteredData] = useState(data);
    console.log(filteredData)
    const dispatch = useDispatch()
+   const queryClient = useQueryClient()
 
   const getColumnSearchProps = (dataIndex: string, columnTitle: string) => ({
     //@ts-ignore
@@ -72,8 +72,6 @@ const DataTable = ({ data }) => {
     clearFilters();
     setSearchText('');
   };
-
-  const queryClient = useQueryClient()
 
 
   const deleteCondomMutation = useMutation({
@@ -147,7 +145,9 @@ const DataTable = ({ data }) => {
       key: 'id',
       render: (text:string, record:any) => (
         <Space size="middle">
-          <Button  onClick={() => dispatch(makeEdit(record.id))} type="primary" >
+          <Button 
+        style={{ backgroundColor: '#1C2434', color: 'white', border: 'none' }}
+          onClick={() => dispatch(makeEdit(record.id))} type="primary" >
             Edit
           </Button>
           <Button danger onClick={()=>handleDelete(record.id)} >
@@ -184,13 +184,11 @@ const DataTable = ({ data }) => {
       setFilteredData(filteredDataCopy);
     }
   };
-
   return (
     <Table
       //@ts-ignore
-
-      columns={columns}
-      dataSource={data}
+       columns={columns}
+      dataSource={Array.isArray(data) ? data : []} // Check if rawData is an array
       pagination={{ defaultPageSize: 10 }}
       //@ts-ignore
 

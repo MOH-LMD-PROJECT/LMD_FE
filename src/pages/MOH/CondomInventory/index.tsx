@@ -12,7 +12,6 @@ import CustomSelect from '../../../common/select';
 import InventoryTable from '../../../components/InventoryTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { cancelEdit } from '../../../redux/slices/condom';
-import { downloadExcel } from '../../../utils/download';
 const CondomInventory = () => {
 
   const [quantity, setQuantity] = useState()
@@ -32,7 +31,6 @@ const CondomInventory = () => {
   const [condomData, setCondomData] = useState([])
   const dispatch = useDispatch()
   const [total, setTotal] = useState()
-  // const [open , setOpen] = useState(false)
 
   const inventoryQuery = useQuery({
     queryKey: ["inventory"],
@@ -170,6 +168,11 @@ const CondomInventory = () => {
   };
 
 
+  const typeData = [
+    { name: 'addition' },
+    { name: 'distribution' },
+  ];
+
   return (
     <>
       <div>
@@ -177,17 +180,27 @@ const CondomInventory = () => {
           <div><h3 className='text-lg font-bold'>Condom Inventory</h3></div>
           <div style={{ background: '' }} className='flex justify-center items-center space-x-4'>
             <div>
-              <Button onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
+              <Button
+                onClick={() => setModalOpen(true)}
+                type="primary"
+                icon={<PlusOutlined rev={undefined} />}
+                size={size}
+                style={{ backgroundColor: '#1C2434', color: 'white' }}
+              >
                 Add Stock
               </Button>
 
+
             </div>
 
-                        <div>
-                        <Button type="primary" icon={<DownloadOutlined />} size={size} onClick={()=>downloadExcel(data)}>
-                                Export Excel
-                            </Button>
-                        </div>
+            <div>
+              <Button type="primary"
+                style={{ backgroundColor: '#1C2434', color: 'white' }}
+
+                icon={<DownloadOutlined />} size={size} onClick={() => downloadExcel(data)}>
+                Export Excel
+              </Button>
+            </div>
 
           </div>
         </div>
@@ -230,7 +243,7 @@ const CondomInventory = () => {
 
 
       <Modal
-        title="Edit Condom Inventory"
+        title="Manage Inventory Stock"
         centered
         open={edit}
         //@ts-ignore
@@ -244,7 +257,7 @@ const CondomInventory = () => {
           <CustomInput onChange={handleInputChange(setQuantity)} value='quantity' placeholder='Enter quantity' label='Quantity' type='number' name="quantity" />
           <CustomSelect options={unitData} onChange={handleInputChange(setUnits)} value='unit' label='Units of Measure' name="units" />
           <CustomInput onChange={handleInputChange(setOrgId)} value='orgId' placeholder='Enter organisation id' label='Organisation Id' type='number' name="orgId" />
-          <CustomInput onChange={handleInputChange(setType)} value='type' placeholder='Enter submission type' label='Submission type' type='text' name="type" />
+          <CustomSelect options={typeData} onChange={handleInputChange(setType)} value='type' label='Submission type' name="type"  type='text'/>
 
         </form>
       </Modal>

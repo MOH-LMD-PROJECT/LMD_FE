@@ -1,11 +1,19 @@
-// import { useMutation } from "@tanstack/react-query"
+import { useEffect } from 'react';
+;
+import { useNavigate } from 'react-router-dom';
 
-// export const useAuthMutation = (formData:any) =>  {
-//   const mutation = useMutation({
-//     mutationFn:(formData) => {
-//       return fetch('login' , formData)
-//     }
-//   })
 
-//   return mutation
-// }
+
+const useAuth = (isLoggedIn: any) => {
+    const navigate = useNavigate();
+
+
+    useEffect(()=>{
+        if(!isLoggedIn){
+            navigate('/')
+        }
+    },[isLoggedIn, navigate])
+}
+
+
+export default useAuth

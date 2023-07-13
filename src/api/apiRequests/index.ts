@@ -42,10 +42,38 @@ const addCondoms = (data: any) => {
   return axios.post(`${baseURL}/condoms`, data).then((res) => res.data);
 };
 
-const updateCondomItem = (data:any,id:string)=>{
+const updateCondomItem = (data: any, id: string) => {
   return axios.patch(`${baseURL}/condoms/${id}`, data).then((res) => res.data);
+};
 
-}
+const updateUser = (
+  {
+    username,
+    password,
+    firstname,
+    lastname,
+    email,
+    role,
+    organization_unit_id,
+    location,
+    phone_number,
+  }: userData,
+  id: string
+) => {
+  return axios
+    .put(`${baseURL}/users/${id}`, {
+      username,
+      password,
+      firstname,
+      lastname,
+      email,
+      role,
+      organization_unit_id,
+      location,
+      phone_number,
+    })
+    .then((res) => res.data);
+};
 
 const deleteCondom = (id: any) => {
   console.log(id);
@@ -64,8 +92,8 @@ const createUser = ({
   phone_number,
 }: userData) => {
   //@ts-ignore
-  const data = JSON.parse(localStorage.getItem('userData'));
-  console.log(data.token);
+  // const data = JSON.parse(localStorage.getItem('userData'));
+  // console.log(data.token);
   return axios
     .post(
       `${baseURL}/users`,
@@ -79,12 +107,12 @@ const createUser = ({
         organization_unit_id,
         location,
         phone_number,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${data.token}`, // Add the token to the Authorization header
-        },
       }
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${data.token}`, // Add the token to the Authorization header
+      //   },
+      // }
     )
     .then((res) => res.data);
 };
@@ -134,42 +162,41 @@ const getCondoms = () => {
   return axios.get(`${baseURL}/condoms`).then((res) => res.data);
 };
 
-
 const getCondomInventory = () => {
   return axios.get(`${baseURL}/condomInventories`).then((res) => res.data);
 };
 
-
-const addCondomInventory = (data:any) => {
-  return axios.post(`${baseURL}/condomInventories`,data).then((res) => res.data);
+const addCondomInventory = (data: any) => {
+  return axios
+    .post(`${baseURL}/condomInventories`, data)
+    .then((res) => res.data);
 };
 
-const getInventory = (id:string) => {
-  return axios.get(`${baseURL}/condomInventories/${id}`).then((res) => res.data);
+const getInventory = (id: string) => {
+  return axios
+    .get(`${baseURL}/condomInventories/${id}`)
+    .then((res) => res.data);
 };
 
-
-
-const deleteCondomInventory = (id:string) => {
-  return axios.delete(`${baseURL}/condomInventories/${id}`).then((res) => res.data);
+const deleteCondomInventory = (id: string) => {
+  return axios
+    .delete(`${baseURL}/condomInventories/${id}`)
+    .then((res) => res.data);
 };
 
-
-const deleteUser = (id:string) => {
+const deleteUser = (id: string) => {
   return axios.delete(`${baseURL}/users/${id}`).then((res) => res.data);
 };
 
-const deleteHotspot = (id:string) => {
+const deleteHotspot = (id: string) => {
   return axios.delete(`${baseURL}/hotSpots/${id}`).then((res) => res.data);
 };
 
-
-const updateCondomInventory = ({data,id}:any) => {
-  return axios.put(`${baseURL}/condomInventories/${id}`,data).then((res) => res.data);
+const updateCondomInventory = ({ data, id }: any) => {
+  return axios
+    .put(`${baseURL}/condomInventories/${id}`, data)
+    .then((res) => res.data);
 };
-
-
-
 
 const getUnits = () => {
   return axios.get(`${baseURL}/unitOfMeasures`).then((res) => res.data);
@@ -179,11 +206,9 @@ const getOrganizations = () => {
   return axios.get(`${baseURL}/organizationUnits`).then((res) => res.data);
 };
 
-
-
 const getHotspots = () => {
   return axios.get(`${baseURL}/hotSpots`).then((res) => res.data);
-}
+};
 
 export {
   loginUser,
@@ -203,5 +228,6 @@ export {
   getHotspots,
   updateCondomInventory,
   deleteUser,
-  deleteHotspot
+  deleteHotspot,
+  updateUser,
 };

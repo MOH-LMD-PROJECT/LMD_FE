@@ -155,12 +155,16 @@ const InventoryTable = ({ data }) => {
       key: 'id',
       render: (text: string, record: any) => (
         <Space size="middle">
-          <span onClick={() => dispatch(makeEdit(record.id))} style={{ cursor: 'pointer' }}>
-        <EditOutlined />
-      </span>
-          <span onClick={() => handleDeleteInventory(record.id)} style={{ cursor: 'pointer' }}>
-        <DeleteOutlined />
-      </span>
+
+      <Button 
+              style={{ backgroundColor: '#1C2434', color: 'white', border: 'none' }}
+
+      onClick={() => dispatch(makeEdit(record.id))} type="primary" >
+          Manage
+          </Button>
+          <Button danger onClick={()=>handleDeleteInventory(record.id)} >
+            Delete
+          </Button>
         </Space>
       ),
     },

@@ -89,11 +89,10 @@ const HotspotDashboard = () => {
         })
     }
 
-    //   const genderData = [
-    //     { name: 'male' },
-    //     { name: 'female' },
-    //   ];
-    //   console.log(unitData)
+
+
+
+
 
     return (
         <>
@@ -102,14 +101,18 @@ const HotspotDashboard = () => {
                     <div><h3 className='text-lg font-bold'>Hotspot Managment</h3></div>
                     <div style={{ background: '' }} className='flex justify-center items-center space-x-4'>
                         <div>
-                            <Button onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
+                            <Button
+                                style={{ backgroundColor: '#1C2434', color: 'white', border: 'none' }}
+                                onClick={() => setModalOpen(true)} type="primary" icon={< PlusOutlined rev={undefined} />} size={size}>
                                 Add Hotspot
                             </Button>
 
                         </div>
 
                         <div>
-                            <Button type="primary" icon={<DownloadOutlined rev={undefined} />} size={size}>
+                            <Button
+                                style={{ backgroundColor: '#1C2434', color: 'white', border: 'none' }}
+                                type="primary" icon={<DownloadOutlined rev={undefined} />} size={size}>
                                 Export Excel
                             </Button>
                         </div>
@@ -122,6 +125,9 @@ const HotspotDashboard = () => {
                     {hotspotQuery.isLoading ? <Spin tip="Loading Table data" size="large">
                         <div className="content" />
                     </Spin> : <HotspotDataTable data={data} />}
+
+                    {localStorage.setItem("hotspots", JSON.stringify(data))}
+
 
 
 
