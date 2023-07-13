@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 //@ts-ignore
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import {  getCondoms } from '../../redux/slices/condom';
+import {  getCondoms, makeEdit } from '../../redux/slices/condom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import {  useMutation, useQueryClient } from '@tanstack/react-query';
@@ -134,7 +134,7 @@ const handleDeleteCondom = (id:any) => {
       key: 'id',
       render: (text:string, record:any) => (
         <Space size="middle">
-          <Button type="primary" >
+          <Button onClick={() => dispatch(makeEdit(record.id))} type="primary" >
             Edit
           </Button>
           <Button danger  onClick={()=>handleDeleteCondom(record.id)}>

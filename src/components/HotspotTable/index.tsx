@@ -6,13 +6,14 @@ import { useDispatch } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteCondom, deleteHotspot } from '../../api/apiRequests';
 import { displaySuccessMessage } from '../toast/Toast';
+import { makeEdit } from '../../redux/slices/condom';
 //@ts-ignore
 const HotspotDataTable = ({ data }) => {
     // console.log(data)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [filteredData, setFilteredData] = useState(data);
-    console.log(filteredData)
+    const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
     const queryClient = useQueryClient()
 
@@ -131,10 +132,12 @@ const HotspotDataTable = ({ data }) => {
             key: 'id',
             render: (text: string, record: any) => (
                 <Space size="middle">
-                    <Button type="primary" >
+                    <Button
+                        style={{ backgroundColor: '#1C2434', color: 'white', border: 'none' }}
+                        onClick={() => dispatch(makeEdit(record.id))} type="primary" >
                         Edit
                     </Button>
-                    <Button danger onClick={() => handleDeleteCondom(record.id)}>
+                    <Button danger  >
                         Delete
                     </Button>
                 </Space>

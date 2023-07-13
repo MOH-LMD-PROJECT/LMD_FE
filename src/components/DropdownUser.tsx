@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import UserOne from '../images/user/user-01.png';
 import axios from 'axios';
 import React from 'react';
-import { displaySuccessMessage } from './toast/Toast';
+import { displayErrorMessage, displaySuccessMessage } from './toast/Toast';
 import { logout } from '../redux/slices/auth';
 
 const DropdownUser = () => {
@@ -42,25 +42,29 @@ const DropdownUser = () => {
 
   const handleLogout = async () => {
     try {
-      console.log(user.token)
       const response = await axios.post(
         'https://codezoneug.com/clims_backend/clims/public/api/logout',
-        { token: user.token },
+        {},
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
         }
       );
-      dispatch(logout(user))
-
-displaySuccessMessage("logout successfully")
-
-      navigate('/')
-    } catch (error) {
-
+      dispatch(logout(user));
+      displaySuccessMessage("Logout successful");
+      navigate('/');
+    } catch (error:any) {
+      if (error.response && error.response.status === 401) {
+        // Unauthorized error handling
+        displayErrorMessage("Invalid token or session expired. Please log in again.");
+      } else {
+        // Other error handling
+        displayErrorMessage("Logout failed. Please try again.");
+      }
     }
-  }
+  };
+  
 
   return (
     <div className="relative">

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Body from '../Body';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { displaySuccessMessage, displayErrorMessage } from '../../components/toast/Toast';
@@ -11,6 +10,7 @@ const SignIn = () => {
   const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const navigate = useNavigate()
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
@@ -27,7 +27,8 @@ const SignIn = () => {
     onSuccess: (data) => {
       queryClient.setQueryData(["login"], data)
       queryClient.invalidateQueries(["login"], { exact: true })
-      console.log(data)
+      console.log(data.user.role, "user role data by bk")
+      localStorage.setItem("role", data.user.role)
       if (data.code == "401") {
         displayErrorMessage(`${data.message}`)
       }
@@ -49,7 +50,7 @@ const SignIn = () => {
     createPostMutation.mutate({
       username,
       password,
-     
+
     })
   }
 
@@ -57,9 +58,9 @@ const SignIn = () => {
 
   return (
     <>
-    <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen">
 
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark w-full sm:w-3/4 lg:w-1/2">
+        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark w-full sm:w-3/4 lg:w-1/2">
           <div className="flex flex-wrap items-center">
             <div className="hidden w-full xl:block xl:w-1/2">
               <div className="py-17.5 px-26 text-center">
@@ -153,7 +154,7 @@ const SignIn = () => {
                   <div className="mb-5 ">
                     <input
                       type="submit"
-                      value={createPostMutation.isLoading ? "loading" : "Sign In"}
+                      value={createPostMutation.isLoading ? "loading...." : "Sign In"}
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                     />
                   </div>
@@ -173,7 +174,7 @@ const SignIn = () => {
             </div>
           </div>
         </div>
-        </div>
+      </div>
 
     </>
   );

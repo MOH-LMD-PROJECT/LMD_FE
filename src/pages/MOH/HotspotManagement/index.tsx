@@ -5,12 +5,14 @@ import { DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Modal, Spin } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import CustomInput from '../../../common/input';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 
 import { createHotspot, getHotspots } from '../../../api/apiRequests';
 import { displayErrorMessage, displaySuccessMessage } from '../../../components/toast/Toast';
 import HotspotDataTable from '../../../components/HotspotTable';
+import { cancelEdit } from '../../../redux/slices/condom';
+import axios from 'axios';
 
 
 
@@ -25,6 +27,9 @@ const HotspotDashboard = () => {
     const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
     const [organization_unit_id, setOrgUnit] = useState(); // default is 'middle'
     const [modalOpen, setModalOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+    const { edit, id } = useSelector((state: any) => state.condom);
+    const [editHotSpot, setEditHotSpot] = useState(null)
     const [hotspotStatus, setHotspotStatus] = useState('')
 
 
@@ -51,6 +56,19 @@ const HotspotDashboard = () => {
         setState(event.target.value)
         console.log(event.target.value)
     }
+
+    // console.log(data, "====")
+
+    useEffect(() => {
+        if (edit) {
+            //@ts-ignore
+            let hotspot = data.filter((data) => data.id == id)
+
+            setEditHotSpot(hotspot?.length > 0 ? hotspot[0] : null)
+
+            // console.log(hotspot, "=======")
+        }
+    }, [edit, id])
 
 
 
@@ -87,11 +105,34 @@ const HotspotDashboard = () => {
         })
     }
 
-    //   const genderData = [
-    //     { name: 'male' },
-    //     { name: 'female' },
-    //   ];
-    //   console.log(unitData)
+    const handleEdit = async () => {
+
+
+        try {
+            const res = await axios.put(`https://codezoneug.com/clims_backend/clims/public/api/hotSpots/${id}`, {
+                hotspot_name,
+                contact_person_name,
+                contact_person_telephone,
+                latitude,
+                longtitude,
+                organization_unit_id,
+                hotspot_status: hotspotStatus,
+            })
+
+
+            if (res.data.code == "201") {
+                displaySuccessMessage(res.data.message);
+                setModalOpen(false);
+            }
+        } catch (error: any) {
+            throw error
+        }
+    }
+
+    
+
+
+
 
     return (
         <>
@@ -125,6 +166,9 @@ const HotspotDashboard = () => {
                         <div className="content" />
                     </Spin> : <HotspotDataTable data={data} />}
 
+                    {/* {localStorage.setItem("hotspots", JSON.stringify(data))} */}
+
+
 
 
 
@@ -140,16 +184,30 @@ const HotspotDashboard = () => {
             </div>
 
             <Modal
-                title="Create Hotspot"
+                title={edit ? "Edit Hotspot" : "Create Hotspot"}
                 centered
-                open={modalOpen}
+                open={modalOpen || edit}
                 //@ts-ignore
-                onOk={createHotspotFn}
-                onCancel={() => setModalOpen(false)}
+                onOk={edit ? handleEdit : createHotspotFn}
+                onCancel={() => {
+                    setModalOpen(false);
+                    if (edit) {
+                        // Dispatch the editAction here
+                        dispatch(cancelEdit());
+                    }
+                }}
                 width={1000}
                 zIndex={10000000}
             >
-                <form className='grid grid-cols-2 gap-2'>
+                {edit ? (<form onSubmit={handleEdit} className='grid grid-cols-2 gap-2'>
+                    <CustomInput defaultValue={editHotSpot?.hotspot_name} onChange={handleInputChange(setHotspotName)} value='hotspot_name' placeholder='Enter Hotspot Name' label='Hotspot Name' type='text' name="hotspot_name" />
+                    <CustomInput defaultValue={editHotSpot?.contact_person_name} onChange={handleInputChange(setContactPersonName)} value='contact_person_name' placeholder='Enter contact person name' label='Contact Person Name' type='text' name="contact_person_name" />
+                    <CustomInput defaultValue={editHotSpot?.contact_person_telephone} onChange={handleInputChange(setContactPersonPhone)} value='contact_person_telephone' placeholder='Enter Contact Person Phone' label='Contact Person Phone' type='text' name="contact_person_telephone" />
+                    <CustomInput defaultValue={editHotSpot?.latitude} onChange={handleInputChange(setLatitude)} value='latitude' placeholder='Enter latitude' label='Latitude' type='text' name="latitude" />
+                    <CustomInput defaultValue={editHotSpot?.longtitude} onChange={handleInputChange(setLongtitude)} value='longtitude' placeholder='Enter longtitude' label='longtitude' type='text' name="longtitude" />
+                    <CustomInput defaultValue={editHotSpot?.organization_unit_id} onChange={handleInputChange(setOrgUnit)} value='organization_unit_id' placeholder='Enter orgID' label='OrganizationID' type='number' name="rganization_unit_id" />
+                    <CustomInput defaultValue={editHotSpot?.hotspot_status} onChange={handleInputChange(setHotspotStatus)} value='hotspot_status' placeholder='Enter Hotspot' label='Hotspot Status' type='text' name="hotspot_status" />
+                </form>) : (<form className='grid grid-cols-2 gap-2'>
                     <CustomInput onChange={handleInputChange(setHotspotName)} value='hotspot_name' placeholder='Enter Hotspot Name' label='Hotspot Name' type='text' name="hotspot_name" />
                     <CustomInput onChange={handleInputChange(setContactPersonName)} value='contact_person_name' placeholder='Enter contact person name' label='Contact Person Name' type='text' name="contact_person_name" />
                     <CustomInput onChange={handleInputChange(setContactPersonPhone)} value='contact_person_telephone' placeholder='Enter Contact Person Phone' label='Contact Person Phone' type='text' name="contact_person_telephone" />
@@ -157,18 +215,11 @@ const HotspotDashboard = () => {
                     <CustomInput onChange={handleInputChange(setLongtitude)} value='longtitude' placeholder='Enter longtitude' label='longtitude' type='text' name="longtitude" />
                     <CustomInput onChange={handleInputChange(setOrgUnit)} value='organization_unit_id' placeholder='Enter orgID' label='OrganizationID' type='number' name="rganization_unit_id" />
                     <CustomInput onChange={handleInputChange(setHotspotStatus)} value='hotspot_status' placeholder='Enter Hotspot' label='Hotspot Status' type='text' name="hotspot_status" />
-
-
-
-
-
-
-                    {/* <CustomSelect options={unitData} onChange={handleInputChange(setOrgUnit)} value='unit' label='Units of Measure' name="units" /> */}
-
-                    {/* <CustomSelect options={genderData} onChange={handleInputChange(setType)} value='type' label='Type' name="type" /> */}
-
-                </form>
+                </form>)}
             </Modal>
+
+
+
 
         </>
     );

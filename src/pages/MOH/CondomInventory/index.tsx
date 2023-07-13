@@ -12,7 +12,6 @@ import CustomSelect from '../../../common/select';
 import InventoryTable from '../../../components/InventoryTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { cancelEdit } from '../../../redux/slices/condom';
-import { downloadExcel } from '../../../utils/download';
 const CondomInventory = () => {
 
   const [quantity, setQuantity] = useState()
