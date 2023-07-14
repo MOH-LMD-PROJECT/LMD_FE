@@ -12,6 +12,7 @@ import FocalPerson from './pages/DCFP/FocalPerson'
 import HotSpotView from './pages/DCFP/HotSpotView';
 import CondomMgt from './pages/DCFP/CondomMgt';
 import MyOrders from './pages/DCFP/MyOrders';
+import CondomUploadEvidence from './pages/DCFP/CondomUploadEvidence';
 const Calendar = lazy(() => import('./pages/Calendar'));
 // const Chart = lazy(() => import('./pages/Chart'));
 // const FormElements = lazy(() => import('./pages/Form/FormElements'));
@@ -49,7 +50,8 @@ function App() {
           <Route path="/nms/dashboard" element={<MohDashboard />} />
           <Route path="/moh/admin/userManagment" element={<AdminDashboard />} />
           <Route path="/condom/dfcp" element={<CondomMgt />} />
-          <Route exact path="/dfcp/condom/orders" element={<MyOrders />} />
+          <Route path="/dfcp/condom/orders" element={<MyOrders />} />
+          <Route path="/dfcp/condom/evidence" element={<CondomUploadEvidence />} />
 
 
           <Route
