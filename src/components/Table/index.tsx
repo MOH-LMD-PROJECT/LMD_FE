@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 //@ts-ignore
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { makeEdit } from '../../redux/slices/condom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
