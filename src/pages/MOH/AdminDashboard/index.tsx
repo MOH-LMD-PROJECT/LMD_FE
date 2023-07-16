@@ -368,40 +368,35 @@ const AdminDashboard = () => {
                         placeholder="Enter firstname"
                         label="firstname"
                         type="text"
-                        name="firstname"
-                    />
+                        name="firstname" defaultValue={""} />
                     <CustomInput
                         onChange={handleInputChange(setLastName)}
                         value="lastname"
                         placeholder="Enter lastname"
                         label="lastname"
                         type="text"
-                        name="lastname"
-                    />
+                        name="lastname" defaultValue={""} />
                     <CustomInput
                         onChange={handleInputChange(setEmail)}
                         value="email"
                         placeholder="Enter email"
                         label="email"
                         type="text"
-                        name="email"
-                    />
+                        name="email" defaultValue={""} />
                     <CustomInput
                         onChange={handleInputChange(setLocation)}
                         value="location"
                         placeholder="Enter location"
                         label="location"
                         type="text"
-                        name="location"
-                    />
+                        name="location" defaultValue={""} />
                     <CustomInput
                         onChange={handleInputChange(setUserName)}
                         value="username"
                         placeholder="Enter username"
                         label="username"
                         type="text"
-                        name="username"
-                    />
+                        name="username" defaultValue={""} />
 
                     <CustomInput
                         onChange={handleInputChange(setPassword)}
@@ -409,16 +404,14 @@ const AdminDashboard = () => {
                         placeholder="Enter password"
                         label="password"
                         type="text"
-                        name="password"
-                    />
+                        name="password" defaultValue={""} />
                     <CustomInput
                         onChange={handleInputChange(setPhone)}
                         value="phone_number"
                         placeholder="Enter number"
                         label="phone number"
                         type="text"
-                        name="phone"
-                    />
+                        name="phone" defaultValue={""} />
 
                     <CustomInput
                         onChange={handleInputChange(setOrgUnit)}
@@ -426,8 +419,7 @@ const AdminDashboard = () => {
                         placeholder="Enter org id  "
                         label="org"
                         type="text"
-                        name="organization_unit_id"
-                    />
+                        name="organization_unit_id" defaultValue={""} />
 
                     <select
                         className="mt-8.5 box-border h-[3.2rem] w-[29rem] rounded-sm px-6 pr-2 "
