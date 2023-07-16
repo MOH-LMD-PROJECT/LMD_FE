@@ -13,6 +13,10 @@ import HotSpotView from './pages/DCFP/HotSpotView';
 import CondomMgt from './pages/DCFP/CondomMgt';
 import MyOrders from './pages/DCFP/MyOrders';
 import CondomUploadEvidence from './pages/DCFP/CondomUploadEvidence';
+import Dashboard from './pages/storeInCharge/Dashboard';
+import DashboardJms from './pages/JMS/Dashboard/Dashboard';
+import AgentsUI from './pages/JMS/Dashboard/AgentsUI';
+import Collapsible from './pages/JMS/Collapsible';
 const Calendar = lazy(() => import('./pages/Calendar'));
 // const Chart = lazy(() => import('./pages/Chart'));
 // const FormElements = lazy(() => import('./pages/Form/FormElements'));
@@ -52,9 +56,14 @@ function App() {
           <Route path="/condom/dfcp" element={<CondomMgt />} />
           <Route path="/dfcp/condom/orders" element={<MyOrders />} />
           <Route path="/dfcp/condom/evidence" element={<CondomUploadEvidence />} />
+          <Route path='/storeincharge' element={<Dashboard />} />
+          <Route path='/jms' element={<DashboardJms />} />
+          <Route path='/jms/agentui' element={<AgentsUI />} />
+          {/* <Route path="/other/condom" element={<OtherCondomMgt />}/> */}
+          <Route path='/jms/mgt/condom' element={<Collapsible />} />
 
 
-          <Route
+          {/* <Route
             path="/calendar"
             element={
               <Suspense fallback={<Loader />}>
@@ -93,7 +102,7 @@ function App() {
                 <Buttons />
               </Suspense>
             }
-          />
+          /> */}
         </Route>
       </Routes>
     </>
