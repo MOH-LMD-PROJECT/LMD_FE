@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { cancelEdit } from "../../../redux/slices/condom";
 import axios from "axios";
+import UserTable from "../../../components/Table/userTable";
 const AdminDashboard = () => {
 
     const [size, setSize] = useState<SizeType>("large"); // default is 'middle'
@@ -189,6 +190,8 @@ const AdminDashboard = () => {
     };
 
 
+    console.log("===", users, "===")
+
 
 
     return (
@@ -241,7 +244,9 @@ const AdminDashboard = () => {
                             <div className="content" />
                         </Spin>
                     ) : (
-                        <Table data={users} />
+                        <UserTable dataSource={users} />
+                        // <Table data={users} />
+
                     )}
                     {/* {localStorage.setItem("users", JSON.stringify(users))} */}
                 </div>

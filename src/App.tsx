@@ -17,6 +17,8 @@ import Dashboard from './pages/storeInCharge/Dashboard';
 import DashboardJms from './pages/JMS/Dashboard/Dashboard';
 import AgentsUI from './pages/JMS/Dashboard/AgentsUI';
 import Collapsible from './pages/JMS/Collapsible';
+import DataGridTable from './pages/datagrid/DataGridTable';
+import Procured from './pages/MOH/Procured';
 const Calendar = lazy(() => import('./pages/Calendar'));
 // const Chart = lazy(() => import('./pages/Chart'));
 // const FormElements = lazy(() => import('./pages/Form/FormElements'));
@@ -59,8 +61,9 @@ function App() {
           <Route path='/storeincharge' element={<Dashboard />} />
           <Route path='/jms' element={<DashboardJms />} />
           <Route path='/jms/agentui' element={<AgentsUI />} />
-          {/* <Route path="/other/condom" element={<OtherCondomMgt />}/> */}
+          <Route path="/other/condom" element={<DataGridTable />} />
           <Route path='/jms/mgt/condom' element={<Collapsible />} />
+          <Route path='/moh/procured' element={<Procured />} />
 
 
           {/* <Route
