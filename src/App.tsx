@@ -20,6 +20,7 @@ import HotSpotViewH from './pages/Hotspot-Manager/HotSpotViewH';
 import CondomMgtH from './pages/Hotspot-Manager/CondomMgtH';
 import MyOrdersH from './pages/Hotspot-Manager/MyOrdersH';
 import CondomUploadEvidenceH from './pages/Hotspot-Manager/CondomUploadEvidenceH';
+import DeliveryHome from "./pages/Delivery-Agent/DeliveryHome"
 
 import Dashboard from './pages/storeInCharge/Dashboard';
 import DashboardJms from './pages/JMS/Dashboard/Dashboard';
@@ -37,7 +38,7 @@ const Settings = lazy(() => import('./pages/Settings'));
 const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
-const MohDashboard = lazy(() => import('./pages/MOH/Dashboard/Dashboard'))
+const MohDashboard = lazy(() => import('./pages/MOH/Dashboard/Dashboard'));
 
 
 function App() {
@@ -78,7 +79,8 @@ function App() {
           <Route path='/jms/agentui' element={<AgentsUI />} />
           <Route path="/other/condom" element={<DataGridTable />} />
           <Route path='/jms/mgt/condom' element={<Collapsible />} />
-          <Route path='/moh/procured' element={<Procured />} />
+            <Route path='/moh/procured' element={<Procured />} />
+            <Route path='/delivery/home' element={<DeliveryHome />} />
 
 
           {/* <Route
