@@ -33,7 +33,7 @@ const gridStyle = { minHeight: 750 };
 
 export default ({ dataSource }: any) => (
 
-    <ReactDataGrid
+        <ReactDataGrid
         idProperty="id"
         columns={columns}
         dataSource={Array.isArray(dataSource) ? dataSource : []}
@@ -51,4 +51,6 @@ export default ({ dataSource }: any) => (
     // filterValue={}
 
     />
+
+    
 );
