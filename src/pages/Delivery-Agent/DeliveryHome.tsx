@@ -158,14 +158,14 @@ const DeliveryHome = () => {
               <MdOutlineLocalGroceryStore size={15} style={{ color: "black" }} />
               
             </div>
-            <p className='text-[24px] font-extrabold mt-2'>100</p>
+            <p className='text-[18px] font-extrabold mt-2'>100</p>
           </div>
           <div className='flex flex-col items-center'>
             <h2 className='text-center '>Delivered</h2>
             <div className='h-[35px] w-[35px] border-2 border-black rounded-md flex items-center justify-center'>
               <TbTruckDelivery size={15} style={{color: "black"}} />
             </div>
-            <p className='text-[24px] font-extrabold mt-2'>35</p>
+            <p className='text-[18px] font-extrabold mt-2'>35</p>
           </div>
         </div>
         <div className='flex justify-between items-center bg-red-700 p-4 z-99999 '>
