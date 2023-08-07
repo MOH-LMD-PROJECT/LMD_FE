@@ -58,7 +58,7 @@ const Procured: React.FC = () => {
 
     return (
         <>
-            <h2 className="text-lg text-black-2 font-extrabold p-[1rem] capitalize">Procured Condom Status</h2>
+            <h2 className="text-lg text-black-2 font-extrabold p-[1rem] capitalize ">Procured Condom Status</h2>
             <Collapse
                 defaultActiveKey={['1']}
                 onChange={onChange}

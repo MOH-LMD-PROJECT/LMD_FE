@@ -197,7 +197,7 @@ const AdminDashboard = () => {
     return (
         <>
             <div>
-                <div className="z-99999 flex items-center justify-between bg-red-700 p-4 ">
+                <div className="z-99999 flex flex-col md:flex-row items-center justify-between bg-red-700 p-4 z">
                     <div>
                         <h3 className="text-lg font-bold">User Managment</h3>
                     </div>
@@ -238,7 +238,7 @@ const AdminDashboard = () => {
                     </div>
                 </div>
 
-                <div className="col-span-12 mt-10 xl:col-span-8">
+                <div className="col-span-12 mt-10 xl:col-span-8 ">
                     {usersQuery.isLoading ? (
                         <Spin tip="Loading Table data" size="large">
                             <div className="content" />
@@ -275,7 +275,7 @@ const AdminDashboard = () => {
                 width={1000}
                 zIndex={10000000}
             >
-                {edit ? (<form className="grid grid-cols-2 gap-2">
+                {edit ? (<form className="grid grid-cols-2 gap-2 ">
 
                     <CustomInput
                         onChange={handleInputChange(setFirstName)}
@@ -366,7 +366,7 @@ const AdminDashboard = () => {
                             </option>
                         ))}
                     </select>
-                </form>) : (<form className="grid grid-cols-2 gap-2">
+                </form>) : (<form className="grid grid-cols-2 gap-2 ">
                     <CustomInput
                         onChange={handleInputChange(setFirstName)}
                         value="firstname"
