@@ -6,6 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getUsers } from '../../../api/apiRequests';
 import { Dropdown, MenuProps, Space, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
+import ChartOne from '../../../components/ChartOne';
+import ChartThree from '../../../components/ChartThree';
+import MapOne from '../../../components/MapOne';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([])
@@ -145,9 +148,14 @@ const Dashboard = () => {
 
 
       </div>
-      <h2 className='font-bold text-black  p-[rem] my-11 text-lg'>Condom Usage Visualizations</h2>
+      <h2 className="font-bold text-black  my-11 text-lg">Condom Usage Visualizations</h2>
 
-
+      <div className="mt-4 grid grid-cols-2 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+        <ChartOne />
+        {/* <ChartTwo /> */}
+        <ChartThree />
+        <MapOne />
+      </div>
     </>
   );
 };
