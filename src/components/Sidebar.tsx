@@ -186,7 +186,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               dashboard
                             </NavLink>
                           </li>
-                          <li>
+                          {/* <li>
                             <NavLink
                               to="/moh/admin/usermanagment"
                               className={({ isActive }) =>
@@ -196,16 +196,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             >
                               User Management
                             </NavLink>
-                          </li>
+                          </li> */}
                           <li>
                             <NavLink
-                              to="/moh/procured"
+                              to="/moh/condomsmoh"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
                               }
                             >
-                              Procured Condoms
+                              Condoms
                             </NavLink>
                           </li>
                           <li>
@@ -482,37 +482,27 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }`}
                       >
                         <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
+                          
                           <li>
                             <NavLink
-                              to="/jms"
+                              to="/jms/orders"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
                               }
                             >
-                              Dashboard
+                              Orders
                             </NavLink>
                           </li>
                           <li>
                             <NavLink
-                              to="/jms/agentui"
+                              to="/jms/condoms"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
                               }
                             >
-                              Account Management
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/jms/mgt/condom"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              Condom Management
+                              Condoms
                             </NavLink>
                           </li>
                         </ul>
@@ -694,7 +684,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             </clipPath>
                           </defs>
                         </svg>
-                        MNS
+                        NMS
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && 'rotate-180'
@@ -722,24 +712,24 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
                           <li>
                             <NavLink
-                              to="/auth/signin"
+                              to="/nms/orders"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
                               }
                             >
-                              Dashboard
+                              Orders
                             </NavLink>
                           </li>
                           <li>
                             <NavLink
-                              to="/auth/signup"
+                              to="/nms/condoms"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
                               }
                             >
-                              Condom Stock
+                              Condoms 
                             </NavLink>
                           </li>
                         </ul>
