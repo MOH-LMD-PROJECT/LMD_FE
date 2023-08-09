@@ -167,7 +167,7 @@ const Dashboard = () => {
             Select Sector
           </button>
           {visible ? (
-            <div className="p-2 bg-white">
+            <div className="bg-white p-2 shadow-md">
               <ul>
                 {items.map((data) => (
                   <li
