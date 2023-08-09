@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 //@ts-ignore
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import {  getCondoms, makeEdit } from '../../redux/slices/condom';
+import { getCondoms, makeEdit } from '../../redux/slices/condom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import {  useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteCondom } from '../../api/apiRequests';
 import { displaySuccessMessage } from '../toast/Toast';
 //@ts-ignore
@@ -14,18 +14,25 @@ const CondomItemDataTable = ({ data }) => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [filteredData, setFilteredData] = useState(data);
-   console.log(filteredData)
-   const dispatch = useDispatch()
-   const queryClient = useQueryClient()
+  console.log(filteredData);
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const getColumnSearchProps = (dataIndex: string, columnTitle: string) => ({
     //@ts-ignore
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
       <div style={{ padding: 8 }}>
         <Input
           placeholder={`Search ${columnTitle}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{ marginBottom: 8, display: 'block' }}
         />
@@ -39,14 +46,23 @@ const CondomItemDataTable = ({ data }) => {
           >
             Search
           </Button>
-          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
             Reset
           </Button>
         </Space>
       </div>
     ),
-    filterIcon: (filtered: any) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value: string, record: { [x: string]: { toString: () => string; }; }) =>
+    filterIcon: (filtered: any) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (
+      value: string,
+      record: { [x: string]: { toString: () => string } }
+    ) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: (visible: any) => {
       if (visible) {
@@ -54,7 +70,17 @@ const CondomItemDataTable = ({ data }) => {
         setTimeout(() => document.getElementById('searchInput').select(), 100);
       }
     },
-    render: (text: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined) =>
+    render: (
+      text:
+        | string
+        | number
+        | boolean
+        | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+        | Iterable<React.ReactNode>
+        | React.ReactPortal
+        | null
+        | undefined
+    ) =>
       searchedColumn === dataIndex ? (
         <span style={{ fontWeight: 'bold' }}>{text}</span>
       ) : (
@@ -62,7 +88,11 @@ const CondomItemDataTable = ({ data }) => {
       ),
   });
 
-  const handleSearch = (selectedKeys: React.SetStateAction<string>[], confirm: () => void, dataIndex: React.SetStateAction<string>) => {
+  const handleSearch = (
+    selectedKeys: React.SetStateAction<string>[],
+    confirm: () => void,
+    dataIndex: React.SetStateAction<string>
+  ) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
@@ -80,35 +110,29 @@ const CondomItemDataTable = ({ data }) => {
   //   dispatch(getCondoms())
   // }
 
-
-
-
   const deleteCondomMutation = useMutation({
     mutationFn: deleteCondom,
     onSuccess: (data) => {
-        queryClient.setQueryData(["condom"], data)
-        queryClient.invalidateQueries(["condom"], { exact: true })
-        console.log(data)
+      queryClient.setQueryData(['condom'], data);
+      queryClient.invalidateQueries(['condom'], { exact: true });
+      console.log(data);
 
-        if(data.code=="201"){
-            displaySuccessMessage('condom deleted')
-        }
+      if (data.code == '201') {
+        displaySuccessMessage('condom deleted');
+      }
+    },
+  });
 
-    }
-})
-
-
-const handleDeleteCondom = (id:any) => {
-  deleteCondomMutation.mutate(id)
-}
-
+  const handleDeleteCondom = (id: any) => {
+    deleteCondomMutation.mutate(id);
+  };
 
   const columns = [
     {
       title: 'Id',
       dataIndex: 'id',
       key: 'id',
-      sorter: (a: { id: number; }, b: { id: number; }) => a.id - b.id,
+      sorter: (a: { id: number }, b: { id: number }) => a.id - b.id,
       sortDirections: ['descend', 'ascend'],
     },
     {
@@ -132,12 +156,16 @@ const handleDeleteCondom = (id:any) => {
     {
       title: 'Actions',
       key: 'id',
-      render: (text:string, record:any) => (
+      render: (text: string, record: any) => (
         <Space size="middle">
-          <Button onClick={() => dispatch(makeEdit(record.id))} type="primary" >
+          <Button
+            onClick={() => dispatch(makeEdit(record.id))}
+            type="primary"
+            className="bg-[#1C2434]"
+          >
             Edit
           </Button>
-          <Button danger  onClick={()=>handleDeleteCondom(record.id)}>
+          <Button danger onClick={() => handleDeleteCondom(record.id)}>
             Delete
           </Button>
         </Space>
@@ -145,13 +173,16 @@ const handleDeleteCondom = (id:any) => {
     },
   ];
 
-  const handleTableChange = (pagination: any, filters: { [x: string]: any; }, sorter: { field: any; order?: any; }) => {
+  const handleTableChange = (
+    pagination: any,
+    filters: { [x: string]: any },
+    sorter: { field: any; order?: any }
+  ) => {
     // Apply sorting
     if (sorter && sorter.field) {
       const { field, order } = sorter;
       const sortedData = [...filteredData].sort((a, b) => {
-        const result =
-          a[field] < b[field] ? -1 : a[field] > b[field] ? 1 : 0;
+        const result = a[field] < b[field] ? -1 : a[field] > b[field] ? 1 : 0;
         return order === 'descend' ? -result : result;
       });
       setFilteredData(sortedData);
@@ -175,7 +206,7 @@ const handleDeleteCondom = (id:any) => {
   return (
     <Table
       //@ts-ignore
-       columns={columns}
+      columns={columns}
       dataSource={Array.isArray(data) ? data : []} // Check if rawData is an array
       pagination={{ defaultPageSize: 10 }}
       //@ts-ignore
