@@ -6,7 +6,7 @@ import OrderTable from '../../../components/NMS/OrderTable';
 import CustomPicker from '../../../common/datepicker';
 import { Divider } from 'antd';
 
-const Orders = () => {
+const OrdersJMS = () => {
     const [visible, setVisible] =useState(false);
     const cardData = [
         {
@@ -61,7 +61,7 @@ const Orders = () => {
     )
 }
 
-export default Orders
+export default OrdersJMS
 
 
 

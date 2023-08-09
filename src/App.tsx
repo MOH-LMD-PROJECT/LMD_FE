@@ -2,7 +2,7 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import SignIn from './pages/Authentication/SignIn';
 import Loader from './common/Loader';
-import JSMDashboard from './pages/JMS/Dashboard/Dashboard';
+import JSMDashboard from './pages/JMS Duplicate/Dashboard/Dashboard';
 import CondomDashboard from './pages/MOH/CondomManagment';
 import AdminDashboard from './pages/MOH/AdminDashboard';
 import CondomInventory from './pages/MOH/CondomInventory';
@@ -22,13 +22,15 @@ import CondomUploadEvidenceH from './pages/Hotspot-Manager/CondomUploadEvidenceH
 import DeliveryHome from './pages/Delivery-Agent/DeliveryHome';
 
 import Dashboard from './pages/storeInCharge/Dashboard';
-import DashboardJms from './pages/JMS/Dashboard/Dashboard';
-import AgentsUI from './pages/JMS/Dashboard/AgentsUI';
-import Collapsible from './pages/JMS/Collapsible';
+import DashboardJms from './pages/JMS Duplicate/Dashboard/Dashboard';
+import AgentsUI from './pages/JMS Duplicate/Dashboard/AgentsUI';
+import Collapsible from './pages/JMS Duplicate/Collapsible';
 import DataGridTable from './pages/datagrid/DataGridTable';
-import Procured from './pages/MOH/Procured';
+import CondomsMOH from './pages/MOH/CondomMgt/CondomsMOH';
 import Condoms from './pages/NMS/Condoms/Condoms';
 import Orders from './pages/NMS/Dashboard/Orders';
+import CondomJMS from './pages/JMS /Condoms/Condoms';
+import OrdersJMS from './pages/JMS /Dashboard/Orders';
 const Calendar = lazy(() => import('./pages/Calendar'));
 // const Chart = lazy(() => import('./pages/Chart'));
 // const FormElements = lazy(() => import('./pages/Form/FormElements'));
@@ -85,10 +87,12 @@ function App() {
           <Route path="/jms/agentui" element={<AgentsUI />} />
           <Route path="/other/condom" element={<DataGridTable />} />
           <Route path="/jms/mgt/condom" element={<Collapsible />} />
-          <Route path="/moh/procured" element={<Procured />} />
+          <Route path="/moh/condomsmoh" element={<CondomsMOH />} />
           <Route path="/delivery/home" element={<DeliveryHome />} />
           <Route path="/nms/condoms" element={<Condoms />} />
           <Route path="/nms/orders" element={<Orders />} />
+          <Route path="/jms/condoms" element={< CondomJMS />} />
+          <Route path="/jms/orders" element={< OrdersJMS />} />
 
           {/* <Route
             path="/calendar"
