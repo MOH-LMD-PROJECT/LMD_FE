@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface CustomCardProps {
   title: string;
@@ -6,15 +6,11 @@ interface CustomCardProps {
   percentage: number;
 }
 
-
-const CustomCard: React.FC<CustomCardProps> = ({ amount, percentage ,title}) => {
+const CustomCard: React.FC<CustomCardProps> = ({ amount, title }) => {
   return (
-    <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="rounded-sm border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex items-center   ">
-
         <h3>{title}</h3>
-
-
       </div>
 
       <div className="mt-4 flex items-end justify-between">
@@ -23,7 +19,6 @@ const CustomCard: React.FC<CustomCardProps> = ({ amount, percentage ,title}) => 
             {amount}
           </h4>
         </div>
-
       </div>
     </div>
   );
