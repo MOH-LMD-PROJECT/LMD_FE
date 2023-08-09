@@ -34,6 +34,10 @@ import OrdersJMS from './pages/JMS /Orders/Orders';
 import Procured from './pages/MOH/Procured';
 import DashboardNMS from './pages/NMS/Dashboard/DashboardNMS';
 import DashboardJMS from './pages/JMS /Dashboard /DashboardJMS';
+import DashboardOther from './pages/Others/Dashboard/DashboardOther';
+import RecordTextOther from './pages/Others/Record/RecordTextOther';
+import StatusOther from './pages/Others/Orders/StatusOther';
+
 
 
 const Calendar = lazy(() => import('./pages/Calendar'));
@@ -101,6 +105,9 @@ function App() {
           <Route path="/moh/procured" element={<Procured />} />
           <Route path="/nms/dashboard" element={<DashboardNMS />} />
           <Route path="/jms/dashboard" element={<DashboardJMS />} />
+          <Route path="/others/dashboard" element={<DashboardOther />} />
+          <Route path="/others/status" element={<StatusOther />} />
+          <Route path="/others/record" element={<RecordTextOther />} />
 
           {/* <Route
             path="/calendar"
