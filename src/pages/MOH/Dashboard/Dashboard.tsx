@@ -10,6 +10,10 @@ import NationalLevel from './NationalLevel';
 import CommunityLevel from './CommunityLevel';
 import DistrictLevel from './DistrictLevel';
 import FacilityLevel from './FacilityLevel';
+import ChartOne from '../../../components/ChartOne';
+import ChartTwo from '../../../components/ChartTwo';
+import ChartThree from '../../../components/ChartThree';
+import MapOne from '../../../components/MapOne';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -184,6 +188,13 @@ const Dashboard = () => {
       <h2 className="my-11 p-[rem]  text-lg font-bold text-black">
         Condom Usage Visualizations
       </h2>
+
+      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+        <ChartOne />
+        <ChartTwo />
+        <ChartThree />
+        {/* <MapOne /> */}
+      </div>
     </>
   );
 };
