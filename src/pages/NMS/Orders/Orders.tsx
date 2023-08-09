@@ -38,10 +38,10 @@ const Orders = () => {
                         amount={amount}
                         percentage={0} />
                 ))}
-                <button onClick={()=> setVisible(!visible)} className={ `hover:text-black font-bold transition ease-in-out  ${visible ? "text-black" : ""}`}>Visualize</button>
+               
             </div>
            
-                {!visible ? (
+               
                   <div>  <div className='flex justify-between items-center p-[2rem]'>
                   <div className='mt-[2rem] p-[1rem] text-left font-bold'><h1>Orders Table</h1></div>
                   <div>
@@ -51,11 +51,7 @@ const Orders = () => {
               </div>
               <OrderTable />
               </div>
-                ): (
-                    <div className='bg-secondary mt-4 text-white  h-[40vh] w-full flex items-center justify-center'>
-                        VISUALIZATION GRAPHS HERE
-                    </div>
-                )}
+              
            
         </div>
     )
