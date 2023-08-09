@@ -6,13 +6,13 @@ function NationalLevel() {
   const dataObj = [
     {
       id: 1,
-      amount: 4,
-      text: "Total  Ath Hand",
+      amount: 20000,
+      text: "Total Condoms  At Hand",
       // percentage: 0.43
     },
     {
       id: 2,
-      amount: 9,
+      amount: 15000,
       text: "Total Condoms Used",
       // percentage: 0.43
     }

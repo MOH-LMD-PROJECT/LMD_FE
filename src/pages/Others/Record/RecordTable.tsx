@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 //@ts-ignore
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { getCondoms, makeEdit } from '../../redux/slices/condom';
+
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCondom } from '../../api/apiRequests';
-import { displaySuccessMessage } from '../toast/Toast';
+import { deleteCondom } from '../../../api/apiRequests';
+import { displaySuccessMessage } from '../../../components/toast/Toast';
 //@ts-ignore
-const CondomItemDataTable = ({ data }) => {
+const RecordTable = ({ data }) => {
   // console.log(data)
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -129,48 +129,30 @@ const CondomItemDataTable = ({ data }) => {
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
-      sorter: (a: { id: number }, b: { id: number }) => a.id - b.id,
-      sortDirections: ['descend', 'ascend'],
-    },
-    {
-      title: 'Category',
+      title: 'Compny Name',
       dataIndex: 'category',
       key: 'category',
       ...getColumnSearchProps('category', 'Category'),
     },
     {
-      title: 'Brand',
+      title: 'Company Brand',
       dataIndex: 'brand',
       key: 'brand',
       ...getColumnSearchProps('brand', 'Brand'),
     },
     {
-      title: 'Type',
+      title: 'Condom Type',
       dataIndex: 'type',
       key: 'type',
       ...getColumnSearchProps('type', 'Type'),
     },
     {
-      title: 'Actions',
-      key: 'id',
-      render: (text: string, record: any) => (
-        <Space size="middle">
-          <Button
-            // onClick={() => dispatch(makeEdit(record.id))}
-            type="primary"
-            className="bg-[#1C2434]"
-          >
-            Edit
-          </Button>
-          <Button danger onClick={() => handleDeleteCondom(record.id)}>
-            Delete
-          </Button>
-        </Space>
-      ),
+      title: 'Quantity',
+      dataIndex: 'category',
+      key: 'category',
+      ...getColumnSearchProps('category', 'Category'),
     },
+    
   ];
 
   const handleTableChange = (
@@ -216,4 +198,4 @@ const CondomItemDataTable = ({ data }) => {
   );
 };
 
-export default CondomItemDataTable;
+export default RecordTable;
