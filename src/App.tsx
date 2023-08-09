@@ -28,9 +28,14 @@ import Collapsible from './pages/JMS Duplicate/Collapsible';
 import DataGridTable from './pages/datagrid/DataGridTable';
 import CondomsMOH from './pages/MOH/CondomMgt/CondomsMOH';
 import Condoms from './pages/NMS/Condoms/Condoms';
-import Orders from './pages/NMS/Dashboard/Orders';
+import Orders from './pages/NMS/Orders/Orders';
 import CondomJMS from './pages/JMS /Condoms/Condoms';
-import OrdersJMS from './pages/JMS /Dashboard/Orders';
+import OrdersJMS from './pages/JMS /Orders/Orders';
+import Procured from './pages/MOH/Procured';
+import DashboardNMS from './pages/NMS/Dashboard/DashboardNMS';
+import DashboardJMS from './pages/JMS /Dashboard /DashboardJMS';
+
+
 const Calendar = lazy(() => import('./pages/Calendar'));
 // const Chart = lazy(() => import('./pages/Chart'));
 // const FormElements = lazy(() => import('./pages/Form/FormElements'));
@@ -68,7 +73,7 @@ function App() {
           <Route path="/focaldashboard" element={<FocalPerson />} />
           <Route path="/focaldashboardh" element={<FocalPersonH />} />
           <Route path="/moh" element={<MohDashboard />} />
-          <Route path="/nms/dashboard" element={<MohDashboard />} />
+         
           <Route path="/moh/admin/userManagment" element={<AdminDashboard />} />
           <Route path="/condom/dfcp" element={<CondomMgt />} />
           <Route path="/condom/dfcph" element={<CondomMgtH />} />
@@ -93,6 +98,9 @@ function App() {
           <Route path="/nms/orders" element={<Orders />} />
           <Route path="/jms/condoms" element={< CondomJMS />} />
           <Route path="/jms/orders" element={< OrdersJMS />} />
+          <Route path="/moh/procured" element={<Procured />} />
+          <Route path="/nms/dashboard" element={<DashboardNMS />} />
+          <Route path="/jms/dashboard" element={<DashboardJMS />} />
 
           {/* <Route
             path="/calendar"
