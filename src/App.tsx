@@ -1,4 +1,4 @@
-import {  lazy, useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import SignIn from './pages/Authentication/SignIn';
 import Loader from './common/Loader';
@@ -32,8 +32,25 @@ import OrdersJMS from './pages/JMS /Orders/Orders';
 import Procured from './pages/MOH/Procured';
 import DashboardNMS from './pages/NMS/Dashboard/DashboardNMS';
 import DashboardJMS from './pages/JMS /Dashboard /DashboardJMS';
+import DashboardOther from './pages/Others/Dashboard/DashboardOther';
+import RecordTextOther from './pages/Others/Record/RecordTextOther';
+import StatusOther from './pages/Others/Orders/StatusOther';
+import CustomMap from './pages/Hotspot-Manager/CustomMap';
+
+
+
+const Calendar = lazy(() => import('./pages/Calendar'));
+// const Chart = lazy(() => import('./pages/Chart'));
+// const FormElements = lazy(() => import('./pages/Form/FormElements'));
+const FormLayout = lazy(() => import('./pages/Form/FormLayout'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Settings = lazy(() => import('./pages/Settings'));
+// const Tables = lazy(() => import('./pages/Tables'));
+const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
+const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 const MohDashboard = lazy(() => import('./pages/MOH/Dashboard/Dashboard'));
+
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -57,7 +74,7 @@ function App() {
           <Route path="/hotspotview" element={<HotSpotView />} />
           <Route path="/focaldashboard" element={<FocalPerson />} />
           <Route path="/focaldashboardh" element={<FocalPersonH />} />
-          <Route path="/moh" element={<MohDashboard />} />   
+          <Route path="/moh" element={<MohDashboard />} />
           <Route path="/moh/admin/userManagment" element={<AdminDashboard />} />
           <Route path="/condom/dfcp" element={<CondomMgt />} />
           <Route path="/condom/dfcph" element={<CondomMgtH />} />
@@ -85,6 +102,51 @@ function App() {
           <Route path="/moh/procured" element={<Procured />} />
           <Route path="/nms/dashboard" element={<DashboardNMS />} />
           <Route path="/jms/dashboard" element={<DashboardJMS />} />
+          <Route path="/others/dashboard" element={<DashboardOther />} />
+          <Route path="/others/status" element={<StatusOther />} />
+          <Route path="/others/record" element={<RecordTextOther />} />
+          <Route path="/hotspots/map" element={<CustomMap />} />
+
+          {/* <Route
+            path="/calendar"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Calendar />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Profile />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/forms/form-layout"
+            element={
+              <Suspense fallback={<Loader />}>
+                <FormLayout />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/ui/alerts"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Alerts />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/ui/buttons"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Buttons />
+              </Suspense>
+            }
+          /> */}
         </Route>
       </Routes>
     </>
